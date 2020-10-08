@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Taro from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
-import { AtButton } from "taro-ui";
 import "./index.scss";
 import Login from "../../components/login/index";
 import intro from "../../images/intro.png";

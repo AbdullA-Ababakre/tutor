@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import { AtButton } from 'taro-ui'
+import { View, Text, Button } from '@tarojs/components'
 import './index.scss'
 
 export default class Index extends Component {
@@ -10,7 +9,7 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <AtButton type='primary'>3</AtButton>
+        <Button>3</Button>
       </View>
     )
   }

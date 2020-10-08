@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import { AtButton } from 'taro-ui'
+import { View, Text, Image } from '@tarojs/components'
 import './index.scss'
 
 import icon_phone from "../../images/mine/icon_phone.png"
