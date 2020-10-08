@@ -1,0 +1,90 @@
+.intro-wrapper {
+  .body {
+    padding: 38px 45px 0 45px;
+    .topicImg {
+      height: 150px;
+      display: block;
+      margin: 0 auto;
+    }
+    .intro-text {
+      border: 1px solid #fff;
+      background-color: #29d6a0;
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 29px 8px 17px 9px;
+      font-size: 24px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      line-height: 40px;
+      margin: 39px 0 44px 0;
+    }
+    .cityList {
+      display: flex;
+      .city {
+        width: 94px;
+        height: 44px;
+        background-color: #b2b2b2;
+        border-radius: 8px;
+        font-size: 22px;
+        font-family: PingFang SC;
+        font-weight: 400;
+        line-height: 53px;
+        color: #ffffff;
+        padding: 8px 25px;
+      }
+      .city:not(:last-child) {
+        margin-right: 19px;
+      }
+    }
+    .priceBox {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 34px;
+      .box {
+        width: 300px;
+        height: 190px;
+        border: 2px solid #ffa10d;
+        opacity: 1;
+        border-radius: 16px;
+        font-size: 24px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        line-height: 40px;
+        color: #ffa10d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .online-class {
+      font-size: 22px;
+      font-family: PingFang SC;
+      font-weight: 300;
+      line-height: 70px;
+      color: #b2b2b2;
+    }
+    button {
+      margin-top:86px;
+      width: 100%;
+      background-color: #fc4442;
+      border-radius: 16px;
+      font-size: 38px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      line-height: 118px;
+      color: #ffffff;
+    }
+    .footer-txt {
+      display: block;
+      width:536px;
+      height: 60px;
+      margin: 0 auto;
+      font-size: 22px;
+      font-family: PingFang SC;
+      font-weight: 300;
+      line-height: 30px;
+      color: #b2b2b2;
+      opacity: 1;
+    }
+  }
+}
