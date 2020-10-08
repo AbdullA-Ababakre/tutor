@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '4'
+  navigationBarTitleText: '我的'
 }

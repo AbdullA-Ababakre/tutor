@@ -1,0 +1,107 @@
+.index {
+  background-image: url("../../images/mine/mine_bg.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: table;
+  width: 100%;
+  min-height: 496px; /* 保证背景图片能够正常显示 */
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: row;
+  margin: 32px 61px 0 61px;
+  color: white;
+}
+
+.userinfo-avatar {
+  flex-shrink: 0;
+  width: 134px;
+  height: 134px;
+  margin: 0px;
+  border: 1px solid white;
+  border-radius: 50%;
+  background-color: rebeccapurple;
+}
+
+// 头像右侧的用户信息
+.userinfo-texts {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; // 底部对齐
+  margin-left: 26px;
+}
+
+#userinfo-nickname {
+  font-weight: 600;
+  font-size: 36px;
+  margin: 15px 0 15px 0;
+}
+
+#userinfo-phone {
+  font-weight: 400;
+  font-size: 22px;
+}
+
+#userinfo-icon-vip {
+  width: 94px;
+  height: 44px;
+}
+
+#userinfo-icon-phone {
+  width: 18px;
+  height: 27px;
+  margin: 0 12px 0 17px;
+}
+
+.become-vip-container {
+  text-align: center;
+  width: 686px;
+  height: 262px;
+  background: #FFFFFF;
+  opacity: 1;
+  border-radius: 32px;
+  margin: 54px auto;
+}
+
+#banner-become-vip {
+  width: 680px;
+  height: 200px;
+  margin: 30px auto 0px auto;
+}
+
+#text-subscribe-gzh {
+  font-size: 22px;
+  font-weight: 400;
+  color: #B2B2B2;
+}
+
+.buttons-container {
+  margin-top: 112px;
+}
+
+.buttons-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 58px 75px 0 75px;
+}
+
+.bigbutton {
+  display: flex;
+  flex-direction: column;
+  
+  align-items: center;
+  // border: 1px solid brown;
+}
+
+.bigbutton-img {
+  width: 108px;
+  height: 108px;
+}
+
+.bigbutton-text {
+  font-size: 26px;
+  font-weight: 400;
+}

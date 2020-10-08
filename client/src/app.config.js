@@ -1,11 +1,11 @@
 export default {
   pages: [
-    'pages/index/parent/intro/index',
     'pages/index/index',
+    'pages/index/parent/intro/index',
     'pages/index/parent/submitInfo/index',
     'pages/order/index',
     'pages/study/index',
-    'pages/mine/index'
+    'pages/mine/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -15,28 +15,30 @@ export default {
   },
   cloud: true,
   tabBar: {
+    color: "#888888",
+    selectedColor: "#F94648",
     list: [{
         pagePath: "pages/index/index",
-        iconPath: "images/index1.png",
-        selectedIconPath: "images/index2.png",
+        iconPath: "images/tabbar/index1.png",
+        selectedIconPath: "images/tabbar/index2.png",
         text: "首页"
       },
       {
         pagePath: "pages/order/index",
-        iconPath: "images/order2.png",
-        selectedIconPath: "images/order2.png",
+        iconPath: "images/tabbar/order1.png",
+        selectedIconPath: "images/tabbar/order2.png",
         text: "订单中心"
       },
       {
         pagePath: "pages/study/index",
-        iconPath: "images/study1.png",
-        selectedIconPath: "images/study1.png",
+        iconPath: "images/tabbar/study1.png",
+        selectedIconPath: "images/tabbar/study2.png",
         text: "荔学院"
       },
       {
         pagePath: "pages/mine/index",
-        iconPath: "images/mine1.png",
-        selectedIconPath: "images/mine1.png",
+        iconPath: "images/tabbar/mine1.png",
+        selectedIconPath: "images/tabbar/mine2.png",
         text: "我的"
       }
     ]
