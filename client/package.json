@@ -40,14 +40,14 @@
     "@tarojs/taro": "3.0.14",
     "lodash": "4.17.15",
     "react": "^16.10.0",
-    "react-dom": "^16.10.0"
+    "react-dom": "^16.10.0",
+    "taro-ui": "^3.0.0-alpha.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
     "@babel/preset-env": "^7.11.5",
     "@tarojs/mini-runner": "3.0.14",
     "@tarojs/webpack-runner": "3.0.14",
-    "taro-ui": "^3.0.0-alpha.3",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "3.0.14",
     "eslint": "^6.8.0",
