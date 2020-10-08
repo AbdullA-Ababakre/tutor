@@ -6,6 +6,7 @@ export default {
     'pages/order/index',
     'pages/study/index',
     'pages/mine/index',
+    'pages/mine/about_us/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -16,7 +17,7 @@ export default {
   cloud: true,
   tabBar: {
     color: "#888888",
-    selectedColor: "#F94648",
+    selectedColor: "#FC4442",
     list: [{
         pagePath: "pages/index/index",
         iconPath: "images/tabbar/index1.png",

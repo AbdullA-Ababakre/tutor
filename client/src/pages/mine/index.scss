@@ -101,7 +101,20 @@
   height: 108px;
 }
 
+.bigbutton-magic-native-button {
+  position: fixed;
+  width: 148px;
+  height: 148px;
+  background-color: transparent;
+  z-index: 999;
+}
+.bigbutton-magic-native-button::after {
+  border: none !important;
+}
+
 .bigbutton-text {
+  color: #353535;
   font-size: 26px;
   font-weight: 400;
+  margin-top: 10px;
 }

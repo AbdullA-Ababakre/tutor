@@ -1,0 +1,10 @@
+.tutor-textarea-actual-textarea {
+  border-style: solid;
+  border-radius: 8px;
+  border-width: 1px;
+  border-color: #CCCCCC;
+  width: 100%;
+  padding: 17px 23px 11px 23px;
+  width: calc(100% - 46px); // Why? this is wx miniprogram magic~~
+  font-size: 22px;
+}

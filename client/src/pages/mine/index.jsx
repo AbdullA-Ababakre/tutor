@@ -16,25 +16,25 @@ import btn_certificate from "../../images/mine/btn_certificate.png"
 export default class Index extends Component {
   constructor(props) {
     super(props)
-    Taro.setNavigationBarColor({frontColor: '#000000',backgroundColor: '#F94648'});
-    wx.login
+    Taro.setNavigationBarColor({frontColor: '#ffffff',backgroundColor: '#FC4442'});
   }
 
   render () {
+    let logged_in = false;
     return (
       <View className='index'>
         <View className='userinfo'>
           {/* 头像 */}
-          <image className="userinfo-avatar" mode="cover"/>
+          <Image className="userinfo-avatar" mode="cover"/>
           {/* 用户信息 */}
           <View className='userinfo-texts'>
             {/* 用户名 */}
-            <text id='userinfo-nickname'>小荔同学</text>
+            <Text id='userinfo-nickname'>小荔同学</Text>
             {/* 用户名下面的VIP图标和手机号 */}
             <View style='display: flex;flex-direction: row;align-items: center;'>
-              <image id='userinfo-icon-vip' src={icon_not_vip}/>
-              <image id='userinfo-icon-phone' src={icon_phone}/>
-              <text id='userinfo-phone'>暂无手机号</text>
+              <Image id='userinfo-icon-vip' src={icon_not_vip}/>
+              <Image id='userinfo-icon-phone' src={icon_phone}/>
+              <Text id='userinfo-phone'>暂无手机号</Text>
             </View>
 
           </View>
@@ -47,17 +47,16 @@ export default class Index extends Component {
 
         <View className='buttons-container'>
           <View className='buttons-row'>
-            <BigButton pic={btn_favorites}>我的收藏</BigButton>
-            <BigButton pic={btn_post}>发布兼职/家教</BigButton>
-            <BigButton pic={btn_about}>关于我们</BigButton>
+            <BigButton img={btn_favorites}>我的收藏</BigButton>
+            <BigButton img={btn_post}>发布兼职/家教</BigButton>
+            <BigButton img={btn_about} onClick={()=>{Taro.navigateTo({url: "about_us/index"});}}>关于我们</BigButton>
           </View>
           <View className='buttons-row'>
-            <BigButton pic={btn_support}>联系客服</BigButton>
-            <BigButton pic={btn_feedback}>意见反馈</BigButton>
-            <BigButton pic={btn_certificate}>实习证明</BigButton>
+            <MagicBigButton open-type="contact" img={btn_support}>联系客服</MagicBigButton>
+            <MagicBigButton open-type="feedback" img={btn_feedback}>意见反馈</MagicBigButton> 
+            <BigButton img={btn_certificate}>实习证明</BigButton>
           </View>
         </View>
-
       </View>
     )
   }
@@ -69,11 +68,27 @@ class BigButton extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
-      <View class="bigbutton">
-        <image class="bigbutton-img" src={this.props.pic} />
+      <View class="bigbutton" onClick={this.props.onClick}>
+        <image class="bigbutton-img" src={this.props.img} />
         <text class="bigbutton-text">{this.props.children}</text>
+      </View>
+    )
+  }
+}
+
+class MagicBigButton extends Component {
+  constructor(props) {
+    super(props);
+  }
+  
+  render() {
+    return (
+      <View className="bigbutton" onClick={this.props.onClick}>
+        {/* here's a hack to trigger wechat functionality */}
+        <button className="bigbutton-magic-native-button" open-type={this.props["open-type"]}></button>
+        <image className="bigbutton-img" src={this.props.img} />
+        <text className="bigbutton-text">{this.props.children}</text>
       </View>
     )
   }
