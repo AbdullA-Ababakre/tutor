@@ -7,6 +7,8 @@ export default {
     'pages/study/index',
     'pages/mine/index',
     'pages/mine/about_us/index',
+    'pages/mine/mycertificate/index',
+    'pages/mine/activate_vip/index',
   ],
   window: {
     backgroundTextStyle: 'light',

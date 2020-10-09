@@ -13,35 +13,53 @@ import btn_support from "../../images/mine/btn_support.png"
 import btn_feedback from "../../images/mine/btn_feedback.png"
 import btn_certificate from "../../images/mine/btn_certificate.png"
 
+import TutorButton from "../../components/TutorButton"
+
 export default class Index extends Component {
   constructor(props) {
     super(props)
+    let userInfo = Taro.getStorageSync("userinfo")
+    this.state = {
+      userInfo: userInfo?userInfo:{avatarUrl:"",nickName:""},
+      isLoggedIn: Taro.getStorageSync("isLoggedIn"),
+    }
+    console.log(Taro.getStorageSync("userinfo"))
     Taro.setNavigationBarColor({frontColor: '#ffffff',backgroundColor: '#FC4442'});
   }
 
+  onLogin(res) {
+    Taro.setStorageSync("userinfo",res.detail.userInfo)
+    Taro.setStorageSync("isLoggedIn",true)
+    this.setState({userInfo: res.detail.userInfo, isLoggedIn: true})
+  }
+
   render () {
-    let logged_in = false;
+    let pageJump = page => {
+      return ()=>{Taro.navigateTo({url: page + "/index"});};
+    }
     return (
       <View className='index'>
-        <View className='userinfo'>
+        <View className='userinfo' style={`display: ${this.state.isLoggedIn?"flex":"none"};`}>
           {/* 头像 */}
-          <Image className="userinfo-avatar" mode="cover"/>
+          <Image className="userinfo-avatar" mode="cover" src={this.state.userInfo.avatarUrl}/>
           {/* 用户信息 */}
           <View className='userinfo-texts'>
             {/* 用户名 */}
-            <Text id='userinfo-nickname'>小荔同学</Text>
+            <Text id='userinfo-nickname'>{this.state.userInfo.nickName}</Text>
             {/* 用户名下面的VIP图标和手机号 */}
             <View style='display: flex;flex-direction: row;align-items: center;'>
               <Image id='userinfo-icon-vip' src={icon_not_vip}/>
               <Image id='userinfo-icon-phone' src={icon_phone}/>
               <Text id='userinfo-phone'>暂无手机号</Text>
             </View>
-
           </View>
+        </View>
+        <View className='userinfo' style={`display: ${!this.state.isLoggedIn?"block":"none"};`}>
+          <TutorButton bgcolor="#ffffff" textcolor="#FC4442" open-type="getUserInfo" onGetUserInfo={res=>{this.onLogin(res)}}>点击授权用户信息</TutorButton>
         </View>
 
         <View className='become-vip-container'>
-          <image id="banner-become-vip" src={banner_become_vip}/>
+          <image id="banner-become-vip" src={banner_become_vip} onClick={pageJump("activate_vip")} />
           <text id="text-subscribe-gzh">关注“大学生荔教”公众号</text>
         </View>
 
@@ -49,12 +67,12 @@ export default class Index extends Component {
           <View className='buttons-row'>
             <BigButton img={btn_favorites}>我的收藏</BigButton>
             <BigButton img={btn_post}>发布兼职/家教</BigButton>
-            <BigButton img={btn_about} onClick={()=>{Taro.navigateTo({url: "about_us/index"});}}>关于我们</BigButton>
+            <BigButton img={btn_about} onClick={pageJump("about_us")}>关于我们</BigButton>
           </View>
           <View className='buttons-row'>
             <MagicBigButton open-type="contact" img={btn_support}>联系客服</MagicBigButton>
             <MagicBigButton open-type="feedback" img={btn_feedback}>意见反馈</MagicBigButton> 
-            <BigButton img={btn_certificate}>实习证明</BigButton>
+            <BigButton img={btn_certificate} onClick={pageJump("certificate")}>实习证明</BigButton>
           </View>
         </View>
       </View>

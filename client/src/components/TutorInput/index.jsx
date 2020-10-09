@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import './index.scss'
 import { View, Text, Input } from '@tarojs/components'
 
-export default class Index extends Component {
+export default class TutorInput extends Component {
   state = {
     context: {}
   }

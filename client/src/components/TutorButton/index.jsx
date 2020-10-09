@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import Taro from '@tarojs/taro'
-import './index.scss'
 import { Button } from '@tarojs/components'
 
-export default class Index extends Component {
+export default class TutorButton extends Component {
   state = {
     context: {}
   }

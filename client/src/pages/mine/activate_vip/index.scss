@@ -1,0 +1,51 @@
+.index {
+  width:100%;
+  height:100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.big-container {
+  margin: 0 39px 0 39px;
+}
+
+.text-greeting {
+  white-space: pre-wrap; // 解决换行问题
+
+  font-size: 48px;
+  font-weight: 600;
+  color: #353535;
+}
+
+.subscription-images-container {
+  display: flex;
+  justify-content: space-between;
+
+  margin: 104px 0 46px 0;
+}
+
+.text-small {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  color: #B2B2B2;
+}
+
+.vip-subscription-image {
+  width: 310px;
+  height: 410px;
+}
+
+.btn-pay {
+  font-size: 38px;
+  margin-top: 304px;
+  margin-bottom: 24px;
+  background-color: #FC4442;
+  color: #ffffff;
+}
+
+.href-eula {
+  color: #2658FF;
+}
