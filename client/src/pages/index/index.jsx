@@ -4,6 +4,7 @@ import { View, Text, Image, Button } from "@tarojs/components";
 import "./index.scss";
 import Login from "../../components/login/index";
 import intro from "../../images/intro.png";
+import { AtButton } from 'taro-ui'
 
 export default class Index extends Component {
 
@@ -54,24 +55,24 @@ export default class Index extends Component {
     const btns = btnArr.map((item, index) => {
       if (index === 0) {
         return (
-          <Button
+          <AtButton
             openType="contact"
             bindcontact="handleContact"
             className={`btn btn${index + 1}`}
           >
-            {item.txt}
-          </Button>
+            {item.txt} 
+          </AtButton>
         );
       } else {
         return (
-          <Button
+          <AtButton
             className={`btn btn${index + 1}`}
             onClick={(e) => {
               this.handleClick(index,e);
             }}
           >
             {item.txt}
-          </Button>
+          </AtButton>
         );
       }
     });
