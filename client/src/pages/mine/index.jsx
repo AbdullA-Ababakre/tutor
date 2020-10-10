@@ -15,22 +15,36 @@ import btn_certificate from "../../images/mine/btn_certificate.png"
 
 import TutorButton from "../../components/TutorButton"
 
+import UserInfo from "../../utils/userinfo"
+
 export default class Index extends Component {
   constructor(props) {
     super(props)
-    let userInfo = Taro.getStorageSync("userinfo")
+    Taro.setNavigationBarColor({frontColor: '#ffffff',backgroundColor: '#FC4442'});
+    
+    // Login
+    let userInfo = UserInfo.getUserInfo(); // 自己的 utils，用来处理用户信息相关
     this.state = {
       userInfo: userInfo?userInfo:{avatarUrl:"",nickName:""},
-      isLoggedIn: Taro.getStorageSync("isLoggedIn"),
+      isLoggedIn: UserInfo.isLoggedIn(),
+      isVip: false,
+      phoneShown: "正在加载个人信息",
+      phone: "",
     }
-    console.log(Taro.getStorageSync("userinfo"))
-    Taro.setNavigationBarColor({frontColor: '#ffffff',backgroundColor: '#FC4442'});
+
+    UserInfo.getUserDetails().then(details => {
+      console.log(details)
+      this.setState({
+        isVip: details.isVip,
+        phone: details.phone || "",
+        phoneShown: details.phoneShown || "暂无手机号",
+      })
+    })
   }
 
-  onLogin(res) {
-    Taro.setStorageSync("userinfo",res.detail.userInfo)
-    Taro.setStorageSync("isLoggedIn",true)
-    this.setState({userInfo: res.detail.userInfo, isLoggedIn: true})
+  onUserInfo(res) {
+    if(!res.detail.userInfo) return;
+    UserInfo.setUserInfo(res.detail.userInfo); // 自己的 utils，用来处理用户信息相关
   }
 
   render () {
@@ -45,17 +59,17 @@ export default class Index extends Component {
           {/* 用户信息 */}
           <View className='userinfo-texts'>
             {/* 用户名 */}
-            <Text id='userinfo-nickname'>{this.state.userInfo.nickName}</Text>
+            <Text className='userinfo-nickname'>{this.state.userInfo.nickName}</Text>
             {/* 用户名下面的VIP图标和手机号 */}
             <View style='display: flex;flex-direction: row;align-items: center;'>
-              <Image id='userinfo-icon-vip' src={icon_not_vip}/>
-              <Image id='userinfo-icon-phone' src={icon_phone}/>
-              <Text id='userinfo-phone'>暂无手机号</Text>
+              <Image className={`userinfo-icon-vip`} src={this.state.isVip?icon_not_vip:icon_not_vip}/>
+              <Image className='userinfo-icon-phone' src={icon_phone}/>
+              <Text className='userinfo-phone'>{this.state.phoneShown}</Text>
             </View>
           </View>
         </View>
         <View className='userinfo' style={`display: ${!this.state.isLoggedIn?"block":"none"};`}>
-          <TutorButton bgcolor="#ffffff" textcolor="#FC4442" open-type="getUserInfo" onGetUserInfo={res=>{this.onLogin(res)}}>点击授权用户信息</TutorButton>
+          <TutorButton bgcolor="#ffffff" textcolor="#FC4442" open-type="getUserInfo" onGetUserInfo={res=>{this.onUserInfo(res)}}>点击授权用户信息</TutorButton>
         </View>
 
         <View className='become-vip-container'>
@@ -72,7 +86,7 @@ export default class Index extends Component {
           <View className='buttons-row'>
             <MagicBigButton open-type="contact" img={btn_support}>联系客服</MagicBigButton>
             <MagicBigButton open-type="feedback" img={btn_feedback}>意见反馈</MagicBigButton> 
-            <BigButton img={btn_certificate} onClick={pageJump("certificate")}>实习证明</BigButton>
+            <BigButton img={btn_certificate} onClick={pageJump("mycertificate")}>实习证明</BigButton>
           </View>
         </View>
       </View>

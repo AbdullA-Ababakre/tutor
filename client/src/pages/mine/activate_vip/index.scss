@@ -36,6 +36,18 @@
 .vip-subscription-image {
   width: 310px;
   height: 410px;
+  overflow: visible;
+}
+
+.icon-vip-recommended {
+  width: 68px;
+  height: 68px;
+  position: fixed;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.grayscale {
+  filter: grayscale(100%);
 }
 
 .btn-pay {

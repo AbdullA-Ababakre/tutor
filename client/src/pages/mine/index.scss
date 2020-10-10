@@ -34,23 +34,27 @@
   margin-left: 26px;
 }
 
-#userinfo-nickname {
+.userinfo-nickname {
   font-weight: 600;
   font-size: 36px;
   margin: 15px 0 15px 0;
 }
 
-#userinfo-phone {
+.userinfo-phone {
   font-weight: 400;
   font-size: 22px;
 }
 
-#userinfo-icon-vip {
+.userinfo-icon-vip {
   width: 94px;
   height: 44px;
 }
 
-#userinfo-icon-phone {
+.invisible {
+  display: none;
+}
+
+.userinfo-icon-phone {
   width: 18px;
   height: 27px;
   margin: 0 12px 0 17px;
