@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '3'
+  navigationBarTitleText: '荔学院'
 }

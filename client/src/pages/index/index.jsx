@@ -33,7 +33,7 @@ export default class Index extends Component {
   render() {
     const btnArr = [
       {
-        txt: "在线教育",
+        txt: "在线咨询",
         url: ""
       },
       {
