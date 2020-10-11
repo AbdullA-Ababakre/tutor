@@ -1,0 +1,57 @@
+.index {
+  background-color: #F7F7F7;
+  height: 100vh;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.article-container {
+  margin: 34px auto auto auto;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-switch {
+  width: 100%;
+  height: 109px;
+  background: url("../../images/pageswitch_bg.png") no-repeat;
+  background-size: auto 109px;
+  background-position: top;
+  
+  overflow: hidden; // 防止内部margin泄漏到外部
+}
+
+.page-switch-option-container {
+  width: 418px;
+  margin: 33px auto 0px auto;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  font-size: 36px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.page-switch-option {
+  color: #B2B2B2;
+}
+
+.page-switch-selected {
+  color: #FC4442;
+}
+
+.page-switch-redbar {
+  width: 90px;
+  height: 12px;
+  display: block;
+  margin: auto;
+}
+
+.invisible {
+  visibility: hidden;
+}

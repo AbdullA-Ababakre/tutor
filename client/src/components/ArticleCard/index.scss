@@ -1,0 +1,72 @@
+.article-container {
+  width: 658px;
+  height: 234px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  display: block;
+}
+
+.article-img {
+  width: 284px;
+  height: 184px;
+  margin: 21px 19px 29px 26px;
+  display: inline-block;
+}
+
+.article-details {
+  float: right;
+  margin: 21px 19px 29px auto;
+  width: 309px;
+  height: 130px;
+  background: url("../../images/article_title_bg.png") no-repeat;
+  background-size: 309px 54px;
+}
+
+.article-title {
+  font-size: 26px;
+  font-weight: 500;
+  color: #353535;
+  margin-bottom: 26px;
+  margin-left: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.article-desc {
+  height: 64px;
+  font-size: 26px;
+  font-size: 22px;
+  font-weight: 400;
+  color: #B2B2B2;
+
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2; // 最多显示 2 行
+  -webkit-box-orient: vertical;
+  margin-bottom: 16px;
+}
+
+.article-rate {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.btn-share {
+  width: 40px;
+  height: 63px;
+  color: #CCCCCC;
+  font-size: 20px;
+  font-weight: 400;
+  text-align: center;
+  display: block;
+  float: right;
+}
+
+.btn-share-img {
+  margin: auto;
+  width: 34px;
+  height: 34px;
+  display: block;
+}

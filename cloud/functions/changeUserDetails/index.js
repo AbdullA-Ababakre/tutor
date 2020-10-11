@@ -19,7 +19,7 @@ exports.main = async (event, context) => {
   
   let userData = event.userData;
 
-  let newData = {
+  let newData = { // 这里控制那些用户信息是可以被用户修改
     phone: userData.phone || "",
     phoneShown: hidePhoneDigits(userData.phone),
     realName: userData.realName || "",
