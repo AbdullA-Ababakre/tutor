@@ -86,7 +86,8 @@ export default class Index extends Component {
           <View className='buttons-row'>
             <MagicBigButton open-type="contact" img={btn_support}>联系客服</MagicBigButton>
             <MagicBigButton open-type="feedback" img={btn_feedback}>意见反馈</MagicBigButton> 
-            <BigButton img={btn_certificate} onClick={pageJump("mycertificate")}>实习证明</BigButton>
+            {/* 暂时修改成 certificate */}
+            <BigButton img={btn_certificate} onClick={pageJump("certificate")}>实习证明</BigButton>
           </View>
         </View>
       </View>
