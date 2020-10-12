@@ -32,19 +32,27 @@ export default class Index extends Component {
       phone: "",
     }
 
+    this.getUserDetailsProcess()
+  }
+
+  onUserInfo(res) {
+    if(!res.detail.userInfo) return;
+    UserInfo.setUserInfo(res.detail.userInfo); // 自己的 utils，用来处理用户信息相关
+    this.setState({userInfo: res.detail.userInfo, isLoggedIn: true});
+    this.getUserDetailsProcess()
+  }
+
+  getUserDetailsProcess() {
+    if(!this.state.isLoggedIn) return;
     UserInfo.getUserDetails().then(details => {
-      console.log(details)
+      console.log("userDetails:", details)
+      if(!details) return;
       this.setState({
         isVip: details.isVip,
         phone: details.phone || "",
         phoneShown: details.phoneShown || "暂无手机号",
       })
     })
-  }
-
-  onUserInfo(res) {
-    if(!res.detail.userInfo) return;
-    UserInfo.setUserInfo(res.detail.userInfo); // 自己的 utils，用来处理用户信息相关
   }
 
   render () {

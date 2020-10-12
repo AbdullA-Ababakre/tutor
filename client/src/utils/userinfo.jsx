@@ -1,10 +1,9 @@
 import Taro from '@tarojs/taro'
 
 export default class Index {
-  static setUserInfo() {
-    Taro.setStorageSync("userinfo",res.detail.userInfo);
+  static setUserInfo(userInfo) {
+    Taro.setStorageSync("userinfo",userInfo);
     Taro.setStorageSync("isLoggedIn",true);
-    this.setState({userInfo: res.detail.userInfo, isLoggedIn: true});
   }
   
   static getUserInfo() {
@@ -22,7 +21,7 @@ export default class Index {
       data: {}
     })
     .then(res => {
-      return res.result.data[0];
+      return res.result;
     })
   }
 }

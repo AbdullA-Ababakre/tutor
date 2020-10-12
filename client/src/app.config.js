@@ -8,6 +8,8 @@ export default {
     'pages/index/parent/submitInfo/index',
     'pages/order/index',
     'pages/study/index',
+    'pages/mine/index',
+    'pages/mine/mycertificate/index',
     'pages/mine/activate_vip/eula/index',
     'pages/mine/about_us/index',
     'pages/mine/activate_vip/index',
