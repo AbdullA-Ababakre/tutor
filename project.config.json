@@ -66,6 +66,13 @@
 					"id": -1,
 					"name": "实习证明",
 					"pathName": "pages/mine/certificate/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "荔学院",
+					"pathName": "pages/study/index",
 					"scene": null
 				}
 			]

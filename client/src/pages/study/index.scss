@@ -1,19 +1,37 @@
 .index {
   background-color: #F7F7F7;
-  height: 100vh;
+  height: 100%;
 }
 
-.swiper {
+.study-swiper {
   width: 750px;
-  height: 500px;
-
+  height: 250px;
 }
 
-.article-container {
-  margin: 28px auto auto auto;
-  padding: 0px;
+.articles-container {
+  margin: 28px 43px;
   display: flex;
   flex-direction: column;
+}
+
+.articles-small-container {
+  margin: 28px 43px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.article-wrapper + .article-wrapper {
+  margin-top: 36px;
+}
+
+.article-small-wrapper {
+  margin-bottom: 20px;
+}
+
+.article-small {
+  margin: 20px;
 }
 
 .page-switch {

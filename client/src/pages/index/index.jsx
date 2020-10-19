@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Taro from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
 import "./index.scss";
-import Login from "../../components/login/index";
 import { AtButton } from 'taro-ui'
 
 export default class Index extends Component {
