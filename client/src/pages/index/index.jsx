@@ -3,7 +3,6 @@ import Taro from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
 import "./index.scss";
 import Login from "../../components/login/index";
-import intro from "../../images/intro.png";
 import { AtButton } from 'taro-ui'
 
 export default class Index extends Component {
@@ -80,7 +79,7 @@ export default class Index extends Component {
     return (
       <View className="container">
         <View className="img-wrapper">
-          <Image className="img" src={intro} mode="widthFix" />
+          <Image className="img" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/intro.png" mode="widthFix" />
         </View>
         <View class="btn-wrapper">{btns}</View>
       </View>
