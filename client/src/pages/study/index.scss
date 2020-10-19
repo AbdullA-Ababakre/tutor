@@ -1,6 +1,9 @@
 .index {
   background-color: #F7F7F7;
   height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  display: table;
 }
 
 .study-swiper {
