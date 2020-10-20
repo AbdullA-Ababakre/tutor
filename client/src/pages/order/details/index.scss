@@ -1,0 +1,221 @@
+.details-index {
+  min-height: 100vh;
+
+  background: #F7F7F7;
+  background-size: 100% 146px;
+}
+
+.bg-red-block {
+  background: #FC4442;
+  height: 146px;
+  margin-bottom: -105px;
+}
+
+.details-container {
+  margin: 0 47px;
+}
+
+.details-infocard {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 27px 36px;
+  box-sizing: border-box;
+  margin-bottom: 30px;
+}
+
+.details-title {
+  font-size: 34px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.details-title-price {
+  float: right;
+  vertical-align: baseline;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 48px;
+  color: #FC4442;
+}
+
+.details-cooperation-name {
+  font-size: 26px;
+  font-weight: 400;
+  color: #B2B2B2;
+  padding-bottom: 30px;
+  border-bottom: solid 1px #DFDFDF;
+  box-sizing: border-box;
+  margin-bottom: 34px;
+}
+
+.details-label-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.details-vertical-flexbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-label {
+  margin: 10px 0;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 4px 12px;
+  box-sizing: border-box;
+  height: 36px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #000000;
+  background: #FFE39B;
+}
+
+.details-label + .details-label {
+  margin-left: 20px;
+}
+
+.details-label-text {
+  font-size: 20px;
+  text-align: center;
+}
+
+.details-text-w-icon-container {
+  margin: 6px 0;
+  font-size: 22px;
+  font-weight: 500;
+  color: #676767;
+}
+
+.details-icon-text-w-icon {
+  margin: 6px 8px 0 0;
+  width: 18px;
+  height: 18px;
+}
+
+.details-label-container-grey {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+}
+
+.details-label-grey {
+  display: inline-block;
+  height: 40px;
+  
+  padding: 4px 27px;
+
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  line-height: 32px;
+  font-size: 22px;
+  font-weight: 400;
+  color: #909090;
+  background: #F6F6F6;
+}
+
+image + .details-label-grey { // “可协调” 用
+  margin-left: 25px;
+}
+
+.details-label-grey + .details-label-grey {
+  margin-left: 20px;
+}
+
+.details-add-favorite {
+  float: right;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+  font-size: 22px;
+  color: #C6C6C6;
+  font-weight: 500;
+}
+
+.details-icon-favorite {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 7px;
+}
+
+.vip-exclusive-title {
+  margin: -27px auto 0 auto;
+  width: 164px;
+  height: 53px;
+  background: linear-gradient(360deg, #FFE39B 0%, #FFBE1E 100%);
+  opacity: 1;
+  border-radius: 0px 0px 17px 17px;
+
+  font-size: 26px;
+  font-weight: 400;
+  color: #353535;
+  line-height: 53px;
+  text-align: center;
+}
+
+.vip-exclusives-container {
+  font-size: 20px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 28px;
+  color: #AAAAAA;
+  margin: 15px auto 5px auto;
+  transform: translateX(+46px);
+}
+
+.vip-exclusive {
+  display: inline-block;
+  padding: 0 24px;
+}
+
+.vip-exclusive + .vip-exclusive {
+  border-left: solid;
+  border-color: #D6D6D6;
+  border-width: 1px;
+}
+
+.details-big-title-course {
+  width: 100%;
+  text-align: center;
+}
+
+.details-jobinfo-container {
+  box-sizing: border-box;
+  margin: 16px 0;
+}
+
+.details-jobinfo-container + .details-jobinfo-container{
+  border-top: 1px solid #DFDFDF;
+  padding-top: 25px;
+  margin-top: 12px;
+}
+
+.details-jobinfo-title {
+  height: 37px;
+  display: flex;
+  align-items: center;
+  font-size: 26px;
+  font-weight: 400;
+  color: #858585;
+}
+
+.details-jobinfo-green-dot {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 11px 7px 11px 0;
+  background-color: #29D6A0;
+  border-radius: 50%;
+}
+
+.details-jobinfo-details {
+  font-size: 28px;
+  color: #333333;
+  margin-top: 2px;
+}
+

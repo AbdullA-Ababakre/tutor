@@ -1,6 +1,7 @@
 export default {
   pages: [
     'pages/index/index',
+    'pages/order/details/index',
     'pages/index/parent/intro/index',
     'pages/index/parent/submitInfo/index',
     'pages/order/index',
