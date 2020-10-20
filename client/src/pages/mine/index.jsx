@@ -12,6 +12,7 @@ import btn_about from "../../images/mine/btn_about.png"
 import btn_support from "../../images/mine/btn_support.png"
 import btn_feedback from "../../images/mine/btn_feedback.png"
 import btn_certificate from "../../images/mine/btn_certificate.png"
+import img_subscribe_account from "../../images/mine/img_subscribe_account.png"
 
 import TutorButton from "../../components/TutorButton"
 
@@ -81,8 +82,8 @@ export default class Index extends Component {
         </View>
 
         <View className='become-vip-container'>
-          <image id="banner-become-vip" src={banner_become_vip} onClick={pageJump("activate_vip")} />
-          <text id="text-subscribe-gzh">关注“大学生荔教”公众号</text>
+          <image className="banner-become-vip" src={banner_become_vip} onClick={pageJump("activate_vip")} />
+          <image className="img-subscribe-gzh" src={img_subscribe_account} mode="widthFix"/>
         </View>
 
         <View className='buttons-container'>

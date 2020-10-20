@@ -35,24 +35,20 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <View className='big-container'>
-          <View className="text-greeting">{"老师，您好！\n欢迎来到大学生荔教"}</View>
-          <View className="subscription-images-container">
-            
-            <View className={`vip-subscription-image ${this.state.selectedPlan==2?"grayscale":""}`} onClick={()=>{this.onSwitchPlan(1)}}>
-              <Image className="vip-subscription-image" src={vip_yearly} />
-              <Image className="icon-vip-recommended" src={vip_recommended} />{/* “荐”字 */}
-            </View>
-            <Image className={`vip-subscription-image ${this.state.selectedPlan==1?"grayscale":""}`} src={vip_monthly} onClick={()=>{this.onSwitchPlan(2)}} />
-
+        <View className="text-greeting">{"老师，您好！\n欢迎来到大学生荔教\n充值会员立享多重优惠！"}</View>
+        <View className="subscription-images-container">
+          
+          <View className={`vip-subscription-image ${this.state.selectedPlan==2?"grayscale":""}`} onClick={()=>{this.onSwitchPlan(1)}}>
+            <Image className="icon-vip-recommended" src={vip_recommended} />{/* “荐”字 */}
+            <Image className="vip-subscription-image" src={vip_yearly} />
           </View>
-          <View className="text-small">充值会员立享多重优惠</View>
-          {/* 这里不用TutorButton是故意的，详情import那里 */}
-          <Button className="btn-pay" onClick={()=>{this.pay()}}>一键支付</Button>
-          <View className="text-small">我已阅读并接受
-          <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "eula/index"});}}>《会员协议》</Text></View>
-        </View>
+          <Image className={`vip-subscription-image ${this.state.selectedPlan==1?"grayscale":""}`} src={vip_monthly} onClick={()=>{this.onSwitchPlan(2)}} />
 
+        </View>
+        {/* 这里不用TutorButton是故意的，详情import那里 */}
+        <Button className="btn-pay" onClick={()=>{this.pay()}}>一键支付</Button>
+        <View className="text-small">我已阅读并接受
+        <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "eula/index"});}}>《会员协议》</Text></View>
       </View>
     )
   }

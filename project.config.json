@@ -73,6 +73,13 @@
 					"id": -1,
 					"name": "荔学院",
 					"pathName": "pages/study/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "激活会员",
+					"pathName": "pages/mine/activate_vip/index",
 					"scene": null
 				}
 			]
