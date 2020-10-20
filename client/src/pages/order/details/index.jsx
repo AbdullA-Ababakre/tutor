@@ -3,9 +3,10 @@ import Taro from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import './index.scss'
 
+import FavButton from "../../../components/FavButton"
+
 import icon_location from "../../../images/order/details_location.png";
 import icon_time from "../../../images/order/details_time.png";
-import icon_favorite from "../../../images/order/details_favorite.png";
 
 class CourseInfoItem extends Component {
   constructor(props) {
@@ -57,9 +58,7 @@ export default class Index extends Component {
       <View className='details-text-w-icon-container'>
         <Image className='details-icon-text-w-icon' src={icon_time} />{this.state.workTime}
         <View className='details-label-grey'>可协调</View>
-        <View className='details-add-favorite'>
-          <Image className='details-icon-favorite' src={icon_favorite} />收藏
-        </View>
+        <FavButton style='float: right;'/>
       </View>
     )
     // 老师要求 或 岗位内容/要求 下面的灰色标签

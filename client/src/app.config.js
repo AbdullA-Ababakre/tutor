@@ -1,10 +1,10 @@
 export default {
   pages: [
+    'pages/order/index',
     'pages/index/index',
     'pages/order/details/index',
     'pages/index/parent/intro/index',
     'pages/index/parent/submitInfo/index',
-    'pages/order/index',
     'pages/study/index',
     'pages/study/articlePage/index',
     'pages/mine/index',
