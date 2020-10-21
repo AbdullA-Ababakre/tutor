@@ -24,8 +24,10 @@ export default class ArticleCard extends Component {
         </View>
         <View className="order-horizontal-line"/>
         <View className="order-work-time">时间：{job.workTime}</View>
-        <View className="order-label order-top-margin">家庭教师</View>
-        <FavButton style="float: right;"/>
+        <View className="order-top-margin order-flexbox order-flexbox-space-between">
+        <View className="order-label">家庭教师</View>
+          <FavButton/>
+        </View>
         </View>
       </View>
     );
