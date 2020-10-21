@@ -1,8 +1,19 @@
+.order-fab-become-vip {
+  position: fixed;
+  width: 108px;
+  height: 108px;
+  margin: 36px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 999;
+}
+
+page {
+  background: #F7F7F7;
+}
+
 .order-index {
   min-height: 100vh;
-
-  background: #F7F7F7;
-  background-size: 100% 146px;
 }
 
 .bg-red-block {
@@ -34,6 +45,7 @@
   font-weight: 400;
 }
 
+
 .orders-container {
   margin: 38px 47px;
 }
@@ -41,6 +53,11 @@
 .order-labels-container {
   display: flex;
   flex-direction: row;
-  margin-top: 21px;
+  margin-top: 26px;
   margin-bottom: 38px;
+}
+
+.order-drop-downs-container {
+  margin-top: 65px;
+  margin-bottom: 26px;
 }

@@ -10,7 +10,7 @@ export default class ArticleCard extends Component {
   render() {
     let job = this.props;
     return (
-      <View className="order-container">
+      <View className="order-card-container">
         <View className="order-icon-viponly">非会员</View>
         <View className="order-details">
         <View className="order-flexbox">

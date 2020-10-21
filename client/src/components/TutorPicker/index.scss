@@ -1,0 +1,32 @@
+
+.tutor-drop-down-selector {
+  background-color: white;
+  min-width: 150px;
+  height: 44px;
+  border: 1px solid #CCCCCC;
+  border-radius: 8px;
+  
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 44px;
+  color: #B2B2B2;
+
+  padding: 0 8px;
+  box-sizing: border-box;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.tutor-drop-down-selector + .tutor-drop-down-selector {
+  margin-left: 45px;
+}
+
+.tutor-drop-down-icon {
+  width: 24px;
+  height: 14px;
+  margin: 15px 13px;
+  display: inline-block;
+  float: right;
+}

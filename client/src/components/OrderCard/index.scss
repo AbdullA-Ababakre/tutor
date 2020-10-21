@@ -1,4 +1,4 @@
-.order-container {
+.order-card-container {
   width: 658px;
   height: 286px;
   border-radius: 16px;
@@ -7,6 +7,10 @@
   background: #FFFFFF;
   display: block;
   overflow: hidden;
+}
+
+.order-card-container + .order-card-container {
+  margin-top: 37px;
 }
 
 
