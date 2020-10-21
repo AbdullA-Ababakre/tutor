@@ -48,9 +48,8 @@
 }
 
 .page-switch-option-container {
-  width: 418px;
-  margin: 33px auto 0px auto;
-  
+  margin: 13px auto 0px auto;
+  padding: 0 66px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -60,11 +59,17 @@
   text-align: center;
 }
 
-.page-switch-option {
+.page-switch-option-left {
   color: #B2B2B2;
+  padding: 20px 20px 0 100px;
 }
 
-.page-switch-selected {
+.page-switch-option-right {
+  color: #B2B2B2;
+  padding: 20px 100px 0 20px;
+}
+
+.page-switch-option-selected {
   color: #FC4442;
 }
 
