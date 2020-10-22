@@ -1,4 +1,7 @@
 .intro-wrapper {
+  .header-image {
+    width: 100%;
+  }
   .body {
     padding: 38px 45px 0 45px;
     .topicImg {
@@ -11,11 +14,10 @@
       background-color: #29d6a0;
       color: #ffffff;
       border-radius: 16px;
-      padding: 29px 8px 17px 9px;
+      padding: 30px 10px;
       font-size: 24px;
-      font-family: PingFang SC;
-      font-weight: 500;
-      line-height: 40px;
+      font-weight: 400;
+      text-align: center;
       margin: 39px 0 44px 0;
     }
     .cityList {
@@ -26,11 +28,11 @@
         background-color: #b2b2b2;
         border-radius: 8px;
         font-size: 22px;
-        font-family: PingFang SC;
         font-weight: 400;
-        line-height: 53px;
+        line-height: 44px;
+        text-align: center;
         color: #ffffff;
-        padding: 8px 25px;
+        box-sizing: border-box;
       }
       .city:not(:last-child) {
         margin-right: 19px;
@@ -47,7 +49,6 @@
         opacity: 1;
         border-radius: 16px;
         font-size: 24px;
-        font-family: PingFang SC;
         font-weight: 500;
         line-height: 40px;
         color: #ffa10d;
@@ -75,14 +76,13 @@
       color: #ffffff;
     }
     .footer-txt {
-      display: block;
-      width:536px;
+      width: 536px;
       height: 60px;
-      margin: 0 auto;
+      margin: 11px auto;
       font-size: 22px;
-      font-family: PingFang SC;
       font-weight: 300;
       line-height: 30px;
+      text-align: center;
       color: #b2b2b2;
       opacity: 1;
     }

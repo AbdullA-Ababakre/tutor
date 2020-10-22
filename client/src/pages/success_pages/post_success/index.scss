@@ -1,0 +1,32 @@
+.index {
+
+}
+
+.big-img {
+  display: block;
+  width: 100%;
+  margin-top: -131px;
+}
+
+.info-container {
+  padding: 90px 86px;
+}
+
+.btn-post-more-jobs {
+  background-color: #FFBE1E;
+  color: white;
+  width: 694px;
+  height: 106px;
+  line-height: 106px;
+  font-size: 38px;
+  font-weight: 500;
+  margin-top: 260px;
+}
+
+.btn-post-more-jobs + .btn-post-more-jobs {
+  margin-top: 34px;
+}
+
+.btn-other-jobs {
+  background-color: #29D6A0;
+}

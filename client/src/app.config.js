@@ -1,9 +1,9 @@
 export default {
   pages: [
+    'pages/index/parent/intro/index',
     'pages/order/index',
     'pages/index/index',
     'pages/order/details/index',
-    'pages/index/parent/intro/index',
     'pages/index/parent/submitInfo/index',
     'pages/study/index',
     'pages/study/articlePage/index',
@@ -12,7 +12,9 @@ export default {
     'pages/mine/about_us/index',
     'pages/mine/certificate/index',
     'pages/mine/activate_vip/index',
-    'pages/mine/activate_vip/success_page/index',
+    'pages/success_pages/post_success/index',
+    'pages/success_pages/vip_success/index',
+    'pages/success_pages/appointment_success/index',
   ],
   window: {
     backgroundTextStyle: 'light',

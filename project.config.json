@@ -89,12 +89,6 @@
 					"pathName": "pages/order/details/index",
 					"query": "",
 					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "支付成功",
-					"pathName": "pages/mine/activate_vip/success_page/index",
-					"scene": null
 				}
 			]
 		}
