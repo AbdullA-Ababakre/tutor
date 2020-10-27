@@ -16,7 +16,7 @@ export default class Index extends Component {
         break;
       case 2:
         Taro.navigateTo({
-          url: ``,
+          url: `/pages/index/organization/index`,
         })
         break;
       case 3:

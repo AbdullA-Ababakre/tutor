@@ -1,17 +1,15 @@
-import React, { Component } from 'react'
-import Taro from '@tarojs/taro'
-import { View, Text, Button } from '@tarojs/components'
-import './index.scss'
+import Taro from '@tarojs/taro';
+import React from 'react';
+import { Form, View, Button, Input, Image, Picker, Label, Radio, RadioGroup } from '@tarojs/components';
+import { AtInput, AtList, AtListItem, AtTag, AtTextarea } from 'taro-ui';
+import './index.scss';
 
-
-export default class Index extends Component {
-
-
-  render () {
+export default class Index extends React.Component {
+  render() {
     return (
-      <View className='index'>
-        <Button>2</Button>
+      <View className="info-wrapper">
+        222
       </View>
-    )
+    );
   }
 }

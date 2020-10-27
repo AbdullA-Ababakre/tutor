@@ -6,7 +6,7 @@ import {
   Button,
   Input,
   Image,
-  Picker,
+  Picker, 
 } from '@tarojs/components';
 import {
   AtList,
@@ -17,35 +17,24 @@ import {
 import './index.scss';
 import imgOne from './1.png';
 import imgTwo from './2.png';
-import imgThree from './3.png';
+
 
 export default class Index extends React.Component {
   state = {
     grade: ['幼儿园', '小学', '初中', '高中'],
     gradeChecked: '小学',
-    gender: ['男', '女', '不限'],
-    genderChecked: '男',
-    classForm: '上门家教',
-    classFormArr: ['上门家教', '线上(网课)'],
     tutorType: '学科考试',
     tutorTypeArr: ['学科考试', '小语种', '艺术/体育'],
     tutorSubject: ['语文', '英语'],
     tutorSubjectArr: ['语文', '数学', '英语', '物理', '化学', '生物', '地理', '历史', '全科'],
-    // 辅导目的
-    tutorGoal: ['打基础', '提高兴趣'],
-    tutorGoalArr: ['打基础', '升学考', '作业辅导', '拔尖', '提高兴趣'],
-    studentInfo: '',
-    // 老师要求
-    teacherGender: ['男', '女', '不限'],
-    teacherGenderChecked: '女',
-    teacherRequire: '学霸/绩点高',
-    teacherRequireArr: ['学霸/绩点高', '师范专业优先', '有教学经验'],
+    positionInfo: '',
     teacherRequireText: '',
+
     salarySelector: [['50元', '60元', '70元', '80元', '90元'], ['50元', '60元', '70元', '80元', '90元']],
     salarySelectorChecked: '60元-90元',
-    teacherRequirementTag: ['接受零经验', '价格可议'],
-    teacherRequirementTagArr: ['接受零经验', '价格可议', '不接受零经验', '价格不可议'],
     tel: '',
+    organizationName: '',
+    recruitNum: '',
     teachingDay: ['周一', '周日'],
     teachingDayArr: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
     tutorDuration: '2小时',
@@ -55,17 +44,13 @@ export default class Index extends React.Component {
     teachingTimeTagArr: ['可协调', '不可协调'],
     addressSelector: [
       ['深圳', '广州', '佛山', '东莞', '珠海', '上海'],
-      ['福田区', '罗湖区', '南山区', '宝安区', '龙岗区', '盐田区', '坪山区', '龙华区', '光明新区']
+      ['南山区', '福田区', '罗湖区', '宝安区', '龙岗区', '盐田区', '坪山区', '龙华区', '光明新区']
     ],
     addressSelectorChecked: '深圳南山区',
     exactAddress: ''
   };
 
-  onGenderChange = (e) => {
-    this.setState({
-      genderChecked: this.state.gender[e.detail.value]
-    });
-  };
+
 
   onGradeChange = (e) => {
     this.setState({
@@ -73,11 +58,6 @@ export default class Index extends React.Component {
     });
   };
 
-  onClassForm = (e) => {
-    this.setState({
-      classForm: e.name
-    });
-  };
 
   onTutorType = (e) => {
     this.setState({
@@ -101,39 +81,15 @@ export default class Index extends React.Component {
     });
   };
 
-  onTutorGoal = (index, e) => {
-    let { tutorGoal, tutorGoalArr } = this.state;
-    let name = tutorGoalArr[index];
-    //  已经一次点击完毕
-    if (tutorGoal.includes(name)) {
-      let index = tutorGoal.indexOf(name);
-      tutorGoal.splice(index, 1);
-    } else {
-      tutorGoal.push(name);
-    }
 
+
+  onPositionInfo = (e) => {
     this.setState({
-      tutorGoal: tutorGoal
+      positionInfo: e
     });
   };
 
-  onStudentInfo = (e) => {
-    this.setState({
-      studentInfo: e
-    });
-  };
 
-  onTeacherGenderChange = (e) => {
-    this.setState({
-      teacherGenderChecked: this.state.teacherGender[e.detail.value]
-    });
-  };
-
-  onTeacherRequire = (e) => {
-    this.setState({
-      teacherRequire: e.name
-    });
-  };
 
   onTeacherRequireText = (e) => {
     this.setState({
@@ -162,22 +118,6 @@ export default class Index extends React.Component {
     });
   };
 
-  onTeacherRequirementTag = (index, e) => {
-    let { teacherRequirementTag, teacherRequirementTagArr } = this.state;
-    let name = teacherRequirementTagArr[index];
-    //  已经一次点击完毕
-    if (teacherRequirementTag.includes(name)) {
-      let index = teacherRequirementTag.indexOf(name);
-      teacherRequirementTag.splice(index, 1);
-    } else {
-      teacherRequirementTag.push(name);
-    }
-
-    this.setState({
-      teacherRequirementTag: teacherRequirementTag
-    });
-  };
-
   // 手机号
   handleTel(e) {
     const tel = e.target.value;
@@ -186,6 +126,26 @@ export default class Index extends React.Component {
     });
     // 在小程序中，如果想改变 value 的值，需要 `return value` 从而改变输入框的当前值
     return tel;
+  }
+
+  // 你的企业/机构名
+  handleOrganizationName(e) {
+    const organizationName = e.target.value;
+    this.setState({
+      organizationName: organizationName
+    });
+    // 在小程序中，如果想改变 value 的值，需要 `return value` 从而改变输入框的当前值
+    return organizationName;
+  }
+
+  // 招聘人数
+  handleRecruitNum(e) {
+    const recruitNum = e.target.value;
+    this.setState({
+      recruitNum: recruitNum
+    });
+    // 在小程序中，如果想改变 value 的值，需要 `return value` 从而改变输入框的当前值
+    return recruitNum;
   }
 
   // 上课天数
@@ -212,7 +172,7 @@ export default class Index extends React.Component {
   };
 
   handleTeachingTimeChange = (e) => {
-    const teachingTime=e.target.value;
+    const teachingTime = e.target.value;
     this.setState({
       teachingTime: teachingTime
     });
@@ -348,45 +308,64 @@ export default class Index extends React.Component {
   }
 
   formSubmit = (e) => {
+    console.log("eee",this.state);
     const {
       gradeChecked,
-      genderChecked,
-      classForm,
       tutorType,
       tutorSubject,
-      tutorGoal,
-      studentInfo,
-      teacherGenderChecked,
-      teacherRequire,
+      positionInfo,
       teacherRequireText,
       salarySelectorChecked,
-      teacherRequirementTag,
       tel,
+      organizationName,
+      recruitNum,
       teachingDay,
       tutorDuration,
       teachingTime,
       teachingTimeTag,
+      addressSelector,
       addressSelectorChecked,
-      exactAddress
+      exactAddress,
     } = this.state;
 
     if (!tel) {
       Taro.showToast({
-        title: '请输入手机号',
+        title: '请输入联系电话',
         icon: 'none',
         duration: 2000
       })
       return;
-    }else if(!teachingTime){
+    } else if (!organizationName) {
       Taro.showToast({
-        title: '请输入上课时间呢',
+        title: '请输入机构明名称',
+        icon: 'none',
+        duration: 2000
+      })
+      return;
+    } else if (!recruitNum) {
+      Taro.showToast({
+        title: '请输入招聘人数',
+        icon: 'none',
+        duration: 2000
+      })
+      return;
+    } else if (!positionInfo) {
+      Taro.showToast({
+        title: '请输入岗位内容',
+        icon: 'none',
+        duration: 2000
+      })
+      return;
+    } else if (!teachingTime) {
+      Taro.showToast({
+        title: '请输入上课时间',
         icon: 'none',
         duration: 2000
       })
       return;
     } else if (!exactAddress) {
       Taro.showToast({
-        title: '请输入上课地点详细地址',
+        title: '请输入具体上课地点',
         icon: 'none',
         duration: 2000
       })
@@ -401,26 +380,23 @@ export default class Index extends React.Component {
       .callFunction({
         name: 'postData',
         data: {
-          postFrom:'parentSubmit',
+          postFrom: 'organizationSubmit',
           gradeChecked,
-          genderChecked,
-          classForm,
           tutorType,
           tutorSubject,
-          tutorGoal,
-          studentInfo,
-          teacherGenderChecked,
-          teacherRequire,
+          positionInfo,
           teacherRequireText,
           salarySelectorChecked,
-          teacherRequirementTag,
           tel,
+          organizationName,
+          recruitNum,
           teachingDay,
           tutorDuration,
           teachingTime,
           teachingTimeTag,
+          addressSelector,
           addressSelectorChecked,
-          exactAddress
+          exactAddress,
         },
       })
       .then(res => {
@@ -433,19 +409,14 @@ export default class Index extends React.Component {
 
   render() {
     const {
-      classForm,
-      classFormArr,
       tutorType,
       tutorTypeArr,
       tutorSubject,
       tutorSubjectArr,
-      tutorGoal,
-      tutorGoalArr,
       teacherSexValue,
       teacherRequire,
-      teacherRequireArr,
-      teacherRequirementTag,
-      teacherRequirementTagArr,
+      teacherRequireText,
+      positionInfo,
       tel,
       teachingDay,
       teachingDayArr,
@@ -467,29 +438,6 @@ export default class Index extends React.Component {
               <AtListItem title="学生年级" extraText={this.state.gradeChecked} />
             </AtList>
           </Picker>
-          {/* 性别 */}
-          <Picker mode="selector" range={this.state.gender} onChange={this.onGenderChange}>
-            <AtList>
-              <AtListItem title="学生性别" extraText={this.state.genderChecked} />
-            </AtList>
-          </Picker>
-          {/* 上课发方式 */}
-          <View className="classForm">
-            <View className="title">上课方式</View>
-            {classFormArr.map((item, index) => {
-              return (
-                <AtTag
-                  name={item}
-                  className="tag"
-                  type="primary"
-                  active={item === classForm}
-                  onClick={this.onClassForm.bind(this)}
-                >
-                  {item}
-                </AtTag>
-              );
-            })}
-          </View>
           {/* 辅导类型 */}
           <View className="tutorType">
             <View className="title">辅导类型</View>
@@ -524,96 +472,42 @@ export default class Index extends React.Component {
               );
             })}
           </View>
-          {/* 辅导目的 */}
-          <View>
-            <View className="title">辅导目的(可多选)</View>
-            {tutorGoalArr.map((item, index) => {
-              return (
-                <AtTag
-                  name={item}
-                  type="primary"
-                  className="tag"
-                  active={tutorGoal.includes(item) === true}
-                  onClick={this.onTutorGoal.bind(this, index)}
-                >
-                  {item}
-                </AtTag>
-              );
-            })}
-          </View>
-          {/*  学生情况 */}
-          <View className="title">学生情况(补充)</View>
+
+          {/*  岗位内容 */}
+          <View className="title">岗位内容</View>
           <AtTextarea
-            value={this.state.studentInfo}
-            onChange={this.onStudentInfo.bind(this)}
+            value={positionInfo}
+            onChange={this.onPositionInfo.bind(this)}
             maxLength={200}
-            placeholder="学生调皮,不爱学习,希望提高学生兴趣,培养孩子的积极性"
+            placeholder="教学生上课"
           />
-          {/* 老师要求选择 */}
-          <View className="img-wrapper">
-            <Image className="img" src={imgTwo} />
-          </View>
-
-          <Picker mode="selector" range={this.state.teacherGender} onChange={this.onTeacherGenderChange}>
-            <AtList>
-              <AtListItem title="老师性别" extraText={this.state.teacherGenderChecked} />
-            </AtList>
-          </Picker>
-
-          {/* 老师要求 */}
-          <View className="teacher-requirement">
-            <View className="title">老师要求</View>
-            {teacherRequireArr.map((item, index) => {
-              return (
-                <AtTag
-                  name={item}
-                  type="primary"
-                  className="tag"
-                  active={item === teacherRequire}
-                  onClick={this.onTeacherRequire.bind(this)}
-                >
-                  {item}
-                </AtTag>
-              );
-            })}
-          </View>
 
           {/*  老师要求 */}
-          <View className="title">老师要求(补充)</View>
+          <View className="title">老师要求</View>
           <AtTextarea
-            value={this.state.teacherRequireText}
+            value={teacherRequireText}
             onChange={this.onTeacherRequireText.bind(this)}
             maxLength={200}
             placeholder="可以管教调皮的孩子"
           />
-          {/* 老师要求 薪资 */}
+
+          {/* 薪资 */}
           <View className="page-section salary-wrapper">
-            <View className="title">老师要求(补充)</View>
+            <View>您愿意接受的时薪范围</View>
             <Picker mode="multiSelector" range={this.state.salarySelector} onChange={this.onSalaryChange}>
               <AtList>
-                <AtListItem title="老师时薪" extraText={this.state.salarySelectorChecked} />
+                <AtListItem title="时薪范围" extraText={this.state.salarySelectorChecked} />
               </AtList>
             </Picker>
-            {/* 老师薪资下面的标签选择 */}
-            {teacherRequirementTagArr.map((item, index) => {
-              return (
-                <AtTag
-                  name={item}
-                  type="primary"
-                  className="tag"
-                  active={teacherRequirementTag.includes(item) === true}
-                  onClick={this.onTeacherRequirementTag.bind(this, index)}
-                >
-                  {item}
-                </AtTag>
-              );
-            })}
-          </View>
-          <View className="img-wrapper">
-            <Image className="img" src={imgThree} />
           </View>
 
-          {/* 手机号 */}
+
+          {/* 企业信息填写 */}
+          <View className="img-wrapper">
+            <Image className="img" src={imgTwo} />
+          </View>
+
+          {/* 联系电话 */}
           <View className="title">您的联系电话</View>
           <Input
             className="teachingTimeInput"
@@ -622,6 +516,28 @@ export default class Index extends React.Component {
             placeholder="请输入手机号"
             placeholderClass="placeHolderClass"
             onInput={this.handleTel.bind(this)}
+          />
+
+          {/* 您的企业/机构名字 */}
+          <View className="title">您的企业/机构名</View>
+          <Input
+            className="teachingTimeInput"
+            name="tel"
+            type="text"
+            placeholder="必填"
+            placeholderClass="placeHolderClass"
+            onInput={this.handleOrganizationName.bind(this)}
+          />
+
+          {/* 招聘人数 */}
+          <View className="title">招聘人数</View>
+          <Input
+            className="teachingTimeInput"
+            name="tel"
+            type="number"
+            placeholder="5"
+            placeholderClass="placeHolderClass"
+            onInput={this.handleRecruitNum.bind(this)}
           />
 
           {/* 上课天数 */}
@@ -641,6 +557,7 @@ export default class Index extends React.Component {
               );
             })}
           </View>
+
           {/* 一次辅导时常 */}
           <View className="tutorDuration">
             <View className="title">一次辅导时常</View>
@@ -658,6 +575,7 @@ export default class Index extends React.Component {
               );
             })}
           </View>
+
           {/* 上课时间 */}
           <View className="title">上课时间</View>
           <Input
@@ -668,7 +586,6 @@ export default class Index extends React.Component {
             placeholderClass="placeHolderClass"
             onInput={this.handleTeachingTimeChange.bind(this)}
           />
-
           {/* 能否修改时间 */}
           <View className="teachingTime">
             {teachingTimeTagArr.map((item, index) => {
@@ -706,7 +623,7 @@ export default class Index extends React.Component {
             placeholderClass="placeHolderClass"
             onInput={this.handleExactAddress.bind(this)}
           />
-          <Button className="btn" formType="submit">预约老师</Button>
+          <Button className="btn" formType="submit">确认发布</Button>
           <View className="footer">提交成功后老师会通过微信跟您进行报名试课</View>
         </Form>
       </View>
