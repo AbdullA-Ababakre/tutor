@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '2'
+  navigationBarTitleText: '订单中心'
 }

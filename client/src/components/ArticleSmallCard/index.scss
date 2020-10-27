@@ -12,9 +12,17 @@
   border-radius: 8px;
 }
 
+.article-green-line {
+  display: inline-block;
+  vertical-align: top; // don't ask, i dont know why it works     --miigon
+  height: 33px;
+  border: 2px solid #12D79F;
+  border-radius: 3px;
+  margin-right: 18px;
+}
+
 .article-small-details {
   margin: 18px;
-  background: url("../../images/article_title_small_bg.png") no-repeat;
   background-size: 4px 48px;
 }
 
@@ -23,7 +31,6 @@
   font-weight: 500;
   color: #353535;
   margin-bottom: 26px;
-  margin-left: 18px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

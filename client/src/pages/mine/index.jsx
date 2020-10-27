@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, Button } from '@tarojs/components'
 import './index.scss'
 
 import icon_phone from "../../images/mine/icon_phone.png"
@@ -13,8 +13,6 @@ import btn_support from "../../images/mine/btn_support.png"
 import btn_feedback from "../../images/mine/btn_feedback.png"
 import btn_certificate from "../../images/mine/btn_certificate.png"
 import img_subscribe_account from "../../images/mine/img_subscribe_account.png"
-
-import TutorButton from "../../components/TutorButton"
 
 import UserInfo from "../../utils/userinfo"
 
@@ -78,7 +76,7 @@ export default class Index extends Component {
           </View>
         </View>
         <View className='userinfo' style={`display: ${!this.state.isLoggedIn?"block":"none"};`}>
-          <TutorButton bgcolor="#ffffff" textcolor="#FC4442" open-type="getUserInfo" onGetUserInfo={res=>{this.onUserInfo(res)}}>点击授权用户信息</TutorButton>
+          <Button className="btn-get-user-info" open-type="getUserInfo" onGetUserInfo={res=>{this.onUserInfo(res)}}>点击授权用户信息</Button>
         </View>
 
         <View className='become-vip-container'>

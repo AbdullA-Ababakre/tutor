@@ -1,0 +1,28 @@
+.favbtn-add-favorite {
+  height: 30px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  
+  font-size: 22px;
+  color: #C6C6C6;
+  font-weight: 500;
+}
+
+.favbtn-icon-favorite {
+  width: 30px;
+  height: 30px;
+  margin-right: 7px;
+}
+
+.favbtn-icon-disabled {
+  filter: grayscale(100%);
+}
+
+.favbtn-text {
+  color: #FFBE1E;
+}
+
+.favbtn-text-disabled {
+  color: #C6C6C6;
+}

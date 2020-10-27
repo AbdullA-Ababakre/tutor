@@ -149,11 +149,11 @@ export default class Index extends Component {
       <View className="index">
         <TutorSwiper className="study-swiper" onTapItem={(i)=>{this.openArticle(bannerUrls[i])}} banner={banners} />
         {/* 页面切换器 */}
-        <View className="page-switch" mode="heightFix">
+        <View className="page-switch">
           <View className="page-switch-option-container">
             <View
               className=
-              {`${pageswitch_selected==1?"page-switch-selected":"page-switch-option"}`}
+              {`page-switch-option-left ${pageswitch_selected==1?"page-switch-option-selected":""}`}
               onClick={()=>{this.switchPage(1)}}
             >
               教学提升
@@ -165,7 +165,7 @@ export default class Index extends Component {
             </View>
             <View
               className=
-              {`${pageswitch_selected==2?"page-switch-selected":"page-switch-option"}`}
+              {`page-switch-option-right ${pageswitch_selected==2?"page-switch-option-selected":""}`}
               onClick={()=>{this.switchPage(2)}}
             >
               成长学院
