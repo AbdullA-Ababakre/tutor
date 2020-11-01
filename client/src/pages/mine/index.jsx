@@ -58,6 +58,9 @@ export default class Index extends Component {
     let pageJump = page => {
       return ()=>{Taro.navigateTo({url: page + "/index"});};
     }
+    let tabJump = () =>{
+      return ()=>{Taro.switchTab({url:'/pages/index/index'})}
+    }
     return (
       <View className='index'>
         <View className='userinfo' style={`display: ${this.state.isLoggedIn?"flex":"none"};`}>
@@ -86,8 +89,8 @@ export default class Index extends Component {
 
         <View className='buttons-container'>
           <View className='buttons-row'>
-            <BigButton img={btn_favorites}>我的收藏</BigButton>
-            <BigButton img={btn_post}>发布兼职/家教</BigButton>
+            <BigButton img={btn_favorites} onClick={pageJump('favorite')} >我的收藏</BigButton>
+            <BigButton img={btn_post} onClick={tabJump()} >发布兼职/家教</BigButton>
             <BigButton img={btn_about} onClick={pageJump("about_us")}>关于我们</BigButton>
           </View>
           <View className='buttons-row'>

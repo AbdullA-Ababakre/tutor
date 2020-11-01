@@ -643,7 +643,7 @@ export default class Index extends React.Component {
           </View>
           {/* 一次辅导时常 */}
           <View className="tutorDuration">
-            <View className="title">一次辅导时常</View>
+            <View className="title">一次辅导时长</View>
             {tutorDurationArr.map((item, index) => {
               return (
                 <AtTag

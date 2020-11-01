@@ -2,6 +2,8 @@
   <view class="input-wrapper">
     <input  oninput="handleNameInput" type="text" value="" name="inputName" placeholder="请输入您的姓名（用于生成证书" placeholder-class="inputHolder" maxlength="8" />
   </view>
-  <canvas type="2d" disable-scroll="true" id="canvas_box" class="canvas_box"></canvas>
+  <view catchtouchmove="return">
+      <canvas  type="2d" disable-scroll="true" id="canvas_box" class="canvas_box"></canvas>
+  </view>
   <button class="btn" bindtap="saveImg">保存到相册</button>
 </view>

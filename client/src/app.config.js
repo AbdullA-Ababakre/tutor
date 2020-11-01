@@ -13,8 +13,9 @@ export default {
 		'pages/mine/index',
 		'pages/mine/activate_vip/eula/index',
 		'pages/mine/about_us/index',
-		'pages/mine/certificate/index',
-		'pages/mine/activate_vip/index'
+    'pages/mine/certificate/index',
+    'pages/mine/favorite/index',
+    'pages/mine/activate_vip/index'
 	],
 	window: {
 		backgroundTextStyle: 'light',
@@ -29,6 +30,7 @@ export default {
 		list: [
 			{
 				pagePath: 'pages/index/index',
+				// pagePath: 'pages/mine/favorite/index',
 				iconPath: 'images/tabbar/index1.png',
 				selectedIconPath: 'images/tabbar/index2.png',
 				text: '首页'
