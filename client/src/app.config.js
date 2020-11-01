@@ -30,7 +30,6 @@ export default {
 		list: [
 			{
 				pagePath: 'pages/index/index',
-				// pagePath: 'pages/mine/favorite/index',
 				iconPath: 'images/tabbar/index1.png',
 				selectedIconPath: 'images/tabbar/index2.png',
 				text: '首页'
