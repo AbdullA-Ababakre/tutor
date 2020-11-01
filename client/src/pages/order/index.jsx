@@ -28,6 +28,7 @@ export default class Index extends Component {
     let cities = ["深圳市","广州市","珠海市","其他"];
     let courses = ["语文","数学","英语","物理","化学","生物","政治","历史","地理","其他"];
     let grades = ["小学低年级","小学高年级","初一","初二","初三","高一","高二","高三","其他"];
+    let pageDown = (item)=>{ Taro.navigateTo({url: '/pages/order/details/index?jobType='+item})}
     return (
       <View className='order-index'>
         <Image className='order-fab-become-vip' src={fab_vip} onClick={this.onClick.bind(this)}></Image>
@@ -47,12 +48,10 @@ export default class Index extends Component {
             <View className="order-label order-label-grey">机构/企业教师</View>
             <View className="order-label order-label-grey">其它岗位</View>
           </View>
-          <OrderCard title="高三数学" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="80-90元/小时" workTime="周二 | 周四 晚上"/>
-          <OrderCard title="高三数学" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="80-90元/小时" workTime="周二 | 周四 晚上"/>
-          <OrderCard title="高三数学" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="80-90元/小时" workTime="周二 | 周四 晚上"/>
-          <OrderCard title="高三数学" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="80-90元/小时" workTime="周二 | 周四 晚上"/>
-          <OrderCard title="高三数学" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="80-90元/小时" workTime="周二 | 周四 晚上"/>
-        </View>
+          <OrderCard onClick={pageDown.bind(this, "familyCourse")} title="高三数学" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="80-90元/小时" workTime="周二 | 周四 晚上"/>
+          <OrderCard onClick={pageDown.bind(this, "companyCourse")} title="小学语文数学" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="80-90元/小时" workTime="周二 | 周四 晚上"/>
+          <OrderCard onClick={pageDown.bind(this, "other")} title="公众号运营" orderId="1098" requireVip="false" location="深圳市南山区西海明珠路302dd" price="300元/天" workTime="周二 | 周四 晚上"/>
+         </View>
       </View>
     );
   }
