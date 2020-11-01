@@ -24,7 +24,6 @@ export default class Index extends Component {
     let yesVip = <View className="favorite-requireVip"> <image src={vip_yes} /> <View className="pic-text" > 会员 </View>  </View>
     let noVip = <View className="favorite-requireVip"> <image src={vip_no} /> <View className="pic-text" > 非会员 </View>  </View>
     let vip = favorite.requireVip==="true"?yesVip:noVip
-    console.log(favorite.requireVip)
     return (
       <View className="favorite-container" >
         <View className="favorite-container-up" >

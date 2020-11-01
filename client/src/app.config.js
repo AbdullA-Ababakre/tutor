@@ -6,7 +6,8 @@ export default {
 		'pages/index/other/index',
 		'pages/index/organization/index',
 		'pages/index/parent/submitInfo/index',
-		'pages/order/index',
+    'pages/order/index',
+    'pages/order/details/index',
 		'pages/index/parent/intro/index',
 		'pages/study/index',
 		'pages/study/articlePage/index',
@@ -30,6 +31,7 @@ export default {
 		list: [
 			{
 				pagePath: 'pages/index/index',
+				// pagePath: 'pages/order/details/index',
 				iconPath: 'images/tabbar/index1.png',
 				selectedIconPath: 'images/tabbar/index2.png',
 				text: '首页'
