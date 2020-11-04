@@ -21,7 +21,7 @@ export default class Index extends Component {
   }
 
   onClick () {
-
+    Taro.navigateTo({url: '/pages/mine/activate_vip/index'})
   }
 
   render () {

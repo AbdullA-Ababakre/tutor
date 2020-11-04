@@ -58,7 +58,7 @@ class Index extends Component {
         position:"家庭教师"
       }
     ]
-    favoriteArr.length = 0
+    // favoriteArr.length = 0
     let text
     if(favoriteArr.length>0)
         text = favoriteArr.map(item=> <View className="favorite-card" ><FavoriteCard key={item.orderId} favorite={item}></FavoriteCard> </View>  )

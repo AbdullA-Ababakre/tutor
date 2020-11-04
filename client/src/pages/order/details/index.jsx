@@ -4,9 +4,12 @@ import { View, Text, Image } from '@tarojs/components'
 import './index.scss'
 
 import FavButton from "../../../components/FavButton"
+import OrderDetailRightPanel from "../../../components/OrderDetailRightPanel"
 
 import icon_location from "../../../images/order/details_location.png";
 import icon_time from "../../../images/order/details_time.png";
+
+
 
 class CourseInfoItem extends Component {
   constructor(props) {
@@ -91,14 +94,16 @@ export default class Index extends Component {
   }
 
   render () {
-    const job = this.state[getCurrentInstance().router.params.jobType];
+    const job = this.state[getCurrentInstance().router.params.jobType] || this.state["other"];
+    // console.log()
     if(job.jobType==="familyCourse") {Taro.setNavigationBarTitle({title: "家庭教师"}) }
     if(job.jobType==="companyCourse") {Taro.setNavigationBarTitle({title: "机构/企业教师"}) }
     if(job.jobType==="other") {Taro.setNavigationBarTitle({title: "其他岗位"})}
     if(job.isVip==="true")  Taro.setNavigationBarColor({frontColor: "#000000",backgroundColor: "#ffc63b"}) 
     
+    let turnVipPage = () =>{ Taro.navigateTo({url: '/pages/mine/activate_vip/index'})}
     let vipCard =(
-      <View className='details-infocard'>
+      <View onClick={turnVipPage} className='details-infocard'>
       <View className='vip-exclusive-title'>会员专属</View>
       <View className='vip-exclusives-container'>
         <View className='vip-exclusive'>月会员200元</View>
@@ -126,6 +131,8 @@ export default class Index extends Component {
 
     return (
       <View className='details-index'>
+        <OrderDetailRightPanel  className="right_panel" />
+
         {
           job.isVip==="false"?<View className='bg-red-block'/>:<View className='bg-yellow-block'/>
         }
@@ -158,6 +165,7 @@ export default class Index extends Component {
           {
             job.isVip==="false"?vipCard:""
           }
+
 
           {/*  课程卡片 */}
           {

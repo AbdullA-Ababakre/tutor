@@ -7,6 +7,7 @@ export default {
 		'pages/index/organization/index',
 		'pages/index/parent/submitInfo/index',
     'pages/order/index',
+    'pages/order/vip_rule/index',
     'pages/order/details/index',
 		'pages/index/parent/intro/index',
 		'pages/study/index',
