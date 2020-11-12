@@ -17,7 +17,7 @@ export default class TutorInput extends Component {
     this.setState({
       selected: e.detail.value,
     });
-    this.props.onChange();
+    this.props.onChange(this.props.range[e.detail.value]);
   }
 
   render() {

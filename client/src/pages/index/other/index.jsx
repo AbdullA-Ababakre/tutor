@@ -179,7 +179,7 @@ export default class Index extends React.Component {
             })
             .then(res => {
                 Taro.hideLoading();
-                Taro.navigateTo({url: '/pages/index/parentAgain/index'})
+                Taro.redirectTo({url: '/pages/index/parentAgain/index'})
                 console.log("res---", res);
             })
     };

@@ -6,6 +6,9 @@ import { View, Image } from '@tarojs/components'
 import icon_favorite from "../../images/order/details_favorite.png";
 
 export default class FavButton extends Component {
+
+  // update favor
+
   render() {
     let tempClassName = this.props.className || "";
     this.props.className = undefined;

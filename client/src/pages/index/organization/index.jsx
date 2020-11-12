@@ -402,12 +402,17 @@ export default class Index extends React.Component {
       .then(res => {
         Taro.hideLoading();
 
-        Taro.navigateTo({url: '/pages/index/organizationAgain/index'})
+        Taro.redirectTo({url: '/pages/index/organizationAgain/index'})
         console.log("res---", res);
       })
 
 
   };
+  turnOtherPage(){
+    Taro.redirectTo({
+      url: "/pages/index/other/index"
+    })
+  }
 
   render() {
     const {
@@ -430,6 +435,7 @@ export default class Index extends React.Component {
     } = this.state;
     return (
       <View className="info-wrapper">
+        <Button className="btn-yellow" onClick={this.turnOtherPage} > 选择发布其他岗位 </Button>
         <Form onSubmit={this.formSubmit}>
           <View className="img-wrapper">
             <Image className="img" src={imgOne} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro, {getCurrentInstance} from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image,Button } from '@tarojs/components'
 import './index.scss'
 
 import FavButton from "../../../components/FavButton"
@@ -45,43 +45,56 @@ export default class Index extends Component {
     */
 
     this.state = {
+      data: this.props,
+      _id : "",
+      enable: false,
       familyCourse: {
-        jobType: "familyCourse",
-        jobTask: "高三数学作业辅导课程",
-        jobPrice: "80-90元/小时",
-        location: "深圳市南山区西海明珠路302",
-        workTime: "周二 | 周四 19:00-21:00",
-        isVip: "true",
-        workDuration: "一次上课2个小时",
-        requirements: "性别女 | 可以管教调皮的孩子",
-        requirementLabels: ["学霸/绩点高","接受零经验","价格可议"],
-        studentDescription: "学生调皮，不爱学习，希望提高学生学习兴趣，培养孩子积极性",
-        jobGoal: "打基础 |  作业辅导 | 提高兴趣"
+        _openid : '',
+        jobType: "",
+        jobTask: "",
+        jobPrice: "",
+        location: "",
+        workTime: "",
+        isVip: "false",
+        workDuration: "",
+        requirements: "",
+        requirementLabels: [],
+        studentDescription: "",
+        jobGoal: "",
+        tutorType: "",
+        teachingTimeTag: "",
+        favourList: []
       },
       companyCourse: {
-        jobType: "companyCourse",
-        jobTask: "小学语文数学",
-        jobPrice: "80-90元/小时",
-        location: "深圳市南山区西海明珠路302",
-        workTime: "周二 | 周四 19:00-21:00",
+        _openid : '',
+        jobType: "",
+        jobTask: "",
+        jobPrice: "",
+        location: "",
+        workTime: "",
         isVip: "false",
-        workDuration: "一次上课2个小时",
-        requirements: "可以管教调皮的孩子",
+        workDuration: "",
+        requirements: "",
 
-        jobDescription: "教学生上课",
-        hiringNeed: "5",
+        jobDescription: "",
+        hiringNeed: "",
+        tutorType: "",
+        teachingTimeTag: "",
+        favourList: []
       },
       other: {
-        jobType: "other",
-        jobTask: "公众号运营",
-        jobPrice: "300元/天",
+        _openid : '',
+        jobType: "",
+        jobTask: "",
+        jobPrice: "",
         isVip: "false",
-        location: "深圳市南山区西海明珠路302",
+        location: "",
 
-        cooperation: "青猎创投（深圳）有限公司",
-        workDuration: "周末时间",
-        requirements: "有公众号运营经验",
-        hiringNeed: '5'
+        cooperation: "",
+        workDuration: "",
+        requirements: "",
+        hiringNeed: '',
+        favourList: []
       }
     };
   }
@@ -91,12 +104,156 @@ export default class Index extends Component {
     //  路由传值到这里来了
     // console.log(getCurrentInstance().router.params)
 
+    switch(getCurrentInstance().router.params.jobType){
+      case "familyCourse": this.getParentData();  break;
+      case "companyCourse": this.getOrganizationData();break;
+      case "other": this.getOtherData(); break;
+    }
+  }
+  
+  getData(type,id){
+    return new Promise((resolve, reject)=>{
+      Taro.showLoading({
+        title: "加载中"
+      })
+      Taro.cloud.callFunction({
+        name: 'getData',
+        data: {
+          getType: type,
+          id: id
+        }
+      })
+      .then(res=>{
+        Taro.hideLoading()
+        resolve(res)
+      })
+      .catch(err=>{
+        reject(err)
+      })
+    })
+  }
+
+  getParentData(){
+    this.getData("parent",  getCurrentInstance().router.params.id)
+        .then(res=>{
+          // console.log(res)
+          let data = res.result.data.data
+          let familyCourse ={
+            _openid : data._openid,
+            jobType: data.detailType,
+            jobTask: `${data.gradeChecked} ${data.tutorSubject.join(" ")} 辅导 `,
+            jobPrice: data.salarySelectorChecked,
+            location: data.addressSelectorChecked + data.exactAddress,
+            workTime: `${data.teachingDay.join(" | ")} ${data.teachingTime} `,
+            isVip: data.isVip,
+            workDuration: "一次上课" + data.tutorDuration,
+            requirements: `性别: ${data.teacherGenderChecked} | ${data.teacherRequireText}`,
+            requirementLabels: data.teacherRequirementTag,
+            studentDescription: data.studentInfo,
+            jobGoal: data.tutorGoal.join(" | "),
+            tutorType: data.tutorType,
+            teachingTimeTag: data.teachingTimeTag,
+            favourList: data.favourList
+          }
+          this.setState({
+            familyCourse: familyCourse,
+            enable: familyCourse.favourList.indexOf(familyCourse._openid)!==-1,
+            _id: data._id
+          })
+        })
+  }
+
+  getOrganizationData(){
+    this.getData("organization",  getCurrentInstance().router.params.id)
+            .then(res=>{
+              let data = res.result.data.data
+              console.log(res)
+              let companyCourse = {
+                _openid : data._openid,
+                jobType: "companyCourse",
+                jobTask: `${data.gradeChecked} ${data.tutorSubject.join(" ")}`,
+                jobPrice: `${data.salarySelectorChecked}/小时`,
+                location: `${data.addressSelectorChecked} ${data.exactAddress}`,
+                workTime: `${data.teachingDay.join(" | ")} ${data.teachingTime}`,
+                isVip: data.isVip,
+                workDuration: `一次上课${data.tutorDuration}`,
+                requirements: data.teacherRequireText,
+                jobDescription: data.positionInfo,
+                hiringNeed: data.recruitNum,
+                tutorType: data.tutorType,
+                teachingTimeTag: data.teachingTimeTag,
+                favourList: data.favourList
+              }
+              this.setState({
+                companyCourse: companyCourse,
+                enable: companyCourse.favourList.indexOf(companyCourse._openid)!==-1,
+                _id: data._id
+              })
+            })
+
+  }
+
+  getOtherData(){
+    this.getData("other",  getCurrentInstance().router.params.id)
+        .then(res=>{
+          let data = res.result.data.data
+          let other ={
+            _openid : data._openid,
+            jobType: "other",
+            jobTask: data.positionName,
+            jobPrice: data.positionSalary,
+            isVip: data.isVip,
+            location: data.positionAddress,
+            cooperation: data.organizationNmae,
+            workDuration: data.workingTime,
+            requirements: data.positionInfo,
+            hiringNeed: data.recruitNum,
+            favourList: data.favourList,
+          }
+          this.setState({
+            other: other,
+            enable: other.favourList.indexOf(other._openid)!==-1,
+            _id: data._id
+          })
+        })
+  }
+
+  changeFav(){
+    let getType =""
+    switch(getCurrentInstance().router.params.jobType){
+      case "familyCourse": getType="parent"; break;
+      case "companyCourse":getType="organization"; break;
+      case "other":getType="other"; break;
+    }
+    let data = this.state[getCurrentInstance().router.params.jobType]
+
+    if(this.state.enable){
+      let index = data.favourList.indexOf(data._openid)
+      data.favourList.splice(index, 1)
+    }else{
+      data.favourList.push(data._openid)
+    }
+    console.log(data.favourList)
+    Taro.cloud.callFunction({
+      name: 'setFavData',
+      data: {
+        getType: getType,
+        _id: this.state._id,
+        favourList: data.favourList
+      }
+    })
+
+    this.setState({
+      enable: !this.state.enable
+    })
   }
 
   render () {
     const job = this.state[getCurrentInstance().router.params.jobType] || this.state["other"];
     // console.log()
-    if(job.jobType==="familyCourse") {Taro.setNavigationBarTitle({title: "家庭教师"}) }
+    if(job.jobType==="familyCourse") {
+      Taro.setNavigationBarTitle({title: "家庭教师"}) 
+    }
     if(job.jobType==="companyCourse") {Taro.setNavigationBarTitle({title: "机构/企业教师"}) }
     if(job.jobType==="other") {Taro.setNavigationBarTitle({title: "其他岗位"})}
     if(job.isVip==="true")  Taro.setNavigationBarColor({frontColor: "#000000",backgroundColor: "#ffc63b"}) 
@@ -120,14 +277,15 @@ export default class Index extends Component {
     let timeView = ( // 第一个卡片里的时间
       <View className='details-text-w-icon-container'>
         <Image className='details-icon-text-w-icon' src={icon_time} />{job.workTime}
-        <View className='details-label-grey'>可协调</View>
-        <FavButton style='float: right;'/>
+         <View className='details-label-grey'>{job.teachingTimeTag}</View>
+        <FavButton enable={this.state.enable} onClick={this.changeFav.bind(this)} style='float: right;'/>
       </View>
     )
     // 老师要求 或 岗位内容/要求 下面的灰色标签
-    let requirementLabelsView = job.requirementLabels>0? job.requirementLabels.map((v,i)=>{
+    let requirementLabelsView =  job.jobType=="familyCourse"? job.requirementLabels.length>0? job.requirementLabels.map((v,i)=>{
       return (<View className='details-label-grey'>{v}</View>);
-    }):""
+    }):"":""
+    console.log(job.requirementLabels>0)
 
     return (
       <View className='details-index'>
@@ -144,8 +302,7 @@ export default class Index extends Component {
               if(job.jobType === "familyCourse" || job.jobType==="companyCourse") return (
                 <View>
                   <View style='details-label-container'>
-                    <View className='details-label'><View class="details-label-text">线上</View></View>
-                    <View className='details-label'><View class="details-label-text">学科考试</View></View>
+                     <View className='details-label'><View class="details-label-text">{job.tutorType}</View></View>
                   </View>
                   {locationView}
                   {timeView}
@@ -157,6 +314,7 @@ export default class Index extends Component {
                     {job.cooperation}
                   </View>
                   {locationView}
+                  <FavButton enable={this.state.enable} onClick={this.changeFav.bind(this)} style='float: right;'/>
                 </View>
               );
             })()}
@@ -208,6 +366,9 @@ export default class Index extends Component {
             })()
           }
         </View>
+        <Button className="btn-red" >
+          前往应聘
+        </Button>
       </View>
     )
   }

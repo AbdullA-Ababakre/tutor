@@ -9,13 +9,13 @@ import imgOne from './1.png'
 export default class Index extends Component {
 
     handleClick1 = (index) => {
-        Taro.navigateTo({
+        Taro.redirectTo({
             url: `/pages/index/organization/index`,
         });
     }
 
     handleClick2 = (index) => {
-        Taro.navigateTo({
+        Taro.redirectTo({
             url: `/pages/index/other/index`,
         });
     }

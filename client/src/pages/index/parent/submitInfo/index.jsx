@@ -425,6 +425,9 @@ export default class Index extends React.Component {
       })
       .then(res => {
         Taro.hideLoading();
+        Taro.redirectTo({
+          url: `/pages/index/parentAgain/index`,
+      });
         console.log("res---", res);
       })
 

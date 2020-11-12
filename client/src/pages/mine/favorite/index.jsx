@@ -12,56 +12,90 @@ class Index extends Component {
   constructor(props){
     super(props);
     this.state={
-
+      favoriteArr: []
     }
   }
 
-  componentDidMount () {} 
-  componentWillUnmount () {} 
+  componentDidShow () {
+    this.getFavData()
+  } 
+
+  getFavData(){
+    Taro.showLoading({
+      title: "加载中"
+    })
+
+    Taro.cloud.callFunction({
+      name: "getFavData"
+    })
+    .then(res=>{
+      let arr = []
+      console.log(res)
+      let data =  res.result.data.data 
+      if(data['parent'].length!=0){
+        data['parent'].forEach(item=>{
+          let a = {
+            title: item.gradeChecked + item.tutorSubject.join(" "),
+            location: item.addressSelectorChecked + item.exactAddress,
+            orderId: item.orderNumber,
+            requireVip: item.isVip,
+            price: item.salarySelectorChecked,
+            workTime: item.teachingDay.join(" | "),
+            position: item.jobType,
+            detailType: item.detailType,
+            _id: item._id
+          }
+          arr.push(a)
+        })
+      }
+      if(data['other'].length!=0){
+        data['other'].forEach(item=>{
+          let a = {
+            title: item.positionName,
+            location: item.positionAddress,
+            orderId: item.orderNumber,
+            requireVip: item.isVip,
+            price: item.positionSalary,
+            workTime: item.workingTime,
+            position: item.jobType,
+            detailType: item.detailType,
+            _id: item._id
+          }
+          arr.push(a)
+        })
+      }
+      if(data['organization'].length!=0){
+        data['organization'].forEach(item=>{
+          let a = {
+            title: item.gradeChecked + item.tutorSubject.join(" "),
+            location: item.addressSelectorChecked + item.exactAddress,
+            orderId: item.orderNumber,
+            requireVip: item.isVip,
+            price: item.salarySelectorChecked,
+            workTime: item.teachingDay.join(" | "),
+            position: item.jobType,
+            detailType: item.detailType,
+            _id: item._id
+          }
+          arr.push(a)
+        })
+      }
+      this.setState({
+        favoriteArr: arr
+      })
+      Taro.hideLoading()
+    })
+
+  }
 
   render() {
-    let favorite = {
-    title: "高三数学", 
-    location: "深圳市南山区西海明珠路320223", 
-    orderId: "1098", 
-    requireVip: "false", 
-    price: "20-23元/小时",
-    workTime:"123", 
-    position:"家庭教师"
-  }
-    let favoriteArr = [
-      {
-        title: "高三数学", 
-        location: "深圳市南山区西海明珠路320223", 
-        orderId: "1098", 
-        requireVip: "false", 
-        price: "20-23元/小时",
-        workTime:"123", 
-        position:"家庭教师"
-      },
-      {
-        title: "小学英语", 
-        location: "深圳市南山区西海明珠路320223", 
-        orderId: "1234", 
-        requireVip: "true", 
-        price: "20-23元/小时",
-        workTime:"123", 
-        position:"机构/企业教师"
-      },
-      {
-        title: "公众号运营", 
-        location: "深圳市南山区西海明珠路320223", 
-        orderId: "1022", 
-        requireVip: "false", 
-        price: "20-23元/小时",
-        workTime:"123", 
-        position:"家庭教师"
-      }
-    ]
+    console.log(this.state.favoriteArr)
+    let favoriteArr = this.state.favoriteArr
     // favoriteArr.length = 0
     let text
+    let pageDown = (item, id ="")=>{ Taro.navigateTo({url: `/pages/order/details/index?jobType=${item}&id=${id}`})}
     if(favoriteArr.length>0)
-        text = favoriteArr.map(item=> <View className="favorite-card" ><FavoriteCard key={item.orderId} favorite={item}></FavoriteCard> </View>  )
+        text = favoriteArr.map(item=> <View onClick={pageDown.bind(this, item.detailType, item._id)} className="favorite-card" ><FavoriteCard key={item.orderId} favorite={item}></FavoriteCard> </View>  )
     else
         text = <View className="center-content" > <View>-----没有更多-----</View><View>-快去收藏课程吧-</View> </View>
     // console.log(text)

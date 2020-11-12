@@ -9,7 +9,7 @@ import imgOne from './1.png'
 export default class Index extends Component {
 
     handleClick = (index) => {
-        Taro.navigateTo({
+        Taro.redirectTo({
             url: `/pages/index/parent/submitInfo/index`,
         });
     }
