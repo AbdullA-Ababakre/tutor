@@ -1,3 +1,8 @@
+.details-box{
+  width: 100%;
+  height: 100%;
+}
+
 .details-index {
   min-height: 100vh;
 
@@ -206,17 +211,19 @@ image + .details-label-grey { // “可协调” 用
   margin-top: 2px;
 }
 
-.right_panel{
-  // position:absolute;
-  // right: 0;
-  // z-index: 11100;
-  // margin: 200px;
-}
 
 .btn-red{
   width: 90%;
   background-color: #fc4442;
   color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  border-radius: 15px;
+}
+
+.btn-yellow{
+  width: 90%;
+  background-color: #333333;
+  color: #cd9c22;
   border: 1px solid #FFFFFF;
   border-radius: 15px;
 }

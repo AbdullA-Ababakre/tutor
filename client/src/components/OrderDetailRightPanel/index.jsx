@@ -38,10 +38,10 @@ export default class Index extends Component {
     }
     return (
       <View className="panel" >
-        <Image  onClick={changePage.bind(this,1)} src={more_order} alt="more_order"/>
-        <Image  onClick={changePage.bind(this,2)} src={vip_rule} alt="vip_rule"/>
-        <Image  onClick={changePage.bind(this,4)} src={share_friends} alt="share_friends"/>
-        <Image  onClick={changePage.bind(this,3)} src={vip_introduction} alt="vip_introduction"/>
+        <Image className="panel-image" onClick={changePage.bind(this,1)} src={more_order} alt="more_order"/>
+        <Image  className="panel-image" onClick={changePage.bind(this,2)} src={vip_rule} alt="vip_rule"/>
+        <Image  className="panel-image" onClick={changePage.bind(this,4)} src={share_friends} alt="share_friends"/>
+        <Image  className="panel-image" onClick={changePage.bind(this,3)} src={vip_introduction} alt="vip_introduction"/>
       </View>
     );
   }

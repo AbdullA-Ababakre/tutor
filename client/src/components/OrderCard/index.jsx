@@ -12,7 +12,7 @@ export default class ArticleCard extends Component {
     let enable = job.favourList.indexOf(job._openid)!==-1
     return (
       <View onClick={job.onClick} className="order-card-container">
-        <View className="order-icon-viponly">{job.requireVip=="false"? "非会员":"会员"}</View>
+        <View className={job.requireVip!=="false"?"order-icon-noviponly":"order-icon-viponly"}>{job.requireVip=="false"? "非会员":"会员"}</View>
         <View className="order-details">
         <View className="order-flexbox">
           <View className="order-title">{job.title}</View>

@@ -20,6 +20,21 @@
   height: 67px;
   margin: -28px -32px auto auto;
   border-bottom-left-radius: 16px;
+  background: linear-gradient(180deg, #f3f3f3 0%, #f3f3f3 100%);
+
+  line-height: 67px;
+  color: #353535;
+  text-align: center;
+  
+  font-size: 27px;
+}
+
+.order-icon-noviponly {
+  float: right;
+  width: 166px;
+  height: 67px;
+  margin: -28px -32px auto auto;
+  border-bottom-left-radius: 16px;
   background: linear-gradient(180deg, #FFBE1E 0%, #FFE39B 100%);
 
   line-height: 67px;
@@ -28,6 +43,7 @@
   
   font-size: 27px;
 }
+
 
 .order-img {
   width: 284px;

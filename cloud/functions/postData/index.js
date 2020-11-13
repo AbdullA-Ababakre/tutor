@@ -5,10 +5,15 @@ const db = cloud.database();
 // 云函数入口函数
 exports.main = async (event, context) => {
 	const { OPENID } = cloud.getWXContext();
-	console.log('event', event);
-	if (event.postFrom === 'parentSubmit') {
+  console.log('event', event);
+  // let total = await db.collection('parentData').count().total + await db.collection('organizationData').count().total + await db.collection('otherData').count().total
+  let c1 = await db.collection('parentData').count()
+  let c2 = await db.collection('organizationData').count()
+  let c3 = await db.collection('otherData').count()
+  let total = c1.total + c2.total +c3.total
+  if (event.postFrom === 'parentSubmit') {
 		try {
-			return await db.collection('parentSubmit').add({
+			return await db.collection('parentData').add({
 				data: {
 					_openid: OPENID,
 					gradeChecked: event.gradeChecked,
@@ -29,7 +34,12 @@ exports.main = async (event, context) => {
 					teachingTime: event.teachingTime,
 					teachingTimeTag: event.teachingTimeTag,
 					addressSelectorChecked: event.addressSelectorChecked,
-					exactAddress: event.exactAddress
+          exactAddress: event.exactAddress,
+          isVip: 'false',
+          detailType : 'familyCourse',
+          jobType: '家庭教师',
+          orderNumber: total +1,
+          favourList: []
 				}
 			});
 		} catch (e) {
@@ -37,7 +47,7 @@ exports.main = async (event, context) => {
 		}
 	} else if (event.postFrom === 'organizationSubmit') {
 		try {
-			return await db.collection('organizationSubmit').add({
+			return await db.collection('organizationData').add({
 				data: {
 					_openid: OPENID,
 					gradeChecked: event.gradeChecked,
@@ -55,24 +65,34 @@ exports.main = async (event, context) => {
 					teachingTimeTag: event.teachingTimeTag,
 					addressSelector: event.addressSelector,
 					addressSelectorChecked: event.addressSelectorChecked,
-					exactAddress: event.exactAddress
+          exactAddress: event.exactAddress,
+          isVip: 'false',
+          detailType : 'companyCourse',
+          jobType: '机构/企业教师',
+          orderNumber: total +1,
+          favourList: []
 				}
 			});
 		} catch (e) {
 			console.error(e);
 		}
-	} else if (event.type === 'otherSubmit') {
+	} else if (event.postFrom === 'otherSubmit') {
 		try {
-			return await db.collection('otherSubmit').add({
+			return await db.collection('otherData').add({
 				data: {
 					_openid: OPENID,
 					organizationName:event.organizationName,
-                    positionName:event.positionName,
-                    positionInfo:event.positionInfo,
-                    positionSalary:event.positionSalary,
-                    positionAddress:event.positionAddress,
-                    recruitNum:event.recruitNum,
-                    workingTime:event.workingTime
+          positionName:event.positionName,
+          positionInfo:event.positionInfo,
+          positionSalary:event.positionSalary,
+          positionAddress:event.positionAddress,
+          recruitNum:event.recruitNum,
+          workingTime:event.workingTime,
+          isVip: 'false',
+          detailType : 'other',
+          jobType: '其他岗位',
+          orderNumber: total +1,
+          favourList: []
 				}
 			});
 		} catch (e) {

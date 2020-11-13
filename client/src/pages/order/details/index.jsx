@@ -5,6 +5,7 @@ import './index.scss'
 
 import FavButton from "../../../components/FavButton"
 import OrderDetailRightPanel from "../../../components/OrderDetailRightPanel"
+import ModalDiag from "../../../components/ModalDiag"
 
 import icon_location from "../../../images/order/details_location.png";
 import icon_time from "../../../images/order/details_time.png";
@@ -46,6 +47,8 @@ export default class Index extends Component {
 
     this.state = {
       data: this.props,
+      userVip: false,
+      showDiag: false,
       _id : "",
       enable: false,
       familyCourse: {
@@ -103,7 +106,7 @@ export default class Index extends Component {
   componentDidMount(){
     //  路由传值到这里来了
     // console.log(getCurrentInstance().router.params)
-
+    this.getUserData()
     switch(getCurrentInstance().router.params.jobType){
       case "familyCourse": this.getParentData();  break;
       case "companyCourse": this.getOrganizationData();break;
@@ -233,7 +236,6 @@ export default class Index extends Component {
     }else{
       data.favourList.push(data._openid)
     }
-    console.log(data.favourList)
     Taro.cloud.callFunction({
       name: 'setFavData',
       data: {
@@ -248,6 +250,42 @@ export default class Index extends Component {
     })
   }
 
+  getUserData(){
+    Taro.cloud.callFunction({
+      name: 'getUserDetails'
+    })
+    .then(res=>{
+      this.setState({
+        userVip: res.result.isVip
+      })
+    })
+  }
+
+  getDiagData(diagStatus){
+    this.setState({
+      showDiag: diagStatus
+    })
+  }
+
+  goHired(){
+
+    if(this.state.userVip){
+      this.setState({
+        showDiag: true
+      })
+    }else{
+      if(this.state[getCurrentInstance().router.params.jobType].isVip==="false"){
+        this.setState({
+          showDiag: true
+        })
+      }else{
+        Taro.redirectTo({
+          url: "/pages/mine/activate_vip/index"
+        })
+      }
+    }
+  }
+
   render () {
     const job = this.state[getCurrentInstance().router.params.jobType] || this.state["other"];
     // console.log()
@@ -256,7 +294,7 @@ export default class Index extends Component {
     }
     if(job.jobType==="companyCourse") {Taro.setNavigationBarTitle({title: "机构/企业教师"}) }
     if(job.jobType==="other") {Taro.setNavigationBarTitle({title: "其他岗位"})}
-    if(job.isVip==="true")  Taro.setNavigationBarColor({frontColor: "#000000",backgroundColor: "#ffc63b"}) 
+    if(this.state.userVip)  Taro.setNavigationBarColor({frontColor: "#000000",backgroundColor: "#ffc63b"}) 
     
     let turnVipPage = () =>{ Taro.navigateTo({url: '/pages/mine/activate_vip/index'})}
     let vipCard =(
@@ -288,88 +326,93 @@ export default class Index extends Component {
     console.log(job.requirementLabels>0)
 
     return (
-      <View className='details-index'>
-        <OrderDetailRightPanel  className="right_panel" />
-
+      <View className="details-box" >
         {
-          job.isVip==="false"?<View className='bg-red-block'/>:<View className='bg-yellow-block'/>
+          this.state.showDiag? <ModalDiag postDiagData={this.getDiagData.bind(this)} />:""
         }
-        <View className='details-container'>
-          <View className='details-infocard'>
-          <Text className='details-title'>{job.jobTask}</Text>
-          <Text className='details-title-price'>{job.jobPrice}</Text>
-            {(()=>{
-              if(job.jobType === "familyCourse" || job.jobType==="companyCourse") return (
-                <View>
-                  <View style='details-label-container'>
-                     <View className='details-label'><View class="details-label-text">{job.tutorType}</View></View>
-                  </View>
-                  {locationView}
-                  {timeView}
-                </View>
-              );
-              else if(job.jobType == "other") return(
-                <View>
-                  <View className="details-cooperation-name">
-                    {job.cooperation}
-                  </View>
-                  {locationView}
-                  <FavButton enable={this.state.enable} onClick={this.changeFav.bind(this)} style='float: right;'/>
-                </View>
-              );
-            })()}
-          </View>
-          {/* vip 卡片 */}
+        <View className='details-index'>
+          <OrderDetailRightPanel  className="right_panel" />
           {
-            job.isVip==="false"?vipCard:""
+            this.state.userVip===false?<View className='bg-red-block'/>:<View className='bg-yellow-block'/>
           }
-
-
-          {/*  课程卡片 */}
-          {
-            (()=>{
-              if(job.jobType == "familyCourse") return (
-                <View className='details-infocard details-vertical-flexbox'>
-                  <View className='details-big-title-course'>课程详情</View>
-                  <CourseInfoItem title="上课时长">{job.workDuration}</CourseInfoItem>
-                  <CourseInfoItem title="老师要求">
-                    {job.requirements}
-                    <View className='details-label-container-grey'>
-                      {requirementLabelsView}
+          <View className='details-container'>
+            <View className='details-infocard'>
+            <Text className='details-title'>{job.jobTask}</Text>
+            <Text className='details-title-price'>{job.jobPrice}</Text>
+              {(()=>{
+                if(job.jobType === "familyCourse" || job.jobType==="companyCourse") return (
+                  <View>
+                    <View style='details-label-container'>
+                      <View className='details-label'><View class="details-label-text">{job.tutorType}</View></View>
                     </View>
-                  </CourseInfoItem>
-                  <CourseInfoItem title="学生情况">{job.studentDescription}</CourseInfoItem>
-                  <CourseInfoItem title="辅导目的">{job.jobGoal}</CourseInfoItem>
-                </View>
-              );
-              else if(job.jobType == "companyCourse") return (
-                <View className='details-infocard details-vertical-flexbox'>
-                  <View className='details-big-title-course'>课程详情</View>
-                  <CourseInfoItem title="上课时长">{job.workDuration}</CourseInfoItem>
-                  <CourseInfoItem title="老师要求">
-                    {job.requirements}
-                  </CourseInfoItem>
-                  <CourseInfoItem title="岗位要求">{job.jobDescription}</CourseInfoItem>
-                  <CourseInfoItem title="招聘人数">{job.hiringNeed}</CourseInfoItem>
-                </View>
-              );
-              else if(job.jobType == "other") return (
-                <View className='details-infocard details-vertical-flexbox'>
-                  <View className='details-big-title-course'>工作详情</View>
-                  <CourseInfoItem title="工作时间">{job.workDuration}</CourseInfoItem>
-                  <CourseInfoItem title="岗位内容/要求">
-                    {job.requirements}
-                  </CourseInfoItem>
-                  <CourseInfoItem title="招聘人数">{job.hiringNeed}</CourseInfoItem>
-                </View>
-              );
-            })()
-          }
+                    {locationView}
+                    {timeView}
+                  </View>
+                );
+                else if(job.jobType == "other") return(
+                  <View>
+                    <View className="details-cooperation-name">
+                      {job.cooperation}
+                    </View>
+                    {locationView}
+                    <FavButton enable={this.state.enable} onClick={this.changeFav.bind(this)} style='float: right;'/>
+                  </View>
+                );
+              })()}
+            </View>
+            {/* vip 卡片 */}
+            {
+              !this.state.userVip?vipCard:""
+            }
+
+
+            {/*  课程卡片 */}
+            {
+              (()=>{
+                if(job.jobType == "familyCourse") return (
+                  <View className='details-infocard details-vertical-flexbox'>
+                    <View className='details-big-title-course'>课程详情</View>
+                    <CourseInfoItem title="上课时长">{job.workDuration}</CourseInfoItem>
+                    <CourseInfoItem title="老师要求">
+                      {job.requirements}
+                      <View className='details-label-container-grey'>
+                        {requirementLabelsView}
+                      </View>
+                    </CourseInfoItem>
+                    <CourseInfoItem title="学生情况">{job.studentDescription}</CourseInfoItem>
+                    <CourseInfoItem title="辅导目的">{job.jobGoal}</CourseInfoItem>
+                  </View>
+                );
+                else if(job.jobType == "companyCourse") return (
+                  <View className='details-infocard details-vertical-flexbox'>
+                    <View className='details-big-title-course'>课程详情</View>
+                    <CourseInfoItem title="上课时长">{job.workDuration}</CourseInfoItem>
+                    <CourseInfoItem title="老师要求">
+                      {job.requirements}
+                    </CourseInfoItem>
+                    <CourseInfoItem title="岗位要求">{job.jobDescription}</CourseInfoItem>
+                    <CourseInfoItem title="招聘人数">{job.hiringNeed}</CourseInfoItem>
+                  </View>
+                );
+                else if(job.jobType == "other") return (
+                  <View className='details-infocard details-vertical-flexbox'>
+                    <View className='details-big-title-course'>工作详情</View>
+                    <CourseInfoItem title="工作时间">{job.workDuration}</CourseInfoItem>
+                    <CourseInfoItem title="岗位内容/要求">
+                      {job.requirements}
+                    </CourseInfoItem>
+                    <CourseInfoItem title="招聘人数">{job.hiringNeed}</CourseInfoItem>
+                  </View>
+                );
+              })()
+            }
+          </View>
+          <Button onClick={this.goHired.bind(this)} className={this.state.userVip?"btn-yellow":"btn-red" }>
+            前往应聘
+          </Button>
         </View>
-        <Button className="btn-red" >
-          前往应聘
-        </Button>
       </View>
+
     )
   }
 }
