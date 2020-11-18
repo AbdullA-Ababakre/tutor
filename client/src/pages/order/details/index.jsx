@@ -6,6 +6,7 @@ import './index.scss'
 import FavButton from "../../../components/FavButton"
 import OrderDetailRightPanel from "../../../components/OrderDetailRightPanel"
 import ModalDiag from "../../../components/ModalDiag"
+import Wxml2Canvas from "../../../components/Wxml2Canvas/index"
 
 import icon_location from "../../../images/order/details_location.png";
 import icon_time from "../../../images/order/details_time.png";
@@ -46,6 +47,8 @@ export default class Index extends Component {
     */
 
     this.state = {
+      openShare: false,
+      path: '',
       data: this.props,
       userVip: false,
       showDiag: false,
@@ -105,7 +108,11 @@ export default class Index extends Component {
   
   componentDidMount(){
     //  路由传值到这里来了
+    //  传来了两个值 一个是 jobType  一个是 id 其实是_id 为了查记录
     // console.log(getCurrentInstance().router.params)
+    this.setState({
+      path: `pages/order/details/index?jobType=${getCurrentInstance().router.params.jobType}&id=${getCurrentInstance().router.params.id}`
+    })
     this.getUserData()
     switch(getCurrentInstance().router.params.jobType){
       case "familyCourse": this.getParentData();  break;
@@ -145,7 +152,7 @@ export default class Index extends Component {
             _openid : data._openid,
             jobType: data.detailType,
             jobTask: `${data.gradeChecked} ${data.tutorSubject.join(" ")} 辅导 `,
-            jobPrice: data.salarySelectorChecked,
+            jobPrice: data.salarySelectorChecked+ "/小时",
             location: data.addressSelectorChecked + data.exactAddress,
             workTime: `${data.teachingDay.join(" | ")} ${data.teachingTime} `,
             isVip: data.isVip,
@@ -286,6 +293,18 @@ export default class Index extends Component {
     }
   }
 
+  openSharePic(){
+    this.setState({
+      openShare: true
+    })
+  }
+
+  closeShare(){
+    this.setState({
+      openShare: false
+    })
+  }
+
   render () {
     const job = this.state[getCurrentInstance().router.params.jobType] || this.state["other"];
     // console.log()
@@ -327,12 +346,15 @@ export default class Index extends Component {
 
     return (
       <View className="details-box" >
+
+       {this.state.openShare && <Wxml2Canvas details={job} path={this.state.path} closeShare={this.closeShare.bind(this)} />}
+
         {
           this.state.showDiag? <ModalDiag postDiagData={this.getDiagData.bind(this)} />:""
         }
         <View className='details-index'>
-          <OrderDetailRightPanel  className="right_panel" />
-          {
+          <OrderDetailRightPanel openSharePic={this.openSharePic.bind(this)}  className="right_panel" />
+          { 
             this.state.userVip===false?<View className='bg-red-block'/>:<View className='bg-yellow-block'/>
           }
           <View className='details-container'>
@@ -355,7 +377,7 @@ export default class Index extends Component {
                       {job.cooperation}
                     </View>
                     {locationView}
-                    <FavButton enable={this.state.enable} onClick={this.changeFav.bind(this)} style='float: right;'/>
+                    <FavButton enable={this.state.enable} onClick={this.changeFav.bind(this)} style='position: relative; left: 85%'/>
                   </View>
                 );
               })()}

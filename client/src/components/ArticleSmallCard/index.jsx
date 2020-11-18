@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Taro from "@tarojs/taro";
-import { View, Image, Text } from "@tarojs/components";
+import { View, Image, Text} from "@tarojs/components";
 import "./index.scss";
 
 export default class ArticleSmallCard extends Component {
@@ -15,8 +15,8 @@ export default class ArticleSmallCard extends Component {
           </View>
           <View className="article-small-author">{this.props.author}</View>
           <View className="article-small-price">
-            <View className={"article-small-free-for-vip"+(this.props.freeForVip?" ":" invisible")}>会员免费</View>
-            ¥ {this.props.price}
+            {/* <View className={"article-small-free-for-vip"+(this.props.freeForVip?" ":" invisible")}>会员免费</View>
+            ¥ {this.props.price} */}
           </View>
         </View>
       </View>

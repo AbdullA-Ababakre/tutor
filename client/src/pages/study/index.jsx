@@ -14,7 +14,32 @@ export default class Index extends Component {
     Taro.setBackgroundColor({backgroundColor: "#f7f7f7"});
     this.state = {
       pageswitch_selected: 1,
+      articles1: [],
+      articles2: []
     }
+  }
+
+  componentDidMount(){
+    Taro.showLoading({
+      title: '加载中'
+    })
+    Taro.cloud.callFunction({
+      name: 'getStudyPromote'
+    })
+    .then(res=>{
+      this.setState({
+        articles1: res.result.data
+      })
+    })
+
+    Taro.cloud.callFunction({
+      name: 'getStudySchool'
+    })
+    .then(res=>{
+      Taro.hideLoading()
+      this.setState({
+        articles2: res.result.data
+      })    })
   }
   
   switchPage(page) {
@@ -41,96 +66,39 @@ export default class Index extends Component {
     const bannerUrls = [
       "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
     ];
-    const articles1 = [
-      {
-        title: "学生课堂纪律差，怎么",
-        author: "小荔同学",
-        price: "49.99",
-        imgSrc: picSrc,
-        freeForVip: false,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第二篇",
-        author: "大荔同学",
-        price: "109.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第三篇",
-        author: "中荔同学",
-        price: "19.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第三篇",
-        author: "中荔同学",
-        price: "19.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第三篇",
-        author: "中荔同学",
-        price: "19.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第三篇",
-        author: "中荔同学",
-        price: "19.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第三篇",
-        author: "中荔同学",
-        price: "19.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第三篇",
-        author: "中荔同学",
-        price: "19.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-      {
-        title: "这是第三篇",
-        author: "中荔同学",
-        price: "19.99",
-        imgSrc: picSrc,
-        freeForVip: true,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-    ];
-    const articles2 = [
-      {
-        title: "家教、兼职老师简历指南长标题占位",
-        desc: "这篇我们教大家如何的写自己人生的第一份简历超长测试超长测试超长测试超长测试",
-        rating: "4",
-        imgSrc: picSrc,
-        url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-      },
-    ];
+    // const articles1 = [
+    //   // {
+    //   //   title: "学生课堂纪律差，怎么",
+    //   //   author: "小荔同学",
+    //   //   imgSrc: picSrc,
+    //   //   url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
+    //   // },
+    //   // {
+    //   //   title: "这是第二篇",
+    //   //   author: "大荔同学",
+    //   //   imgSrc: picSrc,
+    //   //   url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
+    //   // },
+    // ];
+    // const articles2 = [
+    //   // {
+    //   //   title: "家教、兼职老师简历指南长标题占位",
+    //   //   desc: "这篇我们教大家如何的写自己人生的第一份简历超长测试超长测试超长测试超长测试",
+    //   //   rating: "4",
+    //   //   imgSrc: picSrc,
+    //   //   url: "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
+    //   // },
+    // ];
+
+    let {articles1, articles2} = this.state
     let articleList;
 
     if(this.state.pageswitch_selected == 1) {
       articleList = articles1.map((v,i)=>{
         return (
           <View className="article-small-wrapper" onClick={()=>{this.openArticle(v.url)}}>
-            <ArticleSmallCard title={v.title} author={v.author} price={v.price} imgSrc={v.imgSrc} freeForVip={v.freeForVip||""}/>
+            {/* <ArticleSmallCard title={v.title} author={v.author} price={v.price} imgSrc={v.imgSrc} freeForVip={v.freeForVip||""}/> */}
+            <ArticleSmallCard title={v.title} author={v.author} imgSrc={v.imgSrc}/>
           </View>
         )
       });

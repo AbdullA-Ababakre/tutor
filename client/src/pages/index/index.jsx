@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Taro from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
 import "./index.scss";
-import { AtButton } from 'taro-ui'
-
+import {
+  AtButton
+} from "taro-ui";
 export default class Index extends Component {
-
-  handleClick=(index)=> {
-    console.log("index",index);
+  handleClick = (index) => {
+    console.log("index", index);
     switch (index) {
       case 1:
         Taro.navigateTo({
@@ -17,38 +17,36 @@ export default class Index extends Component {
       case 2:
         Taro.navigateTo({
           url: `/pages/index/organization/index`,
-        })
+        });
         break;
       case 3:
         Taro.switchTab({
-          url: `/pages/order/index`
-        })
+          url: `/pages/order/index`,
+        });
       default:
         return;
     }
-  }
-
+  };
+  handleChange() {}
   render() {
     const btnArr = [
       {
         txt: "在线咨询",
-        url: ""
+        url: "",
       },
       {
         txt: "我是家长",
-        url: ""
+        url: "",
       },
       {
         txt: "我是机构/企业",
-        url: ""
+        url: "",
       },
       {
         txt: "我要接单",
-        url: ""
-      }
+        url: "",
+      },
     ];
-
-
 
     const btns = btnArr.map((item, index) => {
       if (index === 0) {
@@ -58,7 +56,7 @@ export default class Index extends Component {
             bindcontact="handleContact"
             className={`btn btn${index + 1}`}
           >
-            {item.txt} 
+            {item.txt}
           </AtButton>
         );
       } else {
@@ -66,7 +64,7 @@ export default class Index extends Component {
           <AtButton
             className={`btn btn${index + 1}`}
             onClick={(e) => {
-              this.handleClick(index,e);
+              this.handleClick(index, e);
             }}
           >
             {item.txt}
@@ -74,11 +72,15 @@ export default class Index extends Component {
         );
       }
     });
-
+    let value = "";
     return (
       <View className="container">
         <View className="img-wrapper">
-          <Image className="img" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/intro.png" mode="widthFix" />
+          <Image
+            className="img"
+            src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/intro.png"
+            mode="widthFix"
+          />
         </View>
         <View class="btn-wrapper">{btns}</View>
       </View>

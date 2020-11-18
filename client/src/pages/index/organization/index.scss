@@ -21,6 +21,7 @@ page {
       background-color:#ffbe1e;
       border: 1px solid #dfdfdf;
       border-radius: 15px;
+      font-weight: 550;
     }
 		.title {
 			font-size: 28px;
@@ -43,11 +44,12 @@ page {
 			border-radius: 8px;
 			font-size: 26px;
 			font-family: PingFang SC;
-			font-weight: 400;
+			font-weight: 600;
 			line-height: 67px;
 		}
 		.at-tag--active.at-tag--primary {
-			color: #ffa10d;
+      border-color: #ffbe58;
+			color: #ffbe58;
 		}
 		.teacherSex-wrapper {
 			display: flex;
@@ -79,9 +81,10 @@ page {
 			background-color: #ea544b;
 			font-size: 38px;
 			font-family: PingFang SC;
-			font-weight: 500;
+			font-weight: 550;
 			line-height: 118px;
-			color: #ffffff;
+      color: #ffffff;
+      border-radius: 15px;
 		}
 		.footer {
 			font-size: 26px;

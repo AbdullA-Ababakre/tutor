@@ -29,11 +29,7 @@ export default class Index extends Component {
         }); break;
         // 会员介绍
         case 4:
-          Taro.showToast({
-            title: "TODO 分享好友页面",
-            icon: 'success',
-            duration: 2000
-          }); break; // 分享好友
+         this.props.openSharePic(); break; // 分享好友
       }
     }
     return (

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Taro from "@tarojs/taro";
 import "./index.scss";
 import { getCurrentInstance } from "@tarojs/taro";
 
@@ -13,6 +14,9 @@ export default class Index extends Component {
   componentWillMount() {
     this.setState({
       url: getCurrentInstance().router.params.url,
+    })
+    Taro.showShareMenu({
+      withShareTicket: true,
     })
   }
 

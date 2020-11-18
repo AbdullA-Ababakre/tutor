@@ -179,7 +179,7 @@ export default class Index extends Component {
               let title = item.gradeChecked + item.tutorSubject.join(" ")
               let address = item.addressSelectorChecked + item.exactAddress
               return (
-                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.salarySelectorChecked}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} />
+                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} />
               )
             }
             else{

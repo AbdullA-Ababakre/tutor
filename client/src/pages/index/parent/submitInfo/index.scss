@@ -36,11 +36,12 @@ page {
 			border-radius: 8px;
 			font-size: 26px;
 			font-family: PingFang SC;
-			font-weight: 400;
+			font-weight: 600;
 			line-height: 67px;
 		}
 		.at-tag--active.at-tag--primary {
-			color: #ffa10d;
+      border-color: #ffbe58;
+			color: #ffbe58;
 		}
 		.teacherSex-wrapper {
 			display: flex;
