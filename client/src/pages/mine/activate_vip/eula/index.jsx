@@ -12,7 +12,7 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <image className='eula-img' mode="widthFix" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/eula.png" />
+        <image className='eula-img' mode="widthFix" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/1.png" />
       </View>
     )
   }

@@ -1,5 +1,5 @@
 export default {
-	pages: [
+  pages: [
     'pages/index/index',
     'pages/index/organizationAgain/index',
     'pages/index/parentAgain/index',
@@ -18,6 +18,7 @@ export default {
     'pages/mine/certificate/index',
     'pages/mine/favorite/index',
     'pages/mine/activate_vip/index',
+    'pages/mine/official_acounts/index',
     'pages/success_pages/vip_success/index'
 	],
 	window: {
@@ -32,8 +33,8 @@ export default {
 		selectedColor: '#FC4442',
 		list: [
 			{
-				pagePath: 'pages/index/index',
-				// pagePath: 'pages/order/details/index',
+        pagePath: 'pages/index/index',
+				// pagePath: 'pages/mine/favorite/index',
 				iconPath: 'images/tabbar/index1.png',
 				selectedIconPath: 'images/tabbar/index2.png',
 				text: '首页'

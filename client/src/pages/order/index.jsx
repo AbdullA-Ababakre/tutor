@@ -20,7 +20,8 @@ export default class Index extends Component {
     });
     this.state = {
       data: [],
-      index: 1, //设置家庭教师。。。。
+      selectNonVip: true,
+      selectOnline: false,
       city: '',
       course: '',
       grade: '',
@@ -31,146 +32,80 @@ export default class Index extends Component {
   onClick () {
     Taro.navigateTo({url: '/pages/mine/activate_vip/index'})
   }
-  componentWillMount() {
-    let index = this.state.index
-    switch(index){
-      case 1: this.getDataLoading('parent'); break;
-      case 2: this.getDataLoading('organization'); break;
-      case 3: this.getDataLoading('other'); break;
-    }
-  }
-
+  
   componentDidShow(){
-    let index = this.state.index
-    switch(index){
-      case 1: this.getDataLoading('parent'); break;
-      case 2: this.getDataLoading('organization'); break;
-      case 3: this.getDataLoading('other'); break;
-    }
-  }
-
-  getData(type,select){
-    return new Promise((resolve, reject)=>{
-      Taro.cloud.callFunction({
-        name: 'getData',
-        data: {
-          getType: type,
-          select: select
-        }
-      })
-      .then(res=>{
-        resolve(res)
-      })
-      .catch(err=>{
-        reject(err)
-      })
-    })
-  }
-
-  getDataLoading(type, select){
-    Taro.showLoading({
-      title: "加载中"
-    })
-    this.getData(type,select)
-        .then(res=>{
-          // console.log(res)
-          this.setState({
-            data: res.result.data
-          }, ()=>{
-            Taro.hideLoading()
-          })
-        })
-  }
-
-  changeTab(index){
-    this.refreshSearchData()
-    this.setState({
-      index: index
-    })
-    switch(index){
-      case 1: this.getDataLoading('parent'); break;
-      case 2: this.getDataLoading('organization'); break;
-      case 3: this.getDataLoading('other'); break;
-    }
+    this.onSelect()    
   }
 
   changeCity(city){
     this.setState({
       city: city
-    } )
-    this.getSelectData()
+    })
+    this.onSelect()
   }
 
   changeCourse(course){
     this.setState({
       course: course
     })
-    this.getSelectData()
-
+    this.onSelect()
   }
 
   changeGrades(grade){
     this.setState({
       grade: grade
     })
-    this.getSelectData()
+    this.onSelect()
   }
   
-  onSelect(selectType){
-    return new Promise((resolve, reject)=>{
-      Taro.showLoading({
-        title: "加载中"
-      })
-      Taro.cloud.callFunction({
-        name: "searchData",
-        data:{
-          getType: selectType,
-          city: this.state.city.split("").slice(0,2).join(""),
-          subject: this.state.course,
-          grade: this.state.grade,
-          searchValue: this.state.searchValue
-        }
-      })
-      .then(res=>{
-        // console.log(res.result)
-        this.setState({
-          data: JSON.parse(JSON.stringify(res.result.data))
-        })
-        Taro.hideLoading()
-        resolve(res)
-      })
+  onSelect(){
+    Taro.showLoading({
+      title: "加载中"
     })
-  }
-
-  refreshSearchData(){
-    this.setState({
-      city: '',
-      course: '',
-      grade: '',
-      searchValue: ''
+    Taro.cloud.callFunction({
+      name: "getOrderData",
+      data:{
+        city: this.state.city.split("").slice(0,2).join(""),
+        subject: this.state.course,
+        grade: this.state.grade,
+        searchValue: this.state.searchValue,
+        selectNonVip: this.state.selectNonVip,
+        selectOnline: this.state.selectOnline
+      }
     })
-  }
-
-  getSelectData(){
-    switch(this.state.index){
-      case 1: this.onSelect("parent"); break;
-      case 2: this.onSelect("organization"); break;
-      case 3: this.onSelect("other"); break;
-    }
+    .then(res=>{
+      this.setState({
+        data: JSON.parse(JSON.stringify(res.result.data))
+      })
+      Taro.hideLoading()
+    })
   }
   
   inputChange(e){
     this.setState({
       searchValue: e.detail.value
     })
-    this.getSelectData()
-    // console.log(this.state.searchValue)
+    this.onSelect()
+  }
+
+  changeSelectOnline(){
+    this.setState({
+      selectOnline: !this.state.selectOnline
+    })
+    this.onSelect()
+  }
+
+  changeSelectVip(){
+    this.setState({
+      selectNonVip:!this.state.selectNonVip
+    })
+    this.onSelect()
   }
 
   render () {
-    let cities = ["深圳市","广州市","珠海市","其他"];
-    let courses = ["语文","数学","英语","物理","化学","生物","政治","历史","地理","其他"];
-    let grades = ["小学","初中","高中","其他"];
+    let cities = ["不限制城市","深圳市","广州市","珠海市","其他"];
+    let courses = ["不限制科目","语文","数学","英语","物理","化学","生物","政治","历史","地理","其他"];
+    let grades = ["不限制年级","小学","初中","高中","其他"];
     let pageDown = (item, id ="")=>{ Taro.navigateTo({url: `/pages/order/details/index?jobType=${item}&id=${id}`})}
     let detailBox = (
         this.state.data.map(item=>
@@ -178,8 +113,14 @@ export default class Index extends Component {
             if(item.detailType!=="other"){
               let title = item.gradeChecked + item.tutorSubject.join(" ")
               let address = item.addressSelectorChecked + item.exactAddress
+              let showLabel = false
+              try {
+                showLabel = item.classForm.includes("线上")?true:false
+              } catch (error) {
+                
+              }
               return (
-                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} />
+                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid}  showLabel={showLabel} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} />
               )
             }
             else{
@@ -191,6 +132,7 @@ export default class Index extends Component {
             }
           }
     ))
+    let emptyBox = ( <View style="text-align:center" > ------查无记录------ </View> )
 
     return (
       <View className='order-index'>
@@ -207,11 +149,10 @@ export default class Index extends Component {
             <TutorPicker placeholder="年级" range={grades} onChange={this.changeGrades.bind(this)}/>
           </View>
           <View className="order-labels-container">
-            <View className={`order-label ${this.state.index === 1?null:"order-label-grey"}`} onClick={this.changeTab.bind(this, 1)} >家庭教师</View>
-            <View className={`order-label ${this.state.index === 2?null:"order-label-grey"}`} onClick={this.changeTab.bind(this, 2)} >机构/企业教师</View>
-            <View className={`order-label ${this.state.index === 3?null:"order-label-grey"}`} onClick={this.changeTab.bind(this, 3)} >其它岗位</View>
+            <View className={`order-label ${this.state.selectNonVip?null:"order-label-grey"}`} onClick={this.changeSelectVip.bind(this)} > 非会员 </View>
+            <View className={`order-label ${this.state.selectOnline?null:"order-label-grey"}`} onClick={this.changeSelectOnline.bind(this)} > 可线上 </View>
           </View>
-           {this.state.data.length!=0 && detailBox}
+           {this.state.data.length!=0?detailBox:emptyBox}
         </View>
       </View>
     );

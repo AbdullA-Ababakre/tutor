@@ -196,6 +196,7 @@ export default class Index extends Component {
             className="img-subscribe-gzh"
             src={img_subscribe_account}
             mode="widthFix"
+            onClick={pageJump("official_acounts")}
           />
         </View>
 
@@ -224,6 +225,7 @@ export default class Index extends Component {
             </BigButton>
           </View>
         </View>
+        <official-account></official-account>
       </View>
     );
   }

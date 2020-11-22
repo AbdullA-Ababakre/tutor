@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
   let OPENID = event.userInfo.openId;
   console.log("openid*****:",OPENID);
   
-  let userCollection = db.collection('users').where({
+  let userCollection = await db.collection('users').where({
     openId: OPENID
   }).limit(1)
   
@@ -23,6 +23,7 @@ exports.main = async (event, context) => {
     phone: userData.phone || "",
     phoneShown: hidePhoneDigits(userData.phone),
     realName: userData.realName || "",
+    wechatName: userData.wechatName || ""
   }
 
   return userCollection

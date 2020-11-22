@@ -5,6 +5,7 @@ const db = cloud.database();
 
 
 // 云函数入口函数
+//  获得
 exports.main = async (event, context) => {
   // const wxContext = cloud.getWXContext()
   const { OPENID } = cloud.getWXContext();

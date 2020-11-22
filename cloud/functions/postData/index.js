@@ -39,7 +39,8 @@ exports.main = async (event, context) => {
           detailType : 'familyCourse',
           jobType: '家庭教师',
           orderNumber: total +1,
-          favourList: []
+          favourList: [],
+          isLoseEfficacy: false
 				}
 			});
 		} catch (e) {
@@ -70,7 +71,8 @@ exports.main = async (event, context) => {
           detailType : 'companyCourse',
           jobType: '机构/企业教师',
           orderNumber: total +1,
-          favourList: []
+          favourList: [],
+          isLoseEfficacy: false
 				}
 			});
 		} catch (e) {
@@ -92,7 +94,8 @@ exports.main = async (event, context) => {
           detailType : 'other',
           jobType: '其他岗位',
           orderNumber: total +1,
-          favourList: []
+          favourList: [],
+          isLoseEfficacy: false
 				}
 			});
 		} catch (e) {

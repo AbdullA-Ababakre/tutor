@@ -209,7 +209,7 @@ export default class Index extends React.Component {
                         className="teachingTimeInput"
                         name="positionName"
                         type="text"
-                        placeholder="公众号运营"
+                        placeholder="例：公众号运营"
                         placeholderClass="placeHolderClass"
                         onInput={this.handlePositionName.bind(this)}
                     />
@@ -240,7 +240,7 @@ export default class Index extends React.Component {
                         className="teachingTimeInput"
                         name="tel"
                         type="text"
-                        placeholder="xx小区xx栋xx单元xx房号"
+                        placeholder="例：xx小区xx栋xx单元xx房号"
                         placeholderClass="placeHolderClass"
                         onInput={this.handlePositionAddress.bind(this)}
                     />
@@ -262,7 +262,7 @@ export default class Index extends React.Component {
                         className="teachingTimeInput"
                         name="workingTime"
                         type="text"
-                        placeholder="周末全天"
+                        placeholder="例：周末全天"
                         placeholderClass="placeHolderClass"
                         onInput={this.handleWorkingTime.bind(this)}
                     />

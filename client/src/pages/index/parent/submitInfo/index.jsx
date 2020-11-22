@@ -550,7 +550,7 @@ export default class Index extends React.Component {
             value={this.state.studentInfo}
             onChange={this.onStudentInfo.bind(this)}
             maxLength={200}
-            placeholder="学生调皮,不爱学习,希望提高学生兴趣,培养孩子的积极性"
+            placeholder=""
           />
           {/* 老师要求选择 */}
           <View className="img-wrapper">
@@ -587,7 +587,7 @@ export default class Index extends React.Component {
             value={this.state.teacherRequireText}
             onChange={this.onTeacherRequireText.bind(this)}
             maxLength={200}
-            placeholder="可以管教调皮的孩子"
+            placeholder="例：可以管教调皮的孩子"
           />
           {/* 老师要求 薪资 */}
           <View className="page-section salary-wrapper">
@@ -705,7 +705,7 @@ export default class Index extends React.Component {
             className="teachingTimeInput"
             name="exactAddress"
             type="text"
-            placeholder="xx小区 xx栋 xx单元　xx房号"
+            placeholder="例：xx小区 xx栋 xx单元　xx房号"
             placeholderClass="placeHolderClass"
             onInput={this.handleExactAddress.bind(this)}
           />

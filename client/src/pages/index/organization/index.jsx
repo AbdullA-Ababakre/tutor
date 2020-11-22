@@ -487,7 +487,7 @@ export default class Index extends React.Component {
             value={positionInfo}
             onChange={this.onPositionInfo.bind(this)}
             maxLength={200}
-            placeholder="教学生上课"
+            placeholder="例：教学生上课"
           />
 
           {/*  老师要求 */}
@@ -496,7 +496,7 @@ export default class Index extends React.Component {
             value={teacherRequireText}
             onChange={this.onTeacherRequireText.bind(this)}
             maxLength={200}
-            placeholder="可以管教调皮的孩子"
+            placeholder="例：可以管教调皮的孩子"
           />
 
           {/* 薪资 */}
@@ -543,7 +543,7 @@ export default class Index extends React.Component {
             className="teachingTimeInput"
             name="tel"
             type="number"
-            placeholder="5"
+            placeholder="例：5"
             placeholderClass="placeHolderClass"
             onInput={this.handleRecruitNum.bind(this)}
           />
@@ -568,7 +568,7 @@ export default class Index extends React.Component {
 
           {/* 一次辅导时常 */}
           <View className="tutorDuration">
-            <View className="title">一次辅导时常</View>
+            <View className="title">一次辅导时长</View>
             {tutorDurationArr.map((item, index) => {
               return (
                 <AtTag
@@ -627,7 +627,7 @@ export default class Index extends React.Component {
             className="teachingTimeInput"
             name="exactAddress"
             type="text"
-            placeholder="xx小区 xx栋 xx单元　xx房号"
+            placeholder="例：xx小区 xx栋 xx单元　xx房号"
             placeholderClass="placeHolderClass"
             onInput={this.handleExactAddress.bind(this)}
           />
