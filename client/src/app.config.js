@@ -17,7 +17,8 @@ export default {
 		'pages/mine/about_us/index',
     'pages/mine/certificate/index',
     'pages/mine/favorite/index',
-    'pages/mine/activate_vip/index'
+    'pages/mine/activate_vip/index',
+    'pages/success_pages/vip_success/index'
 	],
 	window: {
 		backgroundTextStyle: 'light',

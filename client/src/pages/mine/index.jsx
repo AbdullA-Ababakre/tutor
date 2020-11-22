@@ -96,7 +96,7 @@ export default class Index extends Component {
   cancelPhone(){
     this.setState({
       phoneModal: false,
-      // phone: ''
+      phoneInput: ''
     })
   }
 

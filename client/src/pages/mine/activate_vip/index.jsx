@@ -30,7 +30,7 @@ export default class Index extends Component {
       icon: 'success',
       duration: 2000
     })
-    Taro.navigateTo({url: "success_page/index"});
+    Taro.navigateTo({url: "/pages/success_pages/vip_success/index"});
   }
 
   render () {
