@@ -121,6 +121,44 @@ export default class Index extends Component {
     }
   }
   
+  getPath(){
+    return new Promise(resolve=>{
+      Taro.showLoading({
+        title:"加载中"
+      })
+      Taro.cloud.callFunction({
+        name: "getSharePath",
+        data: {
+          path: getCurrentInstance().router.path,
+          params: getCurrentInstance().router.params
+        }
+      })
+      .then(res=>{
+        Taro.hideLoading()
+        resolve(res.result.data)
+      })
+    })
+  }
+
+  // 分享给别人 携带了分享者的 openid 
+  async onShareAppMessage() {
+    let data = await this.getPath()
+    console.log(data);
+    return {
+      path: data.path
+    }
+  }
+
+  // 分享到朋友圈 携带了分享者的 openid 
+  //  这里测试的时候有点奇怪的问题 等上线的时候我再看一看吧
+  // async onShareTimeline () {
+  //   let data = await this.getPath()
+  //   console.log(data.query)
+  //   return {
+  //     query: data.query
+  //   }  
+  // }
+
   getData(type,id){
     return new Promise((resolve, reject)=>{
       Taro.showLoading({

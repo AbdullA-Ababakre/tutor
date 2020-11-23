@@ -5,13 +5,8 @@ import {
     View,
     Button,
     Input,
-    Image,
-    Picker,
 } from '@tarojs/components';
 import {
-    AtList,
-    AtListItem,
-    AtTag,
     AtTextarea,
 } from 'taro-ui';
 import './index.scss';

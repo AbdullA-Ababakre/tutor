@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import Taro from "@tarojs/taro";
-import { View, Text, Image, Button } from "@tarojs/components";
+import { View,  Image, Button } from "@tarojs/components";
 import "./index.scss";
-import { AtButton } from 'taro-ui'
-
-import imgOne from './1.png'
 
 export default class Index extends Component {
 
@@ -26,7 +23,7 @@ export default class Index extends Component {
         return (
             <View className="container">
                 <View className="img-wrapper">
-                    <Image className="img" src={imgOne} mode="widthFix" />
+                    <Image className="img" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/1.png" mode="widthFix" />
                 </View>
                 <View>
                     <Button onClick={this.handleClick1.bind(this)} class="btn btn1">继续发布教育岗</Button>

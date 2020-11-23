@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Taro from "@tarojs/taro";
+import Taro,{ getCurrentInstance } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
 import "./index.scss";
 import TutorSwiper from "../../components/TutorSwiper";
@@ -42,6 +42,42 @@ export default class Index extends Component {
       })    })
   }
   
+  getPath(){
+    return new Promise(resolve=>{
+      Taro.showLoading({
+        title:"加载中"
+      })
+      Taro.cloud.callFunction({
+        name: "getSharePath",
+        data: {
+          path: getCurrentInstance().router.path,
+          params: getCurrentInstance().router.params
+        }
+      })
+      .then(res=>{
+        Taro.hideLoading()
+        resolve(res.result.data)
+      })
+    })
+  }
+
+  // 分享给别人 携带了分享者的 openid 
+  async onShareAppMessage() {
+    let data = await this.getPath()
+    console.log(data);
+    return {
+      path: data.path
+    }
+  }
+
+  // 分享到朋友圈 携带了分享者的 openid 
+  async onShareTimeline () {
+    let data = await this.getPath()
+    return {
+      query: data.query
+    }  
+  }
+
   switchPage(page) {
     this.setState({
       pageswitch_selected: page,
