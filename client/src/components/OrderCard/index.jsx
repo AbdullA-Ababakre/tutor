@@ -25,12 +25,13 @@ export default class ArticleCard extends Component {
         </View>
         <View className="order-horizontal-line"/>
         <View className="order-work-time">时间：{job.workTime}</View>
-       { job.showLabel &&
+       { job.showLabel?
         <View className="order-top-margin order-flexbox order-flexbox-space-between">
           <View className="order-label"> 可线上 </View>
           <FavButton className="order-fav"  enable={enable} />
-        </View>}
-           <FavButton style="float: right"  enable={enable} />
+        </View>: 
+        <FavButton style="float: right"  enable={enable} />
+      }
         </View>
       </View>
     );

@@ -219,7 +219,7 @@ export default class Index extends React.Component {
                         value={positionInfo}
                         onChange={this.onPositionInfo.bind(this)}
                         maxLength={200}
-                        placeholder="有公众号运营经验"
+                        placeholder="例：有公众号运营经验"
                     />
 
                     {/* 薪酬 */}
@@ -240,7 +240,7 @@ export default class Index extends React.Component {
                         className="teachingTimeInput"
                         name="tel"
                         type="text"
-                        placeholder="例：xx小区xx栋xx单元xx房号"
+                        placeholder="例：xx市xx小区xx栋xx单元xx房号"
                         placeholderClass="placeHolderClass"
                         onInput={this.handlePositionAddress.bind(this)}
                     />
@@ -250,7 +250,7 @@ export default class Index extends React.Component {
                         className="teachingTimeInput"
                         name="recruitNum"
                         type="number"
-                        placeholder="5"
+                        placeholder="例：5"
                         placeholderClass="placeHolderClass"
                         onInput={this.handleRecruitNum.bind(this)}
                     />

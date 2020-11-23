@@ -118,6 +118,14 @@ export default class Index extends Component {
     );
     let pageJump = (page) => {
       return () => {
+      if(!this.state.isVip && page ==="certificate" ){
+        Taro.showToast({
+          title: "请注册会员后使用该功能！",
+          icon: "none",
+          duration: 2000
+        })
+        return;
+      }
         Taro.navigateTo({ url: page + "/index" });
       };
     };
@@ -128,7 +136,7 @@ export default class Index extends Component {
     };
     let hidePhoneDigits = (phone) => { // 13577778888 -> 135****8888
       if(phone == "") return "";
-      return phone.substr(0,phone.length-8) + "****" + phone.substr(phone.length-4,4);
+      return phone.substr(0,3) + "****" + phone.substr(phone.length-4,4);
     }
     return (
       <View className="index">
@@ -150,10 +158,10 @@ export default class Index extends Component {
             </Text>
             {/* 用户名下面的VIP图标和手机号 */}
             <View style="display: flex;flex-direction: row;align-items: center;">
-              <Image
+            { this.state.isVip && <Image
                 className={`userinfo-icon-vip`}
                 src={this.state.isVip ? icon_not_vip : icon_not_vip}
-              />
+              />}
               <Image className="userinfo-icon-phone" src={icon_phone} />
               { hidePhoneDigits(this.state.phone) }
               {/* <Text className="userinfo-phone">{this.state.phoneShown}</Text> */}
