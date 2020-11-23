@@ -40,7 +40,7 @@ exports.main = async (event, context) => {
       },
       {
         classForm:db.RegExp({
-          regexp: `.*${event.selectOnline?"线上":""}`,
+          regexp: `.*${event.selectOnline?"线上":"上门"}`,
           options: 'i'
         })
       },
