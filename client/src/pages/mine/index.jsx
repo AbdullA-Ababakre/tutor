@@ -298,6 +298,9 @@ export default class Index extends Component {
             </BigButton>
           </View>
         </View>
+        
+        <Button onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>
+       
         <official-account></official-account>
       </View>
     );

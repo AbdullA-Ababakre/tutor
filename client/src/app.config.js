@@ -19,6 +19,7 @@ export default {
     'pages/mine/favorite/index',
     'pages/mine/activate_vip/index',
     'pages/mine/official_acounts/index',
+    'pages/mine/adminCheckCommission/index',
     'pages/success_pages/vip_success/index'
 	],
 	window: {
