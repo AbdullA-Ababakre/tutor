@@ -7,6 +7,33 @@ import {
 } from "taro-ui";
 export default class Index extends Component {
 
+  componentDidMount(){
+    this.setShareOpenId()
+  }
+
+  // 绑定 分享者的 openid
+  setShareOpenId(){
+    try {
+      let shareOpenId = ""
+      let params = getCurrentInstance().router.params
+      if(Object.keys(params).join("").includes("shareOpenId")){
+        shareOpenId = params['shareOpenId']
+        Taro.cloud.callFunction({
+          name: "setShareOpenId",
+          data:{
+            shareOpenId: shareOpenId
+          }
+        })
+        .then(res=>{
+          console.log(res);
+        })
+        // console.log(shareOpenId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   getPath(){
     return new Promise(resolve=>{
       Taro.showLoading({

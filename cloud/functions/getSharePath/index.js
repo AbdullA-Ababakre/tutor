@@ -19,10 +19,10 @@ exports.main = async (event, context) => {
   let obj = event.params
   for(let i in obj)
   {
-    if(i==="lastOpenId") return 
+    if(i==="shareOpenId") return 
     arr.push(i, "=", obj[i], "&")
   }
-  arr.push("lastOpenId", "=", openid)
+  arr.push("shareOpenId", "=", openid)
 
   const path = `${event.path}?${arr.join("")}`
   console.log(path)
