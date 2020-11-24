@@ -144,7 +144,7 @@ export default class Index extends Component {
           <Image
             className="img"
             src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/intro.png"
-            mode="widthFix"
+            mode="scaleToFill"
           />
         </View>
         <View class="btn-wrapper">{btns}</View>

@@ -12,11 +12,12 @@ page {
 .img {
   width: 100%;
   box-shadow: 1px 2px 5px #DFDFDF;
+  height: 650px;
 }
 .btn-wrapper {
   display: flex;
   flex-direction: column;
-  padding-top:40rpx;
+  padding-top:30rpx;
 }
 .btn {
   width: 694px;
@@ -24,7 +25,7 @@ page {
   border: 1rpx solid #fff;
   border-radius: 112rpx;
   color: #FFFFFF;
-  margin-bottom: 52rpx;
+  margin-bottom: 30rpx;
 
   font-size: 38px;
   font-weight: 600;
