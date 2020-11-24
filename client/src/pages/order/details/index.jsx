@@ -19,7 +19,7 @@ class CourseInfoItem extends Component {
 
   render() {
     return (
-      <View className='details-jobinfo-container'>
+      <View onClick={this.props.onClick} className='details-jobinfo-container'>
         <View className='details-jobinfo-title'>
           <View className='details-jobinfo-green-dot'/>{this.props.title}
         </View>
@@ -46,6 +46,7 @@ export default class Index extends Component {
     */
 
     this.state = {
+      isAdmin: false,
       openShare: false,
       path: '',
       data: this.props,
@@ -68,7 +69,8 @@ export default class Index extends Component {
         jobGoal: "",
         tutorType: "",
         teachingTimeTag: "",
-        favourList: []
+        favourList: [],
+        tel: ""
       },
       companyCourse: {
         _openid : '',
@@ -80,6 +82,7 @@ export default class Index extends Component {
         isVip: "false",
         workDuration: "",
         requirements: "",
+        tel: "",
 
         jobDescription: "",
         hiringNeed: "",
@@ -94,6 +97,7 @@ export default class Index extends Component {
         jobPrice: "",
         isVip: "false",
         location: "",
+        tel: "",
 
         cooperation: "",
         workDuration: "",
@@ -224,7 +228,8 @@ export default class Index extends Component {
             jobGoal: data.tutorGoal.join(" | "),
             tutorType: data.tutorType,
             teachingTimeTag: data.teachingTimeTag,
-            favourList: data.favourList
+            favourList: data.favourList,
+            tel: data.tel
           }
           this.setState({
             familyCourse: familyCourse,
@@ -253,7 +258,8 @@ export default class Index extends Component {
                 hiringNeed: data.recruitNum,
                 tutorType: data.tutorType,
                 teachingTimeTag: data.teachingTimeTag,
-                favourList: data.favourList
+                favourList: data.favourList,
+                tel: data.tel
               }
               this.setState({
                 companyCourse: companyCourse,
@@ -280,6 +286,7 @@ export default class Index extends Component {
             requirements: data.positionInfo,
             hiringNeed: data.recruitNum,
             favourList: data.favourList,
+            tel: data.tel
           }
           this.setState({
             other: other,
@@ -324,7 +331,8 @@ export default class Index extends Component {
     })
     .then(res=>{
       this.setState({
-        userVip: res.result.isVip
+        userVip: res.result.isVip,
+        isAdmin: res.result.isAdmin
       })
     })
   }
@@ -363,6 +371,19 @@ export default class Index extends Component {
   closeShare(){
     this.setState({
       openShare: false
+    })
+  }
+
+  pastePhone(tel){
+    Taro.setClipboardData({
+      data: tel,
+      success (res) {
+        Taro.showToast({
+          title: '复制手机号成功',
+          icon: 'success',
+          duration: 1000
+        })
+      }
     })
   }
 
@@ -464,6 +485,7 @@ export default class Index extends Component {
                     </CourseInfoItem>
                     <CourseInfoItem title="学生情况">{job.studentDescription}</CourseInfoItem>
                     <CourseInfoItem title="辅导目的">{job.jobGoal}</CourseInfoItem>
+                    { this.state.isAdmin && <CourseInfoItem  onClick={this.pastePhone.bind(this, job.tel)} title="手机号码（点击即可自动复制）">{job.tel}</CourseInfoItem>}
                   </View>
                 );
                 else if(job.jobType == "companyCourse") return (
@@ -475,6 +497,7 @@ export default class Index extends Component {
                     </CourseInfoItem>
                     <CourseInfoItem title="岗位要求">{job.jobDescription}</CourseInfoItem>
                     <CourseInfoItem title="招聘人数">{job.hiringNeed}</CourseInfoItem>
+                    { this.state.isAdmin && <CourseInfoItem  onClick={this.pastePhone.bind(this, job.tel)} title="手机号码（点击即可自动复制）">{job.tel}</CourseInfoItem>}
                   </View>
                 );
                 else if(job.jobType == "other") return (
@@ -485,6 +508,7 @@ export default class Index extends Component {
                       {job.requirements}
                     </CourseInfoItem>
                     <CourseInfoItem title="招聘人数">{job.hiringNeed}</CourseInfoItem>
+                    { this.state.isAdmin && <CourseInfoItem onClick={this.pastePhone.bind(this, job.tel)} title="手机号码（点击即可自动复制）">{job.tel}</CourseInfoItem>}
                   </View>
                 );
               })()

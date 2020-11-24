@@ -613,7 +613,7 @@ export default class Index extends React.Component {
             })}
           </View>
           <View className="img-wrapper">
-            <Image className="img"  src={imgThree} />
+            <Image className="img2"  src={imgThree} />
           </View>
 
           {/* 手机号 */}
