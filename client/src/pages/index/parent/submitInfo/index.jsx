@@ -25,33 +25,33 @@ export default class Index extends React.Component {
     gradeChecked: '小学',
     gender: ['男', '女', '不限'],
     genderChecked: '男',
-    classForm: '上门家教',
+    classForm: '',
     classFormArr: ['上门家教', '线上(网课)'],
-    tutorType: '学科考试',
+    tutorType: '',
     tutorTypeArr: ['学科考试', '小语种', '艺术/体育'],
-    tutorSubject: ['语文', '英语'],
+    tutorSubject: [],
     tutorSubjectArr: ['语文', '数学', '英语', '物理', '化学', '生物', '地理', '历史', '全科'],
     // 辅导目的
-    tutorGoal: ['打基础', '提高兴趣'],
+    tutorGoal: [],
     tutorGoalArr: ['打基础', '升学考', '作业辅导', '拔尖', '提高兴趣'],
     studentInfo: '',
     // 老师要求
     teacherGender: ['男', '女', '不限'],
     teacherGenderChecked: '女',
-    teacherRequire: '学霸/绩点高',
+    teacherRequire: '',
     teacherRequireArr: ['学霸/绩点高', '师范专业优先', '有教学经验'],
     teacherRequireText: '',
     salarySelector: [['50元', '60元', '70元', '80元', '90元'], ['50元', '60元', '70元', '80元', '90元']],
     salarySelectorChecked: '60元-90元',
-    teacherRequirementTag: ['接受零经验', '价格可议'],
+    teacherRequirementTag: [],
     teacherRequirementTagArr: ['接受零经验', '价格可议', '不接受零经验', '价格不可议'],
     tel: '',
-    teachingDay: ['周一', '周日'],
+    teachingDay: [],
     teachingDayArr: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-    tutorDuration: '2小时',
+    tutorDuration: '',
     tutorDurationArr: ['1小时', '1.5小时', '2小时', '2小时以上'],
     teachingTime: '',
-    teachingTimeTag: '可协调',
+    teachingTimeTag: '',
     teachingTimeTagArr: ['可协调', '不可协调'],
     addressSelector: [
       ['深圳', '广州', '佛山', '东莞', '珠海', '上海'],
@@ -476,7 +476,7 @@ export default class Index extends React.Component {
               <AtListItem title="学生性别" extraText={this.state.genderChecked} />
             </AtList>
           </Picker>
-          {/* 上课发方式 */}
+          {/* 上课方式 */}
           <View className="classForm">
             <View className="title">上课方式</View>
             {classFormArr.map((item, index) => {

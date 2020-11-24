@@ -34,13 +34,13 @@ exports.main = async (event, context) => {
       },
       {
         isVip: db.RegExp({
-          regexp: `.*${event.selectNonVip?"false":"true"}`,
+          regexp: `.*${event.selectNonVip?"false":""}`,
           options: 'i'
         })
       },
       {
         classForm:db.RegExp({
-          regexp: `.*${event.selectOnline?"线上":"上门"}`,
+          regexp: `.*${event.selectOnline?"线上":""}`,
           options: 'i'
         })
       },
@@ -75,7 +75,7 @@ exports.main = async (event, context) => {
       },
       {
         isVip: db.RegExp({
-          regexp: `.*${event.selectNonVip?"false":"true"}`,
+          regexp: `.*${event.selectNonVip?"false":""}`,
           options: 'i'
         })
       },
@@ -87,7 +87,7 @@ exports.main = async (event, context) => {
 
     let otherData =  await db.collection('otherData').where(_.and([{
       positionAddress: db.RegExp({
-        regexp: `.*${event.city}`,
+        regexp: `.*${event.city.includes("不")?"":event.city}`,
         options: 'i',
       })},
       {
@@ -98,7 +98,19 @@ exports.main = async (event, context) => {
       },
       {
         isVip: db.RegExp({
-          regexp: `.*${event.selectNonVip?"false":"true"}`,
+          regexp: `.*${event.selectNonVip?"false":""}`,
+          options: 'i'
+        })
+      },
+      {
+        positionName: db.RegExp({
+          regexp: `.*${event.subject.includes("不")?"":event.subject.includes("其")?"":event.subject}`,
+          options: 'i'
+        })
+      },
+      {
+        positionName: db.RegExp({
+          regexp: `.*${event.grade.includes("不")?"":event.grade.includes("其")?"":event.grade}`,
           options: 'i'
         })
       },

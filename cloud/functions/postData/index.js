@@ -90,6 +90,7 @@ exports.main = async (event, context) => {
           positionAddress:event.positionAddress,
           recruitNum:event.recruitNum,
           workingTime:event.workingTime,
+          tel: event.tel,
           isVip: 'false',
           detailType : 'other',
           jobType: '其他岗位',

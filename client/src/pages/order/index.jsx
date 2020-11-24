@@ -20,7 +20,7 @@ export default class Index extends Component {
     });
     this.state = {
       data: [],
-      selectNonVip: true,
+      selectNonVip: false,
       selectOnline: false,
       city: '',
       course: '',

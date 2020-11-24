@@ -20,7 +20,8 @@ export default class Index extends React.Component {
         positionSalary: '',
         positionAddress: '',
         recruitNum: '',
-        workingTime: ''
+        workingTime: '',
+        tel: ""
     };
 
     // 企业名称
@@ -91,6 +92,15 @@ export default class Index extends React.Component {
         return workingTime;
     }
 
+    // 手机号码
+    handleTel(e){
+      const tel = e.target.value;
+      this.setState({
+        tel: tel
+      })
+      return tel;
+    }
+
     formSubmit = (e) => {
 
         const {
@@ -101,6 +111,7 @@ export default class Index extends React.Component {
             positionAddress,
             recruitNum,
             workingTime,
+            tel,
         } = this.state;
 
         if (!organizationName) {
@@ -152,7 +163,14 @@ export default class Index extends React.Component {
                 duration: 2000
             })
             return;
-        }
+        }else if (!tel) {
+          Taro.showToast({
+              title: '请输入手机号码',
+              icon: 'none',
+              duration: 2000
+          })
+          return;
+      }
 
         Taro.showLoading({
             title: '提交中',
@@ -170,6 +188,7 @@ export default class Index extends React.Component {
                     positionAddress,
                     recruitNum,
                     workingTime,
+                    tel,
                 },
             })
             .then(res => {
@@ -260,6 +279,17 @@ export default class Index extends React.Component {
                         placeholder="例：周末全天"
                         placeholderClass="placeHolderClass"
                         onInput={this.handleWorkingTime.bind(this)}
+                    />
+
+                    {/* 手机号码 */}
+                    <View className="title">手机号码</View>
+                    <Input
+                        className="teachingTimeInput"
+                        name="tel"
+                        type="text"
+                        placeholder="例：18145613210"
+                        placeholderClass="placeHolderClass"
+                        onInput={this.handleTel.bind(this)}
                     />
 
                     <Button className="btn" formType="submit">确认发布</Button>
