@@ -19,6 +19,8 @@ export default class Index extends Component {
       backgroundColor: "#FC4442",
     });
     this.state = {
+      isMax: false,
+      page: 1,
       data: [],
       selectNonVip: false,
       selectOnline: false,
@@ -34,6 +36,15 @@ export default class Index extends Component {
   }
   componentDidMount(){
     this.setShareOpenId()
+  }
+
+  onReachBottom(){
+    if(!this.state.isMax){
+      this.setState({
+        page: this.state.page+1
+      })
+      this.onSelect()
+    }
   }
 
   // 绑定 分享者的 openid
@@ -133,13 +144,24 @@ export default class Index extends Component {
         grade: this.state.grade,
         searchValue: this.state.searchValue,
         selectNonVip: this.state.selectNonVip,
-        selectOnline: this.state.selectOnline
+        selectOnline: this.state.selectOnline,
+        page: this.state.page
       }
     })
     .then(res=>{
+      if(this.state.data.length === res.result.data.length){
+        this.setState({
+          isMax: true
+        })
+      }else{
+        this.setState({
+          isMax: false
+        })
+      }
       this.setState({
         data: JSON.parse(JSON.stringify(res.result.data))
       })
+      console.log(this.state.data);
       Taro.hideLoading()
     })
   }
@@ -217,6 +239,7 @@ export default class Index extends Component {
           </View>
            {this.state.data.length!=0?detailBox:emptyBox}
         </View>
+         {this.state.isMax && this.state.data.length!=0 && <View style="text-align:center;margin-bottom: 20px" > ------已到最低点------ </View>}
       </View>
     );
   }
