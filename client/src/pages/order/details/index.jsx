@@ -70,7 +70,10 @@ export default class Index extends Component {
         tutorType: "",
         teachingTimeTag: "",
         favourList: [],
-        tel: ""
+        tel: "",
+        isLoseEfficacy: false,
+        isOnline: false,
+        top: false
       },
       companyCourse: {
         _openid : '',
@@ -88,7 +91,10 @@ export default class Index extends Component {
         hiringNeed: "",
         tutorType: "",
         teachingTimeTag: "",
-        favourList: []
+        favourList: [],
+        isLoseEfficacy: false,
+        isOnline: false,
+        top: false
       },
       other: {
         _openid : '',
@@ -103,7 +109,10 @@ export default class Index extends Component {
         workDuration: "",
         requirements: "",
         hiringNeed: '',
-        favourList: []
+        favourList: [],
+        isLoseEfficacy: false,
+        isOnline: false,
+        top: false
       }
     };
   }
@@ -229,7 +238,10 @@ export default class Index extends Component {
             tutorType: data.tutorType,
             teachingTimeTag: data.teachingTimeTag,
             favourList: data.favourList,
-            tel: data.tel
+            tel: data.tel,
+            isLoseEfficacy: data.isLoseEfficacy,
+            isOnline: data.isOnline,
+            top: data.top
           }
           this.setState({
             familyCourse: familyCourse,
@@ -259,7 +271,10 @@ export default class Index extends Component {
                 tutorType: data.tutorType,
                 teachingTimeTag: data.teachingTimeTag,
                 favourList: data.favourList,
-                tel: data.tel
+                tel: data.tel,
+                isLoseEfficacy: data.isLoseEfficacy,
+                isOnline: data.isOnline,
+                top: data.top
               }
               this.setState({
                 companyCourse: companyCourse,
@@ -286,7 +301,10 @@ export default class Index extends Component {
             requirements: data.positionInfo,
             hiringNeed: data.recruitNum,
             favourList: data.favourList,
-            tel: data.tel
+            tel: data.tel,
+            isLoseEfficacy: data.isLoseEfficacy,
+            isOnline: data.isOnline,
+            top: data.top
           }
           this.setState({
             other: other,
@@ -387,6 +405,39 @@ export default class Index extends Component {
     })
   }
 
+  openAdminBoard(){
+    const job = this.state[getCurrentInstance().router.params.jobType];
+    let that = this
+    wx.showActionSheet({
+      itemList: [`${!job.isLoseEfficacy?"订单已被领走":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`],
+      success (res) {
+        console.log(res.tapIndex)
+        switch(res.tapIndex){
+          case 0: job.isLoseEfficacy = !job.isLoseEfficacy; break;
+          case 1: job.top = !job.top; break;
+          case 2: job.isOnline = !job.isOnline; break;
+        }
+        Taro.showLoading({
+          title: "加载中"
+        })
+        Taro.cloud.callFunction({
+          name: "adminOrderAction",
+          data: {
+            jobType: job.jobType,
+            _id: that.state._id,
+            isLoseEfficacy: job.isLoseEfficacy,
+            top: job.top,
+            isOnline: job.isOnline
+          }
+        })
+        Taro.hideLoading()
+      },
+      fail (res) {
+        console.log(res.errMsg)
+      }
+    })
+  }
+
   render () {
     const job = this.state[getCurrentInstance().router.params.jobType] || this.state["other"];
     // console.log()
@@ -464,11 +515,10 @@ export default class Index extends Component {
                 );
               })()}
             </View>
-            {/* vip 卡片 */}
+            {/* vip 卡片 或打开管理员操作面板 */}
             {
-              !this.state.userVip?vipCard:""
+             this.state.isAdmin?<Button type="primary" onClick={this.openAdminBoard.bind(this)} >打开管理员操作面板</Button>:!this.state.userVip?vipCard:""
             }
-
 
             {/*  课程卡片 */}
             {

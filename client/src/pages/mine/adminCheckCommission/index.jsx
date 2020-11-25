@@ -37,6 +37,9 @@ export default class Index extends Component {
       content: '确定佣金归0吗？',
       success (res) {
         if (res.confirm) {
+          Taro.showLoading({
+            title: "加载中"
+          })
           Taro.cloud.callFunction({
             name: 'resetCommission',
             data: {
@@ -45,6 +48,7 @@ export default class Index extends Component {
           })
           .then(res=>{
             that.getUserData()
+            Taro.hideLoading()
             console.log(res)
           })
           console.log('用户点击确定')

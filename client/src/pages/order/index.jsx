@@ -205,14 +205,14 @@ export default class Index extends Component {
                 
               }
               return (
-                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid}  showLabel={showLabel} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} />
+                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid}  showLabel={showLabel} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} top={item.top} />
               )
             }
             else{
               let title = item.positionName
               let address = item.positionAddress
               return (
-                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.positionSalary}  workTime={item.workingTime} jobType={item.jobType} />
+                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.positionSalary}  workTime={item.workingTime} jobType={item.jobType} top={item.top} />
               )
             }
           }

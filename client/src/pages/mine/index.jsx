@@ -255,7 +255,16 @@ export default class Index extends Component {
                 onClick={this.setPhoneNumber.bind(this)}
               >
                 获取手机号
-              </Button>:""
+              </Button>: 
+              <Button
+                size="mini"
+                type="default"
+                // openType="getPhoneNumber"
+                // onGetPhoneNumber={this.getPhoneNumber.bind(this)}
+                onClick={this.setPhoneNumber.bind(this)}
+              >
+                修改手机号
+              </Button>
               }
               {getPhone}
             </View>
@@ -317,6 +326,7 @@ export default class Index extends Component {
         </View>
         
       { this.state.isAdmin &&  <Button onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
+      { this.state.isAdmin &&  <Button onClick={pageJump("adminCheckOrder")} >查看未上架订单信息 </Button>}
        
         <official-account></official-account>
       </View>
