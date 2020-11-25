@@ -1,0 +1,29 @@
+page{
+  background: #F7F7F7;
+}
+
+.container{
+  position: absolute;
+  right: 4%;
+  top: 4%
+}
+
+.container-box{
+  width: 658px;
+  height: 106px;
+  border-radius: 16px;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  display: block;
+  overflow: hidden;
+  box-shadow: 1px 2px 5px #DFDFDF;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.box-btn{
+  position: absolute;
+  right: 10%;
+  top: 20%;
+}

@@ -40,6 +40,7 @@ export default class Index extends Component {
       isVip: false,
       phoneShown: "正在加载个人信息",
       phone: "",
+      isAdmin: false
     };
 
     this.getUserDetailsProcess();
@@ -116,6 +117,11 @@ export default class Index extends Component {
     this.setState({ userInfo: res.detail.userInfo, isLoggedIn: true });
     console.log(res);
     this.getUserDetailsProcess();
+    Taro.login({
+      success: (res)=>{
+        console.log("登录成功！！");
+      }
+    })
   }
 
   getUserDetailsProcess() {
@@ -127,6 +133,7 @@ export default class Index extends Component {
         isVip: details.isVip,
         phone: details.phone || "",
         phoneShown: details.phoneShown || "空",
+        isAdmin: details.isAdmin || false
       });
     });
   }
@@ -163,6 +170,14 @@ export default class Index extends Component {
       phoneModal: false,
       phoneInput: ''
     })
+  }
+
+  getPhoneNumber(e){
+    //  需要认证之后使用这一个 获得 手机号码
+    //  里面有一个 cloudid 字段 传给云函数 让它保存
+    console.log('====================================');
+    console.log(e);
+    console.log('====================================');
   }
 
   render() {
@@ -235,6 +250,8 @@ export default class Index extends Component {
                 <Button
                 size="mini"
                 type="default"
+                // openType="getPhoneNumber"
+                // onGetPhoneNumber={this.getPhoneNumber.bind(this)}
                 onClick={this.setPhoneNumber.bind(this)}
               >
                 获取手机号
@@ -299,7 +316,7 @@ export default class Index extends Component {
           </View>
         </View>
         
-        <Button onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>
+      { this.state.isAdmin &&  <Button onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
        
         <official-account></official-account>
       </View>
