@@ -40,7 +40,9 @@ exports.main = async (event, context) => {
           jobType: '家庭教师',
           orderNumber: total +1,
           favourList: [],
-          isLoseEfficacy: false
+          isLoseEfficacy: false,
+          isOnline: false,
+          top: false
 				}
 			});
 		} catch (e) {
@@ -72,7 +74,9 @@ exports.main = async (event, context) => {
           jobType: '机构/企业教师',
           orderNumber: total +1,
           favourList: [],
-          isLoseEfficacy: false
+          isLoseEfficacy: false,
+          isOnline: false,
+          top: false
 				}
 			});
 		} catch (e) {
@@ -96,7 +100,9 @@ exports.main = async (event, context) => {
           jobType: '其他岗位',
           orderNumber: total +1,
           favourList: [],
-          isLoseEfficacy: false
+          isLoseEfficacy: false,
+          isOnline: false,
+          top: false
 				}
 			});
 		} catch (e) {

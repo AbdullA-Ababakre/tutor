@@ -41,7 +41,7 @@ exports.main = async (event, context) => {
   .then(result => {
     if(result.data.length == 0) {
       // 创建用户在数据库中的记录
-      let newUserData = {isVip: false, phone: ""}
+      let newUserData = {isVip: false, phone: "", isAdmin: false}
       console.log("newUser:",newUserData,"openid:",OPENID);
       return cloud.callFunction({
         name: "changeUserDetails",
