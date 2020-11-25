@@ -32,9 +32,10 @@ export default class ArticleCard extends Component {
           </View>: 
           <FavButton style="float: right"  enable={enable} />
         }
-        {
-          job.top?"置顶":"不置顶"
-        }
+
+        {/* <Text style="font-weight:500; font-size:10px;float: right" >
+           {job.top?"置顶":"不置顶"}
+        </Text> */}
         </View>
       </View>
     );

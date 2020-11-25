@@ -74,7 +74,7 @@ export default class Index extends Component {
     }
   }
 
-
+  // 获取分享的小程序 路径 类 “/pages/index/index?openid=xxxxx”
   getPath(){
     return new Promise(resolve=>{
       Taro.showLoading({
@@ -111,39 +111,7 @@ export default class Index extends Component {
     }  
   }
 
-
-  onUserInfo(res) {
-    if (!res.detail.userInfo) return;
-    UserInfo.setUserInfo(res.detail.userInfo); // 自己的 utils，用来处理用户信息相关
-    this.setState({ userInfo: res.detail.userInfo, isLoggedIn: true });
-    console.log(res);
-    this.getUserDetailsProcess();
-    Taro.login({
-      success: (res)=>{
-        console.log("登录成功！！");
-      }
-    })
-  }
-
-  getUserDetailsProcess() {
-    if (!this.state.isLoggedIn) return;
-    UserInfo.getUserDetails().then((details) => {
-      console.log("userDetails:", details);
-      if (!details) return;
-      try {
-        Taro.setStorageSync("openid", res.result.openId)
-      } catch (error) {
-        console.log(error);
-      }
-      this.setState({
-        isVip: details.isVip,
-        phone: details.phone || "",
-        phoneShown: details.phoneShown || "空",
-        isAdmin: details.isAdmin || false
-      });
-    });
-  }
-
+  //  下面的几个操作都是 为了 获得 手机号码
   setPhoneNumber() {
     this.setState({
       phoneModal: true
@@ -176,6 +144,38 @@ export default class Index extends Component {
       phoneModal: false,
       phoneInput: ''
     })
+  }
+
+  onUserInfo(res) {
+    if (!res.detail.userInfo) return;
+    UserInfo.setUserInfo(res.detail.userInfo); // 自己的 utils，用来处理用户信息相关
+    this.setState({ userInfo: res.detail.userInfo, isLoggedIn: true });
+    console.log(res);
+    this.getUserDetailsProcess();
+    Taro.login({
+      success: (res)=>{
+        console.log("登录成功！！");
+      }
+    })
+  }
+
+  getUserDetailsProcess() {
+    if (!this.state.isLoggedIn) return;
+    UserInfo.getUserDetails().then((details) => {
+      console.log("userDetails:", details);
+      if (!details) return;
+      try {
+        Taro.setStorageSync("openid", res.result.openId)
+      } catch (error) {
+        console.log(error);
+      }
+      this.setState({
+        isVip: details.isVip,
+        phone: details.phone || "",
+        phoneShown: details.phoneShown || "空",
+        isAdmin: details.isAdmin || false
+      });
+    });
   }
 
   getPhoneNumber(e){
@@ -282,6 +282,7 @@ export default class Index extends Component {
           </Button>
         </View>
 
+        {/* 成为 VIP 大图 */}
         <View className="become-vip-container">
           <image
             className="banner-become-vip"
@@ -296,6 +297,7 @@ export default class Index extends Component {
           />
         </View>
 
+        {/* 下面的几个按钮 */}
         <View className="buttons-container">
           <View className="buttons-row">
             <BigButton img={btn_favorites} onClick={pageJump("favorite")}>
@@ -321,10 +323,12 @@ export default class Index extends Component {
             </BigButton>
           </View>
         </View>
-        
+      
+      {/*  这里是管理员操作 */}
       { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
       { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckOrder")} >查看未上架订单信息 </Button>}
        
+       {/* 这里是关注公众号的浮窗 */}
       <official-account></official-account>
       </View>
     );

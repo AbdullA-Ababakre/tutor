@@ -158,6 +158,7 @@ export default class Index extends Component {
     }
   }
   
+  //  获得分享路径
   getPath(){
     return new Promise(resolve=>{
       Taro.showLoading({
@@ -196,6 +197,7 @@ export default class Index extends Component {
   //   }  
   // }
 
+  //  封装一个 获得数据的函数
   getData(type,id){
     return new Promise((resolve, reject)=>{
       Taro.showLoading({
@@ -315,6 +317,7 @@ export default class Index extends Component {
         })
   }
 
+  // 改变收藏
   changeFav(){
     let getType =""
     switch(getCurrentInstance().router.params.jobType){
@@ -344,6 +347,7 @@ export default class Index extends Component {
     })
   }
 
+  // 获得 用户的数据（为了vip字段）
   getUserData(){
     Taro.cloud.callFunction({
       name: 'getUserDetails'
@@ -369,8 +373,20 @@ export default class Index extends Component {
     })
   }
 
-  goHired(){
+  openSharePic(){
+    this.setState({
+      openShare: true
+    })
+  }
 
+  closeShare(){
+    this.setState({
+      openShare: false
+    })
+  }
+
+  //  去应聘
+  goHired(){
     if(this.state.userVip){
       this.setState({
         showDiag: true
@@ -386,18 +402,6 @@ export default class Index extends Component {
         })
       }
     }
-  }
-
-  openSharePic(){
-    this.setState({
-      openShare: true
-    })
-  }
-
-  closeShare(){
-    this.setState({
-      openShare: false
-    })
   }
 
   pastePhone(tel){
@@ -447,6 +451,7 @@ export default class Index extends Component {
   }
 
   render () {
+    //  这里太恶心了啦 有空再整理这里把
     const job = this.state[getCurrentInstance().router.params.jobType] || this.state["other"];
     // console.log()
     if(job.jobType==="familyCourse") {
@@ -487,21 +492,26 @@ export default class Index extends Component {
 
     return (
       <View className="details-box" >
+        {/* 分享图 */}
+        {this.state.openShare && <Wxml2Canvas details={job} path={this.state.path} closeShare={this.closeShare.bind(this)} />}
 
-       {this.state.openShare && <Wxml2Canvas details={job} path={this.state.path} closeShare={this.closeShare.bind(this)} />}
-
-        {
-          this.state.showDiag? <ModalDiag postDiagData={this.getDiagData.bind(this)} />:""
-        }
+        {/* 应聘联系图 */}
+        {this.state.showDiag? <ModalDiag postDiagData={this.getDiagData.bind(this)} />:""}
+        
+        {/* 看到的details 页面在此 */}
         <View className='details-index'>
+          {/* 右边的浮按钮 */}
           <OrderDetailRightPanel openSharePic={this.openSharePic.bind(this)}  className="right_panel" />
-          { 
-            this.state.userVip===false?<View className='bg-red-block'/>:<View className='bg-yellow-block'/>
-          }
+          
+          {/* VIP换色 */}
+          {this.state.userVip===false?<View className='bg-red-block'/>:<View className='bg-yellow-block'/>}
+          
           <View className='details-container'>
             <View className='details-infocard'>
             <Text className='details-title'>{job.jobTask}</Text>
             <Text className='details-title-price'>{job.jobPrice}</Text>
+
+            {/* 这里是头部的地址部分描述 */}
               {(()=>{
                 if(job.jobType === "familyCourse" || job.jobType==="companyCourse") return (
                   <View>
@@ -523,14 +533,12 @@ export default class Index extends Component {
                 );
               })()}
             </View>
+
             {/* vip 卡片 或打开管理员操作面板 */}
-            {
-             this.state.isAdmin?<Button type="primary" onClick={this.openAdminBoard.bind(this)} >打开管理员操作面板</Button>:!this.state.userVip?vipCard:""
-            }
+            {this.state.isAdmin?<Button type="primary" onClick={this.openAdminBoard.bind(this)} >打开管理员操作面板</Button>:!this.state.userVip?vipCard:""}
 
             {/*  课程卡片 */}
-            {
-              (()=>{
+            {(()=>{
                 if(job.jobType == "familyCourse") return (
                   <View className='details-infocard details-vertical-flexbox'>
                     <View className='details-big-title-course'>课程详情</View>
@@ -569,9 +577,9 @@ export default class Index extends Component {
                     { this.state.isAdmin && <CourseInfoItem onClick={this.pastePhone.bind(this, job.tel)} title="手机号码（点击即可自动复制）">{job.tel}</CourseInfoItem>}
                   </View>
                 );
-              })()
-            }
+              })()}
           </View>
+
           <Button onClick={this.goHired.bind(this)} className={this.state.userVip?"btn-yellow":"btn-red" }>
             前往应聘
           </Button>

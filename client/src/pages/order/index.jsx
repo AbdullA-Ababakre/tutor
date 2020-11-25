@@ -221,12 +221,17 @@ export default class Index extends Component {
 
     return (
       <View className='order-index'>
+        {/* 右下方的那个成为 vip的按钮 */}
         <Image className='order-fab-become-vip' src={fab_vip} onClick={this.onClick.bind(this)}></Image>
         <View className='bg-red-block'/>
+        
+        {/*  搜索数据框 */}
         <View className='searchbar-container'>
           <Image className='search-icon' src={icon_search} mode="widthFix"/>
           <Input className='search-input' onInput={this.inputChange.bind(this)} type="text" placeholder="请输入地址搜索" placeholderStyle='color:#B2B2B2'/>
         </View>
+        
+        {/* 筛选和展示主体 */}
         <View className="orders-container">
           <View className="order-flexbox order-drop-downs-container">
             <TutorPicker placeholder="城市" range={cities} onChange={this.changeCity.bind(this)}/>
@@ -239,7 +244,9 @@ export default class Index extends Component {
           </View>
            {this.state.data.length!=0?detailBox:emptyBox}
         </View>
-         {this.state.isMax && this.state.data.length!=0 && <View style="text-align:center;margin-bottom: 20px" > ------已到最低点------ </View>}
+         
+         {/* 滑到最底下的提示 */}
+        {this.state.isMax && this.state.data.length!=0 && <View style="text-align:center;margin-bottom: 20px" > ------已到最低点------ </View>}
       </View>
     );
   }
