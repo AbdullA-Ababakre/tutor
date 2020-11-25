@@ -11,6 +11,7 @@ import "./index.scss";
 
 import icon_phone from "../../images/mine/icon_phone.png";
 import icon_not_vip from "../../images/mine/icon_not_vip.png";
+import icon_vip from "../../images/mine/icon_vip.png";
 import banner_become_vip from "../../images/mine/banner_become_vip.png";
 import btn_favorites from "../../images/mine/btn_favorites.png";
 import btn_post from "../../images/mine/btn_post.png";
@@ -43,10 +44,10 @@ export default class Index extends Component {
       isAdmin: false
     };
 
-    this.getUserDetailsProcess();
   }
 
   componentDidMount(){
+    this.getUserDetailsProcess();
     this.setShareOpenId()
   }
 
@@ -245,32 +246,23 @@ export default class Index extends Component {
             <View style="display: flex;flex-direction: row;align-items: center;">
             { this.state.isVip && <Image
                 className={`userinfo-icon-vip`}
-                src={this.state.isVip ? icon_not_vip : icon_not_vip}
+                src={this.state.isVip ? icon_vip : icon_not_vip}
               />}
               <Image className="userinfo-icon-phone" src={icon_phone} />
-              { hidePhoneDigits(this.state.phone) }
-              {/* <Text className="userinfo-phone">{this.state.phoneShown}</Text> */}
-              {
-                this.state.phone===""? 
-                <Button
-                size="mini"
-                type="default"
-                // openType="getPhoneNumber"
-                // onGetPhoneNumber={this.getPhoneNumber.bind(this)}
-                onClick={this.setPhoneNumber.bind(this)}
-              >
-                获取手机号
-              </Button>: 
+              {/* { hidePhoneDigits(this.state.phone) } */}
+              <Text className="userinfo-phone">{hidePhoneDigits(this.state.phone)}</Text>
+
               <Button
                 size="mini"
                 type="default"
+                style="padding: 0px 5px"
                 // openType="getPhoneNumber"
                 // onGetPhoneNumber={this.getPhoneNumber.bind(this)}
                 onClick={this.setPhoneNumber.bind(this)}
               >
-                修改手机号
+                {`${this.state.phone == ""? "获取手机号":"修改手机号"}`}
               </Button>
-              }
+
               {getPhone}
             </View>
           </View>
@@ -333,7 +325,7 @@ export default class Index extends Component {
       { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
       { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckOrder")} >查看未上架订单信息 </Button>}
        
-        <official-account></official-account>
+      <official-account></official-account>
       </View>
     );
   }
