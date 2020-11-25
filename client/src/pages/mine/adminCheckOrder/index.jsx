@@ -24,7 +24,7 @@ class Index extends Component {
     Taro.showLoading({
       title: "加载中"
     })
-
+    let userOpenId = Taro.getStorageSync("openid")
     Taro.cloud.callFunction({
       name: "getOnlineData"
     })
@@ -44,7 +44,8 @@ class Index extends Component {
             position: item.jobType,
             detailType: item.detailType,
             isLoseEfficacy: item.isLoseEfficacy,
-            _id: item._id
+            _id: item._id,
+            enable: item.favourList.indexOf(userOpenId)!==-1
           }
           arr.push(a)
         })
@@ -61,7 +62,8 @@ class Index extends Component {
             position: item.jobType,
             detailType: item.detailType,
             isLoseEfficacy: item.isLoseEfficacy,
-            _id: item._id
+            _id: item._id,
+            enable: item.favourList.indexOf(userOpenId)!==-1
           }
           arr.push(a)
         })
@@ -78,7 +80,8 @@ class Index extends Component {
             position: item.jobType,
             detailType: item.detailType,
             isLoseEfficacy: item.isLoseEfficacy,
-            _id: item._id
+            _id: item._id,
+            enable: item.favourList.indexOf(userOpenId)!==-1
           }
           arr.push(a)
         })
@@ -94,11 +97,12 @@ class Index extends Component {
   render() {
     console.log(this.state.onlineArr)
     let onlineArr = this.state.onlineArr
+
     // onlineArr.length = 0
     let text
     let pageDown = (item, id ="", isLoseEfficacy)=>{ if(isLoseEfficacy){ Taro.showToast({title: "该订单已经失效！",icon:"none"}); return } Taro.navigateTo({url: `/pages/order/details/index?jobType=${item}&id=${id}`})}
     if(onlineArr.length>0)
-        text = onlineArr.map(item=> <View onClick={pageDown.bind(this, item.detailType, item._id, item.isLoseEfficacy)} className="unOnline-card" ><FavoriteCard key={item.orderId} favorite={item}></FavoriteCard> </View>  )
+        text = onlineArr.map(item=> <View onClick={pageDown.bind(this, item.detailType, item._id, item.isLoseEfficacy)} className="unOnline-card" ><FavoriteCard enable={item.enable} key={item.orderId} favorite={item}></FavoriteCard> </View>  )
     else
         text = <View className="center-content" > <View>-----没有更多-----</View></View>
     return (

@@ -98,7 +98,7 @@ class Index extends Component {
     let text
     let pageDown = (item, id ="", isLoseEfficacy)=>{ if(isLoseEfficacy){ Taro.showToast({title: "该订单已经失效！",icon:"none"}); return } Taro.navigateTo({url: `/pages/order/details/index?jobType=${item}&id=${id}`})}
     if(favoriteArr.length>0)
-        text = favoriteArr.map(item=> <View onClick={pageDown.bind(this, item.detailType, item._id, item.isLoseEfficacy)} className="favorite-card" ><FavoriteCard key={item.orderId} favorite={item}></FavoriteCard> </View>  )
+        text = favoriteArr.map(item=> <View onClick={pageDown.bind(this, item.detailType, item._id, item.isLoseEfficacy)} className="favorite-card" ><FavoriteCard enable={Boolean(true)} key={item.orderId} favorite={item}></FavoriteCard> </View>  )
     else
         text = <View className="center-content" > <View>-----没有更多-----</View><View>-快去收藏课程吧-</View> </View>
     // console.log(text)

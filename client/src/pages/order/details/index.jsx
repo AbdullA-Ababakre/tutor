@@ -53,6 +53,7 @@ export default class Index extends Component {
       userVip: false,
       showDiag: false,
       _id : "",
+      openid: "",
       enable: false,
       familyCourse: {
         _openid : '',
@@ -245,7 +246,7 @@ export default class Index extends Component {
           }
           this.setState({
             familyCourse: familyCourse,
-            enable: familyCourse.favourList.indexOf(familyCourse._openid)!==-1,
+            enable: familyCourse.favourList.indexOf(this.state.openid)!==-1,
             _id: data._id
           })
         })
@@ -278,7 +279,7 @@ export default class Index extends Component {
               }
               this.setState({
                 companyCourse: companyCourse,
-                enable: companyCourse.favourList.indexOf(companyCourse._openid)!==-1,
+                enable: companyCourse.favourList.indexOf(this.state.openid)!==-1,
                 _id: data._id
               })
             })
@@ -308,7 +309,7 @@ export default class Index extends Component {
           }
           this.setState({
             other: other,
-            enable: other.favourList.indexOf(other._openid)!==-1,
+            enable: other.favourList.indexOf(this.state.openid)!==-1,
             _id: data._id
           })
         })
@@ -324,10 +325,10 @@ export default class Index extends Component {
     let data = this.state[getCurrentInstance().router.params.jobType]
 
     if(this.state.enable){
-      let index = data.favourList.indexOf(data._openid)
+      let index = data.favourList.indexOf(this.state.openid)
       data.favourList.splice(index, 1)
     }else{
-      data.favourList.push(data._openid)
+      data.favourList.push(this.state.openid)
     }
     Taro.cloud.callFunction({
       name: 'setFavData',
@@ -348,7 +349,14 @@ export default class Index extends Component {
       name: 'getUserDetails'
     })
     .then(res=>{
+      // console.log(res)
+      try {
+        Taro.setStorageSync("openid", res.result.openId)
+      } catch (error) {
+        console.log(error);
+      }      
       this.setState({
+        openid: res.result.openId,
         userVip: res.result.isVip,
         isAdmin: res.result.isAdmin
       })

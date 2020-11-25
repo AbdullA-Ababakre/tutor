@@ -129,6 +129,11 @@ export default class Index extends Component {
     UserInfo.getUserDetails().then((details) => {
       console.log("userDetails:", details);
       if (!details) return;
+      try {
+        Taro.setStorageSync("openid", res.result.openId)
+      } catch (error) {
+        console.log(error);
+      }
       this.setState({
         isVip: details.isVip,
         phone: details.phone || "",
@@ -325,8 +330,8 @@ export default class Index extends Component {
           </View>
         </View>
         
-      { this.state.isAdmin &&  <Button onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
-      { this.state.isAdmin &&  <Button onClick={pageJump("adminCheckOrder")} >查看未上架订单信息 </Button>}
+      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
+      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckOrder")} >查看未上架订单信息 </Button>}
        
         <official-account></official-account>
       </View>
