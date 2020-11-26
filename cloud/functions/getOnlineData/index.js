@@ -8,24 +8,25 @@ const db = cloud.database();
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
 
+  // if(event.isLoseEfficacy){}
   const parent = await db.collection("parentData").where(
     {
-      isOnline: false,
-      isLoseEfficacy: false
+      isOnline: event.isOnline,
+      isLoseEfficacy: event.isLoseEfficacy
     }
   ).get()
   
   const organization = await db.collection("organizationData").where(
     {
-      isOnline: false,
-      isLoseEfficacy: false
+      isOnline:  event.isOnline,
+      isLoseEfficacy: event.isLoseEfficacy
     }
   ).get()
 
   const other = await db.collection("otherData").where(
     {
-      isOnline: false,
-      isLoseEfficacy: false
+      isOnline:  event.isOnline,
+      isLoseEfficacy: event.isLoseEfficacy
     }
   ).get()
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Taro from '@tarojs/taro'
+import Taro, {getCurrentInstance} from '@tarojs/taro'
 import { View, Text , Button} from '@tarojs/components';
 
 import "./index.scss"
@@ -12,11 +12,23 @@ class Index extends Component {
   constructor(props){
     super(props);
     this.state={
-      onlineArr: []
+      dataArr: [],
+      chooseType: '',
+      isLoseEfficacy: false,
+      isOnline: false
     }
   }
 
   componentDidShow () {
+    if(getCurrentInstance().router.params['chooseType']==="loseEfficacy"){
+      this.setState({
+        isLoseEfficacy: true,
+        isOnline: undefined
+      })
+      Taro.setNavigationBarTitle({
+        title: '失效订单信息'
+      })
+    }
     this.getUnOnlineData()
   } 
 
@@ -26,7 +38,11 @@ class Index extends Component {
     })
     let userOpenId = Taro.getStorageSync("openid")
     Taro.cloud.callFunction({
-      name: "getOnlineData"
+      name: "getOnlineData",
+      data: {
+        isLoseEfficacy: this.state.isLoseEfficacy,
+        isOnline: this.state.isOnline
+      }
     })
     .then(res=>{
       let arr = []
@@ -87,7 +103,7 @@ class Index extends Component {
         })
       }
       this.setState({
-        onlineArr: arr
+        dataArr: arr
       })
       Taro.hideLoading()
     })
@@ -95,14 +111,14 @@ class Index extends Component {
   }
 
   render() {
-    console.log(this.state.onlineArr)
-    let onlineArr = this.state.onlineArr
+    console.log(this.state.dataArr)
+    let dataArr = this.state.dataArr
 
-    // onlineArr.length = 0
+    // dataArr.length = 0
     let text
-    let pageDown = (item, id ="", isLoseEfficacy)=>{ if(isLoseEfficacy){ Taro.showToast({title: "该订单已经失效！",icon:"none"}); return } Taro.navigateTo({url: `/pages/order/details/index?jobType=${item}&id=${id}`})}
-    if(onlineArr.length>0)
-        text = onlineArr.map(item=> <View onClick={pageDown.bind(this, item.detailType, item._id, item.isLoseEfficacy)} className="unOnline-card" ><FavoriteCard enable={item.enable} key={item.orderId} favorite={item}></FavoriteCard> </View>  )
+    let pageDown = (item, id ="", isLoseEfficacy)=>{ Taro.navigateTo({url: `/pages/order/details/index?jobType=${item}&id=${id}`})}
+    if(dataArr.length>0)
+        text = dataArr.map(item=> <View onClick={pageDown.bind(this, item.detailType, item._id, item.isLoseEfficacy)} className="unOnline-card" ><FavoriteCard enable={item.enable} key={item.orderId} favorite={item}></FavoriteCard> </View>  )
     else
         text = <View className="center-content" > <View>-----没有更多-----</View></View>
     return (

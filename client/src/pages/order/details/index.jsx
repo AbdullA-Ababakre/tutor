@@ -419,10 +419,12 @@ export default class Index extends Component {
 
   openAdminBoard(){
     const job = this.state[getCurrentInstance().router.params.jobType];
+    const itemList = [`${!job.isLoseEfficacy?"订单已被领走":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`]
     let that = this
     wx.showActionSheet({
       itemList: [`${!job.isLoseEfficacy?"订单已被领走":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`],
       success (res) {
+        let index = res.tapIndex
         console.log(res.tapIndex)
         switch(res.tapIndex){
           case 0: job.isLoseEfficacy = !job.isLoseEfficacy; break;
@@ -441,6 +443,11 @@ export default class Index extends Component {
             top: job.top,
             isOnline: job.isOnline
           }
+        })
+        .then(res=>{
+          Taro.showToast({
+            title: `${itemList[index]}`
+          })
         })
         Taro.hideLoading()
       },

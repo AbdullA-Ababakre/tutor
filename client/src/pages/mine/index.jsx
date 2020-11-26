@@ -13,6 +13,7 @@ import icon_phone from "../../images/mine/icon_phone.png";
 import icon_not_vip from "../../images/mine/icon_not_vip.png";
 import icon_vip from "../../images/mine/icon_vip.png";
 import banner_become_vip from "../../images/mine/banner_become_vip.png";
+import banner_is_vip from "../../images/mine/banner_is_vip.png";
 import btn_favorites from "../../images/mine/btn_favorites.png";
 import btn_post from "../../images/mine/btn_post.png";
 import btn_about from "../../images/mine/btn_about.png";
@@ -286,7 +287,7 @@ export default class Index extends Component {
         <View className="become-vip-container">
           <image
             className="banner-become-vip"
-            src={banner_become_vip}
+            src={!this.state.isVip?banner_become_vip:banner_is_vip}
             onClick={pageJump("activate_vip")}
           />
           <image
@@ -326,7 +327,8 @@ export default class Index extends Component {
       
       {/*  这里是管理员操作 */}
       { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
-      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckOrder")} >查看未上架订单信息 </Button>}
+      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={() => Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=online" })} >查看未上架订单信息 </Button>}
+      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={() =>  Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=loseEfficacy" })} >查看失效订单信息 </Button>}
        
        {/* 这里是关注公众号的浮窗 */}
       <official-account></official-account>
