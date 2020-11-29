@@ -54,6 +54,7 @@ export default class Index extends Component {
       showDiag: false,
       _id : "",
       openid: "",
+      clickNum: 0,
       enable: false,
       familyCourse: {
         _openid : '',
@@ -122,19 +123,15 @@ export default class Index extends Component {
     //  路由传值到这里来了
     //  传来了两个值 一个是 jobType  一个是 id 其实是_id 为了查记录
     // console.log(getCurrentInstance().router.params)
-    let data = await this.getPath()
-    this.setState({
-      path: data.path
-    })
+
     try {
       this.setState({
         openid: Taro.getStorageSync("openid"),
       })
 
       this.setState({
-        isVip: Taro.getStorageSync("isVip")
-      })
-      console.log(this.state.isVip);
+        userVip: Taro.getStorageSync("isVip")
+      },()=>{console.log('userVip', this.state.userVip)})
 
       //  这里迷惑性很强 拿不到 数据？？？
       let isAdmin = Taro.getStorageSync("isAdmin")
@@ -153,9 +150,12 @@ export default class Index extends Component {
       case "companyCourse": this.getOrganizationData();break;
       case "other": this.getOtherData(); break;
     }
+    let data = await this.getPath()
+    this.setState({
+      path: data.path
+    })
     this.setShareOpenId()
   }
-  
 
   // 绑定 分享者的 openid
   setShareOpenId(){
@@ -186,6 +186,7 @@ export default class Index extends Component {
       Taro.showLoading({
         title:"加载中"
       })
+      console.log(getCurrentInstance());
       Taro.cloud.callFunction({
         name: "getSharePath",
         data: {
@@ -234,6 +235,7 @@ export default class Index extends Component {
       })
       .then(res=>{
         Taro.hideLoading()
+        Taro.setStorageSync("enable", res.result.data.data.favourList.indexOf(this.state.openid)!==-1)
         resolve(res)
       })
       .catch(err=>{
@@ -341,33 +343,32 @@ export default class Index extends Component {
 
   // 改变收藏
   changeFav(){
+    Taro.setStorageSync("enable", !this.state.enable)
+    this.setState({
+      enable: !this.state.enable,
+      clickNum: this.state.clickNum+1
+    },()=>{console.log(this.state.enable)})
+    // 本来想最后再更新状态的，但异步难顶，外面的数据没有来的急更新
     let getType =""
     switch(getCurrentInstance().router.params.jobType){
       case "familyCourse": getType="parent"; break;
       case "companyCourse":getType="organization"; break;
       case "other":getType="other"; break;
     }
-    let data = this.state[getCurrentInstance().router.params.jobType]
-
-    if(this.state.enable){
-      let index = data.favourList.indexOf(this.state.openid)
-      data.favourList.splice(index, 1)
-    }else{
-      data.favourList.push(this.state.openid)
-    }
-    this.setState({
-      enable: !this.state.enable
-    })
-    Taro.cloud.callFunction({
+   Taro.cloud.callFunction({
       name: 'setFavData',
       data: {
         getType: getType,
         _id: this.state._id,
-        favourList: data.favourList
+        enable: this.state.enable
       }
+    }).then(res=>{
+      console.log(res);
     })
+  }
 
-
+  getEnable(){
+    return Taro.getStorageSync("enable")
   }
 
   // 获得 用户的数据（为了vip字段）
@@ -511,7 +512,7 @@ export default class Index extends Component {
     if(job.jobType==="companyCourse") {Taro.setNavigationBarTitle({title: "机构/企业教师"}) }
     if(job.jobType==="other") {Taro.setNavigationBarTitle({title: "其他岗位"})}
     if(this.state.userVip)  Taro.setNavigationBarColor({frontColor: "#000000",backgroundColor: "#ffc63b"}) 
-    
+
     let turnVipPage = () =>{ Taro.navigateTo({url: '/pages/mine/activate_vip/index'})}
     let vipCard =(
       <View onClick={turnVipPage} className='details-infocard'>
@@ -532,7 +533,7 @@ export default class Index extends Component {
       <View className='details-text-w-icon-container'>
         <Image className='details-icon-text-w-icon' src={icon_time} />{job.workTime}
          <View className='details-label-grey'>{job.teachingTimeTag}</View>
-        <FavButton enable={this.state.enable} onClick={this.changeFav.bind(this)} style='float: right;'/>
+        <FavButton enable={this.getEnable()} onClick={this.changeFav.bind(this)} style='float: right;'/>
       </View>
     )
     // 老师要求 或 岗位内容/要求 下面的灰色标签

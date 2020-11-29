@@ -68,7 +68,7 @@ export default class Index extends Component {
         <View className="box-commission" >
           { `佣金：${user.commission}`}
         </View>
-        <Button className="box-btn" size="mini" type="warn" onClick={this.resetCommission.bind(this, user._id)} >
+        <Button className="box-btn" onClick={this.resetCommission.bind(this, user._id)} >
             佣金归零
         </Button>
       </View>)):""

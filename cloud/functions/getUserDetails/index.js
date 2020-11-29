@@ -41,7 +41,7 @@ exports.main = async (event, context) => {
   .then(result => {
     if(result.data.length == 0) {
       // 创建用户在数据库中的记录
-      let newUserData = {isVip: false, phone: "", isAdmin: false}
+      let newUserData = {isVip: false, phone: "", isAdmin: false, commission: 0}
       console.log("newUser:",newUserData,"openid:",OPENID);
       return cloud.callFunction({
         name: "changeUserDetails",
@@ -51,6 +51,19 @@ exports.main = async (event, context) => {
         return newUserData;
       })
     } else {
+      // 判断是否过期 如果过期的话 就要去 更新状态
+      // if(result.data[0].isVip){
+      //   let vipBeginTime = result.data[0].vipBeginTime
+      //   let now = new Date()
+      //   if(!completeDate(vipBeginTime, now, result.data[0].vipMonth)){
+      //     db.collection("users").where({
+      //       openId: OPENID
+      //     }).update({
+      //       isVip: false
+      //     })
+      //   }
+      // }
+
       return new Promise(resolve=>{resolve(result.data[0])});
     }
   })

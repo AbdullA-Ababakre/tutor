@@ -40,7 +40,7 @@ let getAllTopData = async (event) =>{
       })
     },
     {
-      isVip: db.RegExp({
+      requireVip: db.RegExp({
         regexp: `.*${event.selectNonVip?"false":""}`,
         options: 'i'
       })
@@ -88,7 +88,7 @@ let getAllTopData = async (event) =>{
       })
     },
     {
-      isVip: db.RegExp({
+      requireVip: db.RegExp({
         regexp: `.*${event.selectNonVip?"false":""}`,
         options: 'i'
       })
@@ -118,7 +118,7 @@ let getAllTopData = async (event) =>{
       })
     },
     {
-      isVip: db.RegExp({
+      requireVip: db.RegExp({
         regexp: `.*${event.selectNonVip?"false":""}`,
         options: 'i'
       })
@@ -197,7 +197,7 @@ exports.main = async (event, context) => {
         })
       },
       {
-        isVip: db.RegExp({
+        requireVip: db.RegExp({
           regexp: `.*${event.selectNonVip?"false":""}`,
           options: 'i'
         })
@@ -249,7 +249,7 @@ exports.main = async (event, context) => {
         })
       },
       {
-        isVip: db.RegExp({
+        requireVip: db.RegExp({
           regexp: `.*${event.selectNonVip?"false":""}`,
           options: 'i'
         })
@@ -280,7 +280,7 @@ exports.main = async (event, context) => {
         })
       },
       {
-        isVip: db.RegExp({
+        requireVip: db.RegExp({
           regexp: `.*${event.selectNonVip?"false":""}`,
           options: 'i'
         })

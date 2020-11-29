@@ -9,7 +9,7 @@ export default {
     'pages/order/index',
     'pages/order/vip_rule/index',
     'pages/order/details/index',
-		'pages/index/parent/intro/index',
+		// 'pages/index/parent/intro/index',
 		'pages/study/index',
 		'pages/study/articlePage/index',
 		'pages/mine/index',

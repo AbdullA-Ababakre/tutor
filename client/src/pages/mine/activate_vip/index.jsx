@@ -24,12 +24,42 @@ export default class Index extends Component {
 
   pay() {
     let plan = this.state.selectedPlan;
-    let total = plan == 1 ? 300 : 200;
+    let total = plan == 1 ? 350 : 200;
     Taro.showToast({
       title: `TODO支付${total}元`,
       icon: 'success',
       duration: 2000
     })
+
+    // // 这里 是支付代码
+    // Taro.cloud.callFunction({
+    //   name: 'wxPay',
+    //   data: {
+    //     total
+    //   }
+    // })
+    // .then(res=>{
+    //   const payment = res.result.payment
+    //   let vipMonth = total===350?12:1
+    //   wx.requestPayment({
+    //     ...payment,
+    //     success (res) {
+    //       Taro.cloud.callFunction({
+    //         name: 'setUserDetail',
+    //         data: {
+    //           setVip: true,
+    //           vipMonth: vipMonth
+    //         }
+    //       })
+    //       console.log('pay success', res)
+    //     },
+    //     fail (res) {
+    //       console.error('pay fail', err)
+    //     }
+    //   })
+    // })
+
+    // 
     Taro.navigateTo({url: "/pages/success_pages/vip_success/index"});
   }
 

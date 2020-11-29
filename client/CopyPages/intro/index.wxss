@@ -1,0 +1,101 @@
+.intro-wrapper .header-image {
+  width: 100%;
+}
+
+.intro-wrapper .body {
+  padding: 38rpx 45rpx 0 45rpx;
+}
+
+.intro-wrapper .body .topicImg {
+  height: 150rpx;
+  display: block;
+  margin: 0 auto;
+}
+
+.intro-wrapper .body .intro-text {
+  border: 1rpx solid #fff;
+  background-color: #29d6a0;
+  color: #ffffff;
+  border-radius: 16rpx;
+  padding: 30rpx 10rpx;
+  font-size: 24rpx;
+  font-weight: 550;
+  letter-spacing: 9rpx;
+  text-align: center;
+  margin: 39rpx 0 44rpx 0;
+}
+
+.intro-wrapper .body .cityList {
+  display: flex;
+}
+
+.intro-wrapper .body .cityList .city {
+  width: 94rpx;
+  height: 44rpx;
+  background-color: #b2b2b2;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  font-weight: 400;
+  line-height: 44rpx;
+  text-align: center;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.intro-wrapper .body .cityList .city:not(:last-child) {
+  margin-right: 19rpx;
+}
+
+.intro-wrapper .body .priceBox {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 34rpx;
+}
+
+.intro-wrapper .body .priceBox .box {
+  width: 300rpx;
+  height: 190rpx;
+  border: 2rpx solid #ffa10d;
+  opacity: 1;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  line-height: 40rpx;
+  color: #ffa10d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.intro-wrapper .body .online-class {
+  font-size: 22rpx;
+  font-family: PingFang SC;
+  font-weight: 300;
+  line-height: 70rpx;
+  color: #b2b2b2;
+}
+
+.intro-wrapper .body button {
+  margin-top: 86rpx;
+  width: 100%;
+  background-color: #fc4442;
+  border-radius: 16rpx;
+  font-size: 38rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 118rpx;
+  color: #ffffff;
+}
+
+.intro-wrapper .body .footer-txt {
+  width: 536rpx;
+  height: 60rpx;
+  margin: 11rpx auto;
+  font-size: 22rpx;
+  font-weight: 300;
+  line-height: 30rpx;
+  text-align: center;
+  color: #b2b2b2;
+  opacity: 1;
+}
+

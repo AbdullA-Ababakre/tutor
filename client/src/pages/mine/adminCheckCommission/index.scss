@@ -9,21 +9,45 @@ page{
 }
 
 .container-box{
-  width: 658px;
-  height: 106px;
+  width: 720px;
+  height: 154px;
   border-radius: 16px;
   padding: 15px 20px;
   box-sizing: border-box;
   background: #FFFFFF;
   display: block;
   overflow: hidden;
-  box-shadow: 1px 2px 5px #DFDFDF;
+  border: 1px solid #ffbe1e;
+  box-shadow: 0px 0px 5px #ffbe1e;
   position: relative;
+  left: 2%;
   margin-bottom: 20px;
+}
+
+.box-phone{
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  color: #888888
+}
+
+.box-commission{
+  position: absolute;
+  top: 55%;
+  left: 5%;
+  color: #888888
 }
 
 .box-btn{
   position: absolute;
-  right: 10%;
-  top: 20%;
+  right: 5%;
+  top: 25%;
+  width: 206px;
+  height: 76px;
+  line-height: 76px;
+  background: #FC4442;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 32px;
+  font-weight: 500;
 }
