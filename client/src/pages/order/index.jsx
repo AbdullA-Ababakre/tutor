@@ -19,6 +19,7 @@ export default class Index extends Component {
       backgroundColor: "#FC4442",
     });
     this.state = {
+      openid: "",
       isMax: false,
       page: 1,
       data: [],
@@ -32,10 +33,18 @@ export default class Index extends Component {
   }
 
   componentDidShow(){
-    this.onSelect()    
+    this.onSelect()   
   }
   componentDidMount(){
     this.setShareOpenId()
+    try {
+      let openid = Taro.getStorageSync("openid")
+      this.setState({
+        openid: openid
+      })
+    } catch (error) {
+      this.getUserData()
+    } 
   }
 
   onReachBottom(){
@@ -105,6 +114,25 @@ export default class Index extends Component {
     return {
       query: data.query
     }  
+  }
+
+  getUserData(){
+    Taro.cloud.callFunction({
+      name: 'getUserDetails'
+    })
+    .then(res=>{
+      // console.log(res)
+      try {
+        Taro.setStorageSync("openid", res.result.openId)
+        Taro.setStorageSync("isVip", res.result.isVip)
+        Taro.setStorageSync("isAdmin", res.result.isAdmin)
+      } catch (error) {
+        console.log(error);
+      }      
+      this.setState({
+        openid: res.result.openId,
+      })
+    })
   }
 
   onClick () {
@@ -205,14 +233,14 @@ export default class Index extends Component {
                 
               }
               return (
-                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid}  showLabel={showLabel} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} top={item.top} />
+                <OrderCard  onClick={pageDown.bind(this, item.detailType, item._id)} openid={this.state.openid} top={item.top} showLabel={showLabel} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.requireVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} top={item.top} />
               )
             }
             else{
               let title = item.positionName
               let address = item.positionAddress
               return (
-                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} _openid={item._openid} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.isVip} location={address} price={item.positionSalary}  workTime={item.workingTime} jobType={item.jobType} top={item.top} />
+                <OrderCard onClick={pageDown.bind(this, item.detailType, item._id)} openid={this.state.openid} top={item.top} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.requireVip} location={address} price={item.positionSalary}  workTime={item.workingTime} jobType={item.jobType} top={item.top} />
               )
             }
           }

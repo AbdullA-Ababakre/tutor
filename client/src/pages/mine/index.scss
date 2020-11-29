@@ -124,7 +124,21 @@
 
 .bigbutton-text {
   color: #353535;
-  font-size: 26px;
-  font-weight: 400;
+  font-size: 25px;
+  font-weight: 500;
   margin-top: 10px;
+}
+
+.admin-button{
+  font-size: 30px;
+  font-weight: 550;
+  line-height: 110px;
+  color: #888888;
+  background-color: #fff;
+  border: 1px solid #FFBE1E;
+  border-radius: 100px;
+  height: 110px;
+  width: 720px;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 10px #ffe794;
 }

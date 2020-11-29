@@ -5,11 +5,12 @@ import "./index.scss";
 
 import icon_share from "../../images/share.png"
 import FavButton from "../FavButton";
+import TopIcon from "../TopIcon";
 
 export default class ArticleCard extends Component {
   render() {
     let job = this.props;
-    let enable = job.favourList.indexOf(job._openid)!==-1
+    let enable = job.favourList.indexOf(job.openid)!==-1
     return (
       <View onClick={job.onClick} className="order-card-container">
         <View className={job.requireVip!=="false"?"order-icon-noviponly":"order-icon-viponly"}>{job.requireVip=="false"? "非会员":"会员"}</View>
@@ -24,13 +25,17 @@ export default class ArticleCard extends Component {
           <View className="order-price">{job.price}</View>
         </View>
         <View className="order-horizontal-line"/>
-        <View className="order-work-time">时间：{job.workTime}</View>
+        <View className="order-top-margin order-flexbox order-flexbox-space-between">
+           <View className="order-work-time">时间：{job.workTime}</View>
+          <TopIcon top={this.props.top} ></TopIcon>
+        </View>
+
         { job.showLabel?
           <View className="order-top-margin order-flexbox order-flexbox-space-between">
             <View className="order-label"> 可线上 </View>
             <FavButton className="order-fav"  enable={enable} />
           </View>: 
-          <FavButton style="float: right"  enable={enable} />
+          <FavButton style="float: right;margin-top: 12px"  enable={enable} />
         }
 
         {/* <Text style="font-weight:500; font-size:10px;float: right" >

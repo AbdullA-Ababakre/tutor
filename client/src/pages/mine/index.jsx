@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Taro,{ getCurrentInstance } from "@tarojs/taro";
+import Taro,{ getCurrentInstance, previewImage } from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
 import {
   AtModal,
@@ -167,6 +167,9 @@ export default class Index extends Component {
       if (!details) return;
       try {
         Taro.setStorageSync("openid", res.result.openId)
+        Taro.setStorageSync("isVip", res.result.isVip)
+        Taro.setStorageSync("isAdmin", res.result.isAdmin)
+        console.log("isAdmin",res.result.isAdmin);
       } catch (error) {
         console.log(error);
       }
@@ -294,7 +297,7 @@ export default class Index extends Component {
             className="img-subscribe-gzh"
             src={img_subscribe_account}
             mode="widthFix"
-            onClick={pageJump("official_acounts")}
+            onClick={()=> Taro.previewImage({urls:['cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/微信图片_20201122235218.jpg']})}
           />
         </View>
 
@@ -326,9 +329,9 @@ export default class Index extends Component {
         </View>
       
       {/*  这里是管理员操作 */}
-      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
-      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={() => Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=online" })} >查看未上架订单信息 </Button>}
-      { this.state.isAdmin &&  <Button style="margin: 30px" onClick={() =>  Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=loseEfficacy" })} >查看失效订单信息 </Button>}
+      { this.state.isAdmin &&  <Button className="admin-button" onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
+      { this.state.isAdmin &&  <Button className="admin-button" onClick={() => Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=online" })} >查看未上架订单信息 </Button>}
+      { this.state.isAdmin &&  <Button className="admin-button" onClick={() =>  Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=loseEfficacy" })} >查看失效订单信息 </Button>}
        
        {/* 这里是关注公众号的浮窗 */}
       <official-account></official-account>

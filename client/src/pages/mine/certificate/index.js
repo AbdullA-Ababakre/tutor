@@ -20,6 +20,17 @@ Page({
         size: true,
       })
       .exec(this.init.bind(this));
+
+    wx.showLoading({
+      title: "加载中"
+    })
+    wx.cloud.callFunction({
+      name: 'getUserDetails'
+    })
+    .then(res=>{
+      this.drawName(res.result.realName)
+      wx.hideLoading()
+    })
   },
 
   handleNameInput(e){

@@ -42,7 +42,7 @@ export default class Index extends Component {
     /*
     这里说明一下变量的对应
     @jobType: 对应家庭教师，机构教师，其他岗位
-    @isVip: true/false  是否Vip
+    @requireVip: true/false  是否Vip
     */
 
     this.state = {
@@ -62,7 +62,7 @@ export default class Index extends Component {
         jobPrice: "",
         location: "",
         workTime: "",
-        isVip: "false",
+        requireVip: "false",
         workDuration: "",
         requirements: "",
         requirementLabels: [],
@@ -83,7 +83,7 @@ export default class Index extends Component {
         jobPrice: "",
         location: "",
         workTime: "",
-        isVip: "false",
+        requireVip: "false",
         workDuration: "",
         requirements: "",
         tel: "",
@@ -102,7 +102,7 @@ export default class Index extends Component {
         jobType: "",
         jobTask: "",
         jobPrice: "",
-        isVip: "false",
+        requireVip: "false",
         location: "",
         tel: "",
 
@@ -117,16 +117,37 @@ export default class Index extends Component {
       }
     };
   }
-   
   
-  componentDidMount(){
+  async componentWillMount(){
     //  路由传值到这里来了
     //  传来了两个值 一个是 jobType  一个是 id 其实是_id 为了查记录
     // console.log(getCurrentInstance().router.params)
+    let data = await this.getPath()
     this.setState({
-      path: `pages/order/details/index?jobType=${getCurrentInstance().router.params.jobType}&id=${getCurrentInstance().router.params.id}`
+      path: data.path
     })
-    this.getUserData()
+    try {
+      this.setState({
+        openid: Taro.getStorageSync("openid"),
+      })
+
+      this.setState({
+        isVip: Taro.getStorageSync("isVip")
+      })
+      console.log(this.state.isVip);
+
+      //  这里迷惑性很强 拿不到 数据？？？
+      let isAdmin = Taro.getStorageSync("isAdmin")
+      if(isAdmin===""){
+        this.getUserData()
+      }else{
+        this.setState({
+          isAdmin: isAdmin
+        })
+      }
+    } catch (error) {
+      this.getUserData()
+    }
     switch(getCurrentInstance().router.params.jobType){
       case "familyCourse": this.getParentData();  break;
       case "companyCourse": this.getOrganizationData();break;
@@ -232,7 +253,7 @@ export default class Index extends Component {
             jobPrice: data.salarySelectorChecked+ "/小时",
             location: data.addressSelectorChecked + data.exactAddress,
             workTime: `${data.teachingDay.join(" | ")} ${data.teachingTime} `,
-            isVip: data.isVip,
+            requireVip: data.requireVip,
             workDuration: "一次上课" + data.tutorDuration,
             requirements: `性别: ${data.teacherGenderChecked} | ${data.teacherRequireText}`,
             requirementLabels: data.teacherRequirementTag,
@@ -266,7 +287,7 @@ export default class Index extends Component {
                 jobPrice: `${data.salarySelectorChecked}/小时`,
                 location: `${data.addressSelectorChecked} ${data.exactAddress}`,
                 workTime: `${data.teachingDay.join(" | ")} ${data.teachingTime}`,
-                isVip: data.isVip,
+                requireVip: data.requireVip,
                 workDuration: `一次上课${data.tutorDuration}`,
                 requirements: data.teacherRequireText,
                 jobDescription: data.positionInfo,
@@ -297,7 +318,7 @@ export default class Index extends Component {
             jobType: "other",
             jobTask: data.positionName,
             jobPrice: data.positionSalary,
-            isVip: data.isVip,
+            requireVip: data.requireVip,
             location: data.positionAddress,
             cooperation: data.organizationNmae,
             workDuration: data.workingTime,
@@ -333,6 +354,9 @@ export default class Index extends Component {
     }else{
       data.favourList.push(this.state.openid)
     }
+    this.setState({
+      enable: !this.state.enable
+    })
     Taro.cloud.callFunction({
       name: 'setFavData',
       data: {
@@ -342,9 +366,7 @@ export default class Index extends Component {
       }
     })
 
-    this.setState({
-      enable: !this.state.enable
-    })
+
   }
 
   // 获得 用户的数据（为了vip字段）
@@ -356,6 +378,8 @@ export default class Index extends Component {
       // console.log(res)
       try {
         Taro.setStorageSync("openid", res.result.openId)
+        Taro.setStorageSync("isVip", res.result.isVip)
+        Taro.setStorageSync("isAdmin", res.result.isAdmin)
       } catch (error) {
         console.log(error);
       }      
@@ -392,7 +416,7 @@ export default class Index extends Component {
         showDiag: true
       })
     }else{
-      if(this.state[getCurrentInstance().router.params.jobType].isVip==="false"){
+      if(this.state[getCurrentInstance().router.params.jobType].requireVip==="false"){
         this.setState({
           showDiag: true
         })
@@ -419,10 +443,10 @@ export default class Index extends Component {
 
   openAdminBoard(){
     const job = this.state[getCurrentInstance().router.params.jobType];
-    const itemList = [`${!job.isLoseEfficacy?"订单已被领走":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`]
+    const itemList = [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`]
     let that = this
     wx.showActionSheet({
-      itemList: [`${!job.isLoseEfficacy?"订单已被领走":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`],
+      itemList: [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`],
       success (res) {
         let index = res.tapIndex
         console.log(res.tapIndex)
@@ -430,6 +454,7 @@ export default class Index extends Component {
           case 0: job.isLoseEfficacy = !job.isLoseEfficacy; break;
           case 1: job.top = !job.top; break;
           case 2: job.isOnline = !job.isOnline; break;
+          case 3: job.requireVip = job.requireVip==="true"?"false":"true"; break;
         }
         Taro.showLoading({
           title: "加载中"
@@ -441,20 +466,43 @@ export default class Index extends Component {
             _id: that.state._id,
             isLoseEfficacy: job.isLoseEfficacy,
             top: job.top,
-            isOnline: job.isOnline
+            isOnline: job.isOnline,
+            requireVip: job.requireVip
           }
         })
         .then(res=>{
-          Taro.showToast({
-            title: `${itemList[index]}`
-          })
+          Taro.hideLoading()
+          if(index==0)
+            Taro.showToast({
+              title: `${itemList[index]}`,
+              icon: "none"
+            })
+          else
+            Taro.showToast({
+              title: `${itemList[index]}`,
+            })
         })
-        Taro.hideLoading()
       },
       fail (res) {
         console.log(res.errMsg)
       }
     })
+  }
+
+  setUserVip(){
+    try {
+      let userVip = Taro.getStorageSync("isVip")
+      console.log('====================================');
+      console.log(userVip);
+      console.log('====================================');
+      this.setState({
+        userVip: userVip
+      })
+      console.log(this.state.userVip)
+
+    } catch (error) {
+      
+    }
   }
 
   render () {

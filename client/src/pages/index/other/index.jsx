@@ -24,6 +24,19 @@ export default class Index extends React.Component {
         tel: ""
     };
 
+    async componentDidMount(){
+      const db = wx.cloud.database()
+      let data = await db.collection("otherData").doc("b1a52c595fc30a680099dc67614c776b").get()
+      console.log(data);
+      let stateName = ['organizationName', 'positionName', 'positionInfo', 'positionSalary', 'positionAddress', 'recruitNum', 'workingTime', 'tel']
+      stateName.forEach(item=>{
+        this.setState({
+          [item]: data.data[item]
+        })
+      })
+      console.log(this.state)
+    }
+
     // 企业名称
     handleOrganizationName(e) {
         const organizationName = e.target.value;
