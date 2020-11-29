@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, {getCurrentInstance}  from '@tarojs/taro';
 import React from 'react';
 import {
   Form,
@@ -47,10 +47,29 @@ export default class Index extends React.Component {
       ['南山区', '福田区', '罗湖区', '宝安区', '龙岗区', '盐田区', '坪山区', '龙华区', '光明新区']
     ],
     addressSelectorChecked: '深圳南山区',
-    exactAddress: ''
+    exactAddress: '',
+    _id: "",
   };
 
+  componentDidMount(){
+    this.setState({
+      _id: getCurrentInstance().router.params['_id'] || ""
+    },()=>{if(!this.state._id){}else{this.getEditData()}})
+  }
 
+  async getEditData(){
+    const db = wx.cloud.database()
+    let data = await db.collection("organizationData").doc(this.state._id).get()
+    let stateName = ['gradeChecked', 'tutorType', 'tutorSubject', 'positionInfo', 'teacherRequireText',
+                      'salarySelectorChecked', 'tel', 'organizationName', 'recruitNum', 'teachingDay', 
+                      'tutorDuration', 'teachingTime', 'teachingTimeTag', 'addressSelector', 'addressSelectorChecked',
+                      'exactAddress']
+    stateName.forEach(item=>{
+      this.setState({
+        [item]: data.data[item]
+      })
+    })
+  }
 
   onGradeChange = (e) => {
     this.setState({
@@ -326,6 +345,7 @@ export default class Index extends React.Component {
       addressSelector,
       addressSelectorChecked,
       exactAddress,
+      _id
     } = this.state;
 
     if (!tel) {
@@ -397,12 +417,19 @@ export default class Index extends React.Component {
           addressSelector,
           addressSelectorChecked,
           exactAddress,
+          _id
         },
       })
       .then(res => {
         Taro.hideLoading();
-
-        Taro.redirectTo({url: '/pages/index/organizationAgain/index'})
+        if(!_id){
+          Taro.redirectTo({url: '/pages/index/organizationAgain/index'})
+        }else{
+          Taro.showToast({
+            title: "修改成功"
+          })
+          Taro.switchTab({url: "/pages/index/index"})
+        }
         console.log("res---", res);
       })
 
@@ -431,7 +458,7 @@ export default class Index extends React.Component {
       tutorDurationArr,
       teachingTime,
       teachingTimeTag,
-      teachingTimeTagArr
+      teachingTimeTagArr,
     } = this.state;
     return (
       <View className="info-wrapper">
@@ -441,7 +468,7 @@ export default class Index extends React.Component {
             <Image className="img" src={imgOne} />
           </View>
           {/* 学生年级 */}
-          <Picker mode="selector" range={this.state.grade} onChange={this.onGradeChange}>
+          <Picker mode="selector" value={this.state.gradeChecked} range={this.state.grade} onChange={this.onGradeChange}>
             <AtList>
               <AtListItem title="学生年级" extraText={this.state.gradeChecked} />
             </AtList>
@@ -502,7 +529,7 @@ export default class Index extends React.Component {
           {/* 薪资 */}
           <View className="page-section salary-wrapper">
             <View>您愿意接受的时薪范围</View>
-            <Picker mode="multiSelector" range={this.state.salarySelector} onChange={this.onSalaryChange}>
+            <Picker mode="multiSelector" range={this.state.salarySelector} value={this.state.salarySelectorChecked} onChange={this.onSalaryChange}>
               <AtList>
                 <AtListItem title="时薪范围" extraText={this.state.salarySelectorChecked} />
               </AtList>
@@ -520,6 +547,7 @@ export default class Index extends React.Component {
           <Input
             className="teachingTimeInput"
             name="tel"
+            value={this.state.tel}
             type="number"
             placeholder="请输入手机号"
             placeholderClass="placeHolderClass"
@@ -531,6 +559,7 @@ export default class Index extends React.Component {
           <Input
             className="teachingTimeInput"
             name="tel"
+            value={this.state.organizationName}
             type="text"
             placeholder="必填"
             placeholderClass="placeHolderClass"
@@ -542,6 +571,7 @@ export default class Index extends React.Component {
           <Input
             className="teachingTimeInput"
             name="tel"
+            value={this.state.recruitNum}
             type="number"
             placeholder="例：5"
             placeholderClass="placeHolderClass"
@@ -589,6 +619,7 @@ export default class Index extends React.Component {
           <Input
             className="teachingTimeInput"
             name="teachingTime"
+            value={this.state.teachingTime}
             type="text"
             placeholder="例:19:00-21:00"
             placeholderClass="placeHolderClass"
@@ -615,6 +646,7 @@ export default class Index extends React.Component {
           <View className="title">上课地点</View>
           <Picker
             mode="multiSelector"
+            value={this.state.addressSelectorChecked}
             range={this.state.addressSelector}
             onChange={this.onAddressSelectorChange}
             onColumnChange={this.columnChange}
@@ -626,6 +658,7 @@ export default class Index extends React.Component {
           <Input
             className="teachingTimeInput"
             name="exactAddress"
+            value={this.state.exactAddress}
             type="text"
             placeholder="例：xx小区 xx栋 xx单元　xx房号"
             placeholderClass="placeHolderClass"

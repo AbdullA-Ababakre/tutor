@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, {getCurrentInstance}  from '@tarojs/taro';
 import React from 'react';
 import {
   Form,
@@ -58,8 +58,32 @@ export default class Index extends React.Component {
       ['福田区', '罗湖区', '南山区', '宝安区', '龙岗区', '盐田区', '坪山区', '龙华区', '光明新区']
     ],
     addressSelectorChecked: '深圳南山区',
-    exactAddress: ''
+    exactAddress: '',
+    _id: ""
   };
+
+  componentDidMount(){
+    this.setState({
+      _id: getCurrentInstance().router.params['_id'] || ""
+    },()=>{if(!this.state._id){}else{this.getEditData()}})
+  }
+
+  async getEditData(){
+    const db = wx.cloud.database()
+    let data = await db.collection("parentData").doc(this.state._id).get()
+    let stateName = [
+      'gradeChecked', 'genderChecked', 'classForm', 'tutorType', 'tutorSubject',
+      'tutorGoal', 'studentInfo', 'teacherGenderChecked', 'teacherRequire',
+      'teacherRequireText', 'salarySelectorChecked', 'teacherRequirementTag',
+      'tel', 'teachingDay', 'tutorDuration', 'teachingTime', 'teachingTimeTag',
+      'addressSelectorChecked', 'exactAddress'
+    ]
+    stateName.forEach(item=>{
+      this.setState({
+        [item]: data.data[item]
+      })
+    })
+  }
 
   onGenderChange = (e) => {
     this.setState({
@@ -367,7 +391,8 @@ export default class Index extends React.Component {
       teachingTime,
       teachingTimeTag,
       addressSelectorChecked,
-      exactAddress
+      exactAddress,
+      _id
     } = this.state;
 
     if (!tel) {
@@ -420,14 +445,25 @@ export default class Index extends React.Component {
           teachingTime,
           teachingTimeTag,
           addressSelectorChecked,
-          exactAddress
+          exactAddress,
+          _id
         },
       })
       .then(res => {
         Taro.hideLoading();
-        Taro.redirectTo({
-          url: `/pages/index/parentAgain/index`,
-      });
+        if(!this.state._id){
+            Taro.redirectTo({
+              url: `/pages/index/parentAgain/index`,
+          });
+        }else{
+          Taro.showToast({
+            title: "修改成功"
+          })
+          Taro.switchTab({
+            url: "/pages/index/index"
+          })
+        }
+ 
         console.log("res---", res);
       })
 
@@ -465,13 +501,13 @@ export default class Index extends React.Component {
             <Image className="img" src={imgOne} />
           </View>
           {/* 学生年级 */}
-          <Picker mode="selector" range={this.state.grade} onChange={this.onGradeChange}>
+          <Picker value={this.state.gradeChecked} mode="selector" range={this.state.grade} onChange={this.onGradeChange}>
             <AtList>
               <AtListItem title="学生年级" extraText={this.state.gradeChecked} />
             </AtList>
           </Picker>
           {/* 性别 */}
-          <Picker mode="selector" range={this.state.gender} onChange={this.onGenderChange}>
+          <Picker value={this.state.genderChecked} mode="selector" range={this.state.gender} onChange={this.onGenderChange}>
             <AtList>
               <AtListItem title="学生性别" extraText={this.state.genderChecked} />
             </AtList>
@@ -557,7 +593,7 @@ export default class Index extends React.Component {
             <Image className="img" src={imgTwo} />
           </View>
 
-          <Picker mode="selector" range={this.state.teacherGender} onChange={this.onTeacherGenderChange}>
+          <Picker vlaue={this.state.teacherGenderChecked} mode="selector" range={this.state.teacherGender} onChange={this.onTeacherGenderChange}>
             <AtList>
               <AtListItem title="老师性别" extraText={this.state.teacherGenderChecked} />
             </AtList>
@@ -592,7 +628,7 @@ export default class Index extends React.Component {
           {/* 老师要求 薪资 */}
           <View className="page-section salary-wrapper">
             <View className="title">老师要求(补充)</View>
-            <Picker mode="multiSelector" range={this.state.salarySelector} onChange={this.onSalaryChange}>
+            <Picker value={this.state.salarySelectorChecked} mode="multiSelector" range={this.state.salarySelector} onChange={this.onSalaryChange}>
               <AtList>
                 <AtListItem title="老师时薪" extraText={this.state.salarySelectorChecked} />
               </AtList>
@@ -619,6 +655,7 @@ export default class Index extends React.Component {
           {/* 手机号 */}
           <View className="title">您的联系电话</View>
           <Input
+            value={this.state.tel}
             className="teachingTimeInput"
             name="tel"
             type="number"
@@ -664,6 +701,7 @@ export default class Index extends React.Component {
           {/* 上课时间 */}
           <View className="title">上课时间</View>
           <Input
+            value={this.state.teachingTime}
             className="teachingTimeInput"
             name="teachingTime"
             type="text"
@@ -692,6 +730,7 @@ export default class Index extends React.Component {
           {/* 地区选择 */}
           <View className="title">上课地点</View>
           <Picker
+            value={this.state.addressSelectorChecked}
             mode="multiSelector"
             range={this.state.addressSelector}
             onChange={this.onAddressSelectorChange}
@@ -702,6 +741,7 @@ export default class Index extends React.Component {
             </AtList>
           </Picker>
           <Input
+            value={this.state.exactAddress}
             className="teachingTimeInput"
             name="exactAddress"
             type="text"
@@ -709,7 +749,7 @@ export default class Index extends React.Component {
             placeholderClass="placeHolderClass"
             onInput={this.handleExactAddress.bind(this)}
           />
-          <Button className="btn" formType="submit">预约老师</Button>
+          <Button className="btn" formType="submit">{`${this.state._id===""?"预约老师":"修改信息"}`}</Button>
           <View className="footer">提交成功后老师会通过微信跟您进行报名试课</View>
         </Form>
       </View>

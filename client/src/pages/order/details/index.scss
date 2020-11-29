@@ -227,3 +227,18 @@ image + .details-label-grey { // “可协调” 用
   border: 1px solid #FFFFFF;
   border-radius: 15px;
 }
+
+.admin-box-button{
+  background-color: #29d6a0;
+  height: 110px;
+  width: 686px;
+
+  font-weight: 550;
+  font-size: 35px;
+  line-height: 110px;
+  color: #FFFFFF;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  box-shadow: 0 0 10 #29d6a0;
+}

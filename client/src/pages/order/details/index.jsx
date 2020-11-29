@@ -156,6 +156,7 @@ export default class Index extends Component {
     this.setShareOpenId()
   }
   
+
   // 绑定 分享者的 openid
   setShareOpenId(){
     try {
@@ -441,6 +442,7 @@ export default class Index extends Component {
     })
   }
 
+  // 打开管理员控制面板
   openAdminBoard(){
     const job = this.state[getCurrentInstance().router.params.jobType];
     const itemList = [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`]
@@ -489,19 +491,13 @@ export default class Index extends Component {
     })
   }
 
-  setUserVip(){
-    try {
-      let userVip = Taro.getStorageSync("isVip")
-      console.log('====================================');
-      console.log(userVip);
-      console.log('====================================');
-      this.setState({
-        userVip: userVip
-      })
-      console.log(this.state.userVip)
-
-    } catch (error) {
-      
+  //  编辑订单信息
+  editDetail(){
+    let jobType = getCurrentInstance().router.params.jobType
+    switch(jobType){
+      case "familyCourse": Taro.redirectTo({url: `/pages/index/parent/submitInfo/index?_id=${this.state._id}`}); break;
+      case "companyCourse": Taro.redirectTo({url: `/pages/index/organization/index?_id=${this.state._id}`}); break;
+      case "other": Taro.redirectTo({url: `/pages/index/other/index?_id=${this.state._id}`}); break;
     }
   }
 
@@ -543,7 +539,13 @@ export default class Index extends Component {
     let requirementLabelsView =  job.jobType=="familyCourse"? job.requirementLabels.length>0? job.requirementLabels.map((v,i)=>{
       return (<View className='details-label-grey'>{v}</View>);
     }):"":""
-    console.log(job.requirementLabels>0)
+
+    let adminBox = (
+      <View className="admin-box" >
+        <Button className="admin-box-button" onClick={this.openAdminBoard.bind(this)} >打开管理员操作面板</Button>
+        <Button  className="admin-box-button" onClick={this.editDetail.bind(this)} >编辑该订单信息</Button>
+      </View>
+    )
 
     return (
       <View className="details-box" >
@@ -590,7 +592,7 @@ export default class Index extends Component {
             </View>
 
             {/* vip 卡片 或打开管理员操作面板 */}
-            {this.state.isAdmin?<Button type="primary" onClick={this.openAdminBoard.bind(this)} >打开管理员操作面板</Button>:!this.state.userVip?vipCard:""}
+            {this.state.isAdmin?adminBox:!this.state.userVip?vipCard:""}
 
             {/*  课程卡片 */}
             {(()=>{

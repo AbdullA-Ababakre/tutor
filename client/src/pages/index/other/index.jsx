@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+import Taro, {getCurrentInstance}  from '@tarojs/taro';
 import React from 'react';
 import {
     Form,
@@ -21,12 +21,19 @@ export default class Index extends React.Component {
         positionAddress: '',
         recruitNum: '',
         workingTime: '',
-        tel: ""
+        tel: "",
+        _id: ""
     };
 
     async componentDidMount(){
+      this.setState({
+        _id: getCurrentInstance().router.params['_id'] || ""
+      },()=>{if(!this.state._id){}else{this.getEditData()}})
+    }
+
+    async getEditData(){
       const db = wx.cloud.database()
-      let data = await db.collection("otherData").doc("b1a52c595fc30a680099dc67614c776b").get()
+      let data = await db.collection("otherData").doc(this.state._id).get()
       console.log(data);
       let stateName = ['organizationName', 'positionName', 'positionInfo', 'positionSalary', 'positionAddress', 'recruitNum', 'workingTime', 'tel']
       stateName.forEach(item=>{
@@ -34,7 +41,6 @@ export default class Index extends React.Component {
           [item]: data.data[item]
         })
       })
-      console.log(this.state)
     }
 
     // 企业名称
@@ -125,6 +131,7 @@ export default class Index extends React.Component {
             recruitNum,
             workingTime,
             tel,
+            _id
         } = this.state;
 
         if (!organizationName) {
@@ -202,20 +209,24 @@ export default class Index extends React.Component {
                     recruitNum,
                     workingTime,
                     tel,
+                    _id
                 },
             })
             .then(res => {
                 Taro.hideLoading();
-                Taro.redirectTo({url: '/pages/index/parentAgain/index'})
+                if(!_id){
+                  Taro.redirectTo({url: '/pages/index/parentAgain/index'})
+                }else{
+                  Taro.showToast({
+                    title: "修改成功！"
+                  })
+                  Taro.switchTab({url: '/pages/index/index'})
+                }
                 console.log("res---", res);
             })
     };
 
     render() {
-        const {
-            positionInfo,
-            tel
-        } = this.state;
         return (
             <View className="info-wrapper">
                 <Form onSubmit={this.formSubmit}>
@@ -224,6 +235,7 @@ export default class Index extends React.Component {
                     <Input
                         className="teachingTimeInput"
                         name="organizationName"
+                        value={this.state.organizationName}
                         type="text"
                         placeholder="必填"
                         placeholderClass="placeHolderClass"
@@ -235,6 +247,7 @@ export default class Index extends React.Component {
                     <Input
                         className="teachingTimeInput"
                         name="positionName"
+                        value={this.state.positionName}
                         type="text"
                         placeholder="例：公众号运营"
                         placeholderClass="placeHolderClass"
@@ -243,7 +256,7 @@ export default class Index extends React.Component {
                     {/*  岗位内容/要求 */}
                     <View className="title">岗位内容/要求</View>
                     <AtTextarea
-                        value={positionInfo}
+                        value={this.state.positionInfo}
                         onChange={this.onPositionInfo.bind(this)}
                         maxLength={200}
                         placeholder="例：有公众号运营经验"
@@ -254,6 +267,7 @@ export default class Index extends React.Component {
                     <Input
                         className="teachingTimeInput"
                         name="positionSalary"
+                        value={this.state.positionSalary}
                         type="text"
                         placeholder="例:200-300元/天"
                         placeholderClass="placeHolderClass"
@@ -266,6 +280,7 @@ export default class Index extends React.Component {
                     <Input
                         className="teachingTimeInput"
                         name="tel"
+                        value={this.state.positionAddress}
                         type="text"
                         placeholder="例：xx市xx小区xx栋xx单元xx房号"
                         placeholderClass="placeHolderClass"
@@ -276,6 +291,7 @@ export default class Index extends React.Component {
                     <Input
                         className="teachingTimeInput"
                         name="recruitNum"
+                        value={this.state.recruitNum}
                         type="number"
                         placeholder="例：5"
                         placeholderClass="placeHolderClass"
@@ -288,6 +304,7 @@ export default class Index extends React.Component {
                     <Input
                         className="teachingTimeInput"
                         name="workingTime"
+                        value={this.state.workingTime}
                         type="text"
                         placeholder="例：周末全天"
                         placeholderClass="placeHolderClass"
@@ -299,6 +316,7 @@ export default class Index extends React.Component {
                     <Input
                         className="teachingTimeInput"
                         name="tel"
+                        value={this.state.tel}
                         type="text"
                         placeholder="例：18145613210"
                         placeholderClass="placeHolderClass"

@@ -86,14 +86,14 @@ Page({
   },
 
   async saveImg() {
-    if(nameInput===""){
-      wx.showToast({
-        title:'请先输入您的名字',
-        duration: 2000,
-        icon:'none'
-      })
-      return;
-    }
+    // if(nameInput===""){
+    //   wx.showToast({
+    //     title:'请先输入您的名字',
+    //     duration: 2000,
+    //     icon:'none'
+    //   })
+    //   return;
+    // }
     let self = this;
     //这里是重点  新版本的type 2d 获取方法
     const query = wx.createSelectorQuery();
