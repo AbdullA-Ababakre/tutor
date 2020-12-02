@@ -15,7 +15,7 @@ export default class Index extends Component {
     super(props);
     Taro.setBackgroundColor({backgroundColor: "#f7f7f7"});
     Taro.setNavigationBarColor({
-      frontColor: "#000000",
+      frontColor: "#ffffff",
       backgroundColor: "#FC4442",
     });
     this.state = {
