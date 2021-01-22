@@ -37,7 +37,7 @@ export default class Index extends Component {
           <View className="flexBox flex-space-line" >
             <View className="favorite-location">{favorite.location.slice(0,8)}...</View>
             {favorite.isLoseEfficacy && <Image className="lose-efficacy" mode="widthFix" src={lose_efficacy} />}
-            <View className="favorite-price">{favorite.price + "/小时"} </View>
+            <View className="favorite-price">{favorite.price.includes("天")?favorite.price :favorite.price+ "/小时"} </View>
           </View>
         </View>
         <View className="favorite-container-down" >

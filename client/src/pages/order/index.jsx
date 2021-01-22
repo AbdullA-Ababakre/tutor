@@ -216,7 +216,7 @@ export default class Index extends Component {
   }
 
   render () {
-    let cities = ["不限制城市","深圳市","广州市","珠海市","其他"];
+    let cities = ["不限制城市","深圳市","广州市","珠海市","东莞市", "佛山市", "其他"];
     let courses = ["不限制科目","语文","数学","英语","物理","化学","生物","政治","历史","地理","其他"];
     let grades = ["不限制年级","小学","初中","高中","其他"];
     let pageDown = (item, id ="")=>{ Taro.navigateTo({url: `/pages/order/details/index?jobType=${item}&id=${id}`})}

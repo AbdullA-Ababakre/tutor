@@ -46,6 +46,7 @@ export default class Index extends React.Component {
       ['深圳', '广州', '佛山', '东莞', '珠海', '上海'],
       ['南山区', '福田区', '罗湖区', '宝安区', '龙岗区', '盐田区', '坪山区', '龙华区', '光明新区']
     ],
+    addressSelectorIndex: [0, 0],
     addressSelectorChecked: '深圳南山区',
     exactAddress: '',
     _id: "",
@@ -290,26 +291,32 @@ export default class Index extends React.Component {
     if (col === 0) {
       if (val === 0) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr1
         });
       } else if (val === 1) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr2
         });
       } else if (val === 2) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr3
         });
       } else if (val === 3) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr4
         });
       } else if (val === 4) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr5
         });
       } else if (val === 5) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr6
         });
       }
@@ -646,7 +653,7 @@ export default class Index extends React.Component {
           <View className="title">上课地点</View>
           <Picker
             mode="multiSelector"
-            value={this.state.addressSelectorChecked}
+            value={this.state.addressSelectorIndex}
             range={this.state.addressSelector}
             onChange={this.onAddressSelectorChange}
             onColumnChange={this.columnChange}

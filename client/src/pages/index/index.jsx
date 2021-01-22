@@ -71,7 +71,6 @@ export default class Index extends Component {
   }
 
   handleClick = (index) => {
-    console.log("index", index);
     switch (index) {
       case 1:
         Taro.navigateTo({
@@ -97,19 +96,19 @@ export default class Index extends Component {
     const btnArr = [
       {
         txt: "在线咨询",
-        url: "",
+        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_consult.png",
       },
       {
         txt: "我是家长",
-        url: "",
+        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_parent.png",
       },
       {
         txt: "我是机构/企业",
-        url: "",
+        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_organization.png",
       },
       {
         txt: "我要接单",
-        url: "",
+        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_supply.png",
       },
     ];
 
@@ -119,20 +118,20 @@ export default class Index extends Component {
           <AtButton
             openType="contact"
             bindcontact="handleContact"
-            className={`btn btn${index + 1}`}
+            className={`btn`}
           >
-            {item.txt}
+            <Image className="btn-image"  src={item.imgUrl}></Image>
           </AtButton>
         );
       } else {
         return (
           <AtButton
-            className={`btn btn${index + 1}`}
+            className={`btn`}
             onClick={(e) => {
               this.handleClick(index, e);
             }}
           >
-            {item.txt}
+            <Image className="btn-image" src={item.imgUrl}></Image>
           </AtButton>
         );
       }
@@ -143,7 +142,7 @@ export default class Index extends Component {
         <View className="img-wrapper">
           <Image
             className="img"
-            src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/组 2086@2x.png"
+            src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_img.png"
             mode="scaleToFill"
           />
         </View>

@@ -2,8 +2,8 @@ page {
 	background-color: #ffffff;
 	width: 100%;
 	.info-wrapper {
-		padding-right: 24px;
-		padding-left: 24px;
+		padding-right: 40px;
+		padding-left: 40px;
 		.img-wrapper {
 			width: 100%;
 			display: flex;
@@ -21,7 +21,9 @@ page {
       background-color:#ffbe1e;
       border: 1px solid #dfdfdf;
       border-radius: 15px;
-      font-weight: 550;
+      font-weight: 600;
+      border-radius:100px;
+      text-align: center;
     }
 		.title {
 			font-size: 28px;
@@ -82,10 +84,11 @@ page {
 			background-color: #ea544b;
 			font-size: 38px;
 			font-family: PingFang SC;
-			font-weight: 550;
+      font-weight: 600;
+      text-align: center;
 			line-height: 118px;
       color: #ffffff;
-      border-radius: 15px;
+      border-radius: 100px;
 		}
 		.footer {
 			font-size: 26px;

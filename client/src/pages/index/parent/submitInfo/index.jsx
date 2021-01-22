@@ -57,6 +57,7 @@ export default class Index extends React.Component {
       ['深圳', '广州', '佛山', '东莞', '珠海', '上海'],
       ['福田区', '罗湖区', '南山区', '宝安区', '龙岗区', '盐田区', '坪山区', '龙华区', '光明新区']
     ],
+    addressSelectorIndex: [0, 0],
     addressSelectorChecked: '深圳南山区',
     exactAddress: '',
     _id: ""
@@ -330,31 +331,36 @@ export default class Index extends React.Component {
     ];
 
     let col = e.target.column;
-
     let { column, value: val } = e.detail;
     if (col === 0) {
       if (val === 0) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr1
         });
       } else if (val === 1) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr2
         });
       } else if (val === 2) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr3
         });
       } else if (val === 3) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr4
         });
       } else if (val === 4) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr5
         });
       } else if (val === 5) {
         this.setState({
+          addressSelectorIndex: [val ,this.state.addressSelectorIndex[1]],
           addressSelector: arr6
         });
       }
@@ -730,11 +736,11 @@ export default class Index extends React.Component {
           {/* 地区选择 */}
           <View className="title">上课地点</View>
           <Picker
-            value={this.state.addressSelectorChecked}
             mode="multiSelector"
             range={this.state.addressSelector}
-            onChange={this.onAddressSelectorChange}
-            onColumnChange={this.columnChange}
+            onChange={this.onAddressSelectorChange.bind(this)}
+            onColumnChange={this.columnChange.bind(this)}
+            value={this.state.addressSelectorIndex}
           >
             <AtList>
               <AtListItem title="地区选择" extraText={this.state.addressSelectorChecked} />

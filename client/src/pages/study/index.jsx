@@ -121,7 +121,7 @@ export default class Index extends Component {
     const picSrc =
     "https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/study/swiper/parentIntro1.png";
     const banner1 =
-      "https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/study/swiper/1.png";
+      "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/study_img.png";
 
     const banners = [
       banner1,

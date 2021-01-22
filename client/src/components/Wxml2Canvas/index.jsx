@@ -116,7 +116,7 @@ export default class Index extends Component {
         {
           type: 'image',
           x: 40,
-          y: 260,
+          y: 262,
           url:  ClockPng,
           style: {
             width: 23,
@@ -172,7 +172,7 @@ export default class Index extends Component {
           type: 'text',
           x: 140,
           y: 390,
-          text: "长按识别小程序/查看职别信息",
+          text: "长按识别小程序/查看职位信息",
           style: {
             width: 656*0.44,
             color: "#a7a7a7",
