@@ -11,12 +11,10 @@
 }
  
 .modalDlg {
-  width: 580px;
+  width: 100%;
   position: fixed;
-  top: 50%;
-  left: 0;
+  top: 20%;
   z-index: 9999;
-  margin: -370px 85px;
   border-radius: 36px;
   display: flex;
   flex-direction: column;
@@ -24,7 +22,8 @@
 }
 
 .imgShow{
-  margin: 0;
+  width: 75%;
+  margin: 0 auto;
   height: auto;
 }
 

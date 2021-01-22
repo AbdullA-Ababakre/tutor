@@ -33,6 +33,7 @@
   padding: 27px 36px;
   box-sizing: border-box;
   margin-bottom: 30px;
+  box-shadow: 3px 0px 8px 1px rgba(0, 0, 0, .2);
 }
 
 .details-title {
@@ -216,29 +217,37 @@ image + .details-label-grey { // “可协调” 用
   width: 90%;
   background-color: #fc4442;
   color: #FFFFFF;
-  border: 1px solid #FFFFFF;
-  border-radius: 15px;
 }
 
 .btn-yellow{
   width: 90%;
   background-color: #333333;
   color: #cd9c22;
-  border: 1px solid #FFFFFF;
-  border-radius: 15px;
 }
 
 .admin-box-button{
   background-color: #29d6a0;
   height: 110px;
-  width: 686px;
+  width: 100%;
 
-  font-weight: 550;
+  font-weight: 600;
   font-size: 35px;
   line-height: 110px;
   color: #FFFFFF;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border-radius: 20px;
-  box-shadow: 0 0 10 #29d6a0;
+  box-shadow: 3px 0px 8px 1px rgba(0, 0, 0, .2);
 }
+
+.btn-go-hired{
+  border-radius: 100px;
+  box-shadow: 3px 0px 13px 1px rgba(0, 0, 0, .2);   
+  border: 0.5px solid #FFFFFF;
+  height: 106px;
+  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
+  align-items: center;
+  line-height: 106px;
+} 

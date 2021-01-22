@@ -245,7 +245,7 @@ export default class Index extends Component {
             }
           }
     ))
-    let emptyBox = ( <View style="text-align:center" > ------查无记录------ </View> )
+    let emptyBox = ( <View style="color: grey; text-align: center; font-size: 25p "  > ------查无记录------ </View> )
 
     return (
       <View className='order-index'>
@@ -274,7 +274,7 @@ export default class Index extends Component {
         </View>
          
          {/* 滑到最底下的提示 */}
-        {this.state.isMax && this.state.data.length!=0 && <View style="text-align:center;margin-bottom: 20px" > ------已到最低点------ </View>}
+        {this.state.isMax && this.state.data.length!=0 && <View className="order-end-text" > ------已到最低点------ </View>}
       </View>
     );
   }

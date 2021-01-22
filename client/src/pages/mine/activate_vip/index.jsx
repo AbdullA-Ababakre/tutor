@@ -66,7 +66,7 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <View className="text-greeting">{"老师，您好！\n欢迎您成为大学生荔教会员！！"}</View>
+        <View className="text-greeting">{"老师，您好！\n欢迎您成为\n大学生荔教会员！！"}</View>
         <View className="subscription-images-container">
           
           <View className={`vip-subscription-image ${this.state.selectedPlan==2?"grayscale":""}`} onClick={()=>{this.onSwitchPlan(1)}}>

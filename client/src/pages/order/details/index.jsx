@@ -131,7 +131,7 @@ export default class Index extends Component {
 
       this.setState({
         userVip: Taro.getStorageSync("isVip")
-      },()=>{console.log('userVip', this.state.userVip)})
+      })
 
       //  这里迷惑性很强 拿不到 数据？？？
       let isAdmin = Taro.getStorageSync("isAdmin")
@@ -638,7 +638,7 @@ export default class Index extends Component {
               })()}
           </View>
 
-          <Button onClick={this.goHired.bind(this)} className={this.state.userVip?"btn-yellow":"btn-red" }>
+          <Button onClick={this.goHired.bind(this)} className={`${this.state.userVip?"btn-yellow":"btn-red"} btn-go-hired` }>
             前往应聘
           </Button>
         </View>

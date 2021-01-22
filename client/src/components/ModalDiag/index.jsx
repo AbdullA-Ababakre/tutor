@@ -4,8 +4,6 @@ import { View, Text , Button, Input, Image} from '@tarojs/components';
 
 import './index.scss'
 
-import goHiredPng from "../../../src/images/order/go_hired.png"
-
 export default class Index extends Component {
 
   constructor(props){
@@ -41,9 +39,9 @@ export default class Index extends Component {
   render(){
     return (
       this.state.modalDlag&&(
-        <View>
-           <View className="modalDlg">
-            <Image className="imgShow" mode="widthFix" src={goHiredPng} />
+        <View style="width: 100%" >
+          <View className="modalDlg">
+            <Image className="imgShow" mode="widthFix" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/order_add_friend.png" />
             <View className="transparentBox" onClick={this.setPasteMsg.bind(this)} />
           </View>
           <View className="mask" onTouchMove={this.preventTouchMove.bind(this)} ></View>
