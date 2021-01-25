@@ -15,52 +15,82 @@ export default class Index extends Component {
     super(props);
     this.state = {
       selectedPlan: 1,
+      showPay: false
     }
+    this.timeId = ''
   }
 
   onSwitchPlan(plan) {
     if(this.state.selectedPlan != plan) this.setState({selectedPlan: plan})
   }
 
+  debouncePay(){
+    this.setState({
+      showPay: true
+    })
+    Taro.showLoading({
+      title: '加载中'
+    });
+    clearTimeout(this.timeId)
+    this.timeId = setTimeout(() =>{
+      this.pay()
+    }, 1000)
+  }
+
   pay() {
     let plan = this.state.selectedPlan;
     let total = plan == 1 ? 350 : 200;
-    Taro.showToast({
-      title: `TODO支付${total}元`,
-      icon: 'success',
-      duration: 2000
+    // Taro.showToast({
+    //   title: `TODO支付${total}元`,
+    //   icon: 'success',
+    //   duration: 2000
+    // })
+
+    let that = this
+    // // 这里 是支付代码
+    Taro.cloud.callFunction({
+      name: 'wxPay',
+      data: {
+        total: 1
+      }
+    })
+    .then(res=>{
+      Taro.hideLoading()
+      console.log('----------------');
+      console.log(res);
+      const payment = res.result.payment
+      let vipMonth = total===350?12:1
+      wx.requestPayment({
+        ...payment,
+        success (res) {
+          Taro.setStorageSync('isVip', true)
+          Taro.cloud.callFunction({
+            name: 'setUserDetail',
+            data: {
+              setVip: true,
+              vipMonth: vipMonth
+            }
+          })
+          Taro.switchTab({
+             url: '/pages/order/index'
+          });
+          console.log('pay success', res)
+        },
+        fail (err) {
+          Taro.showToast({
+            title: '支付失败',
+            icon: 'none',
+            duration: 2000
+          });
+          console.error('pay fail', err)
+          that.setState({
+            showPay: false
+          })
+        }
+      })
     })
 
-    // // 这里 是支付代码
-    // Taro.cloud.callFunction({
-    //   name: 'wxPay',
-    //   data: {
-    //     total
-    //   }
-    // })
-    // .then(res=>{
-    //   const payment = res.result.payment
-    //   let vipMonth = total===350?12:1
-    //   wx.requestPayment({
-    //     ...payment,
-    //     success (res) {
-    //       Taro.cloud.callFunction({
-    //         name: 'setUserDetail',
-    //         data: {
-    //           setVip: true,
-    //           vipMonth: vipMonth
-    //         }
-    //       })
-    //       console.log('pay success', res)
-    //     },
-    //     fail (res) {
-    //       console.error('pay fail', err)
-    //     }
-    //   })
-    // })
-
-    // 
-    Taro.navigateTo({url: "/pages/success_pages/vip_success/index"});
+    
   }
 
   render () {
@@ -77,7 +107,7 @@ export default class Index extends Component {
 
         </View>
         {/* 这里不用TutorButton是故意的，详情import那里 */}
-        <Button className="btn-pay" onClick={()=>{this.pay()}}>一键支付</Button>
+        <Button className={`btn-pay ${this.state.showPay?"btn-bg-grey":"btn-bg-red"}`} onClick={()=>{this.debouncePay()}}>一键支付</Button>
         <View className="text-small">我已阅读并接受
         <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "eula/index"});}}>《会员协议》</Text></View>
       </View>

@@ -423,9 +423,17 @@ export default class Index extends Component {
           showDiag: true
         })
       }else{
-        Taro.redirectTo({
-          url: "/pages/mine/activate_vip/index"
-        })
+        Taro.showToast({
+          title: '这为会员单，请先成为会员！',
+          duration: 2000,
+          icon: "none"
+        });
+        setTimeout(()=>{
+          Taro.redirectTo({
+            url: "/pages/mine/activate_vip/index"
+          })
+        }, 1000)
+       
       }
     }
   }

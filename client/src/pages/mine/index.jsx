@@ -279,7 +279,7 @@ export default class Index extends Component {
                 <Button
                 size="mini"
                 type="default"
-                style="padding: 0px 5px; margin-left: 25px"
+                style="padding: 0px 5px; margin-left: 15px"
                 openType="getPhoneNumber"
                 onGetPhoneNumber={this.getPhoneNumber.bind(this)}
                 // onClick={this.setPhoneNumber.bind(this)}
