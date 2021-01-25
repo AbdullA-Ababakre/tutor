@@ -38,6 +38,9 @@
       .city:not(:last-child) {
         margin-right: 19px;
       }
+      .city:nth-child(2){
+        background: #ffbe1e;
+      }
     }
     .priceBox {
       display: flex;
@@ -64,17 +67,19 @@
       font-weight: 300;
       line-height: 70px;
       color: #b2b2b2;
+      text-align: center;
     }
     button {
       margin-top:86px;
       width: 100%;
       background-color: #fc4442;
-      border-radius: 16px;
+      border-radius: 50px;
       font-size: 38px;
-      font-family: PingFang SC;
-      font-weight: 500;
+      font-weight: 700;
       line-height: 118px;
       color: #ffffff;
+      box-shadow: 10px 20px 50px #DFDFDF;
+      margin-bottom: 40px;
     }
     .footer-txt {
       width: 536px;

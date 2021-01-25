@@ -11,17 +11,25 @@ function hidePhoneDigits(phone) { // 13577778888 -> 135****8888
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  let openid = wxContext.OPENID
-  console.log(event)
-  return await db.collection("users").where({
-    openId: openid
-  }).update({
-    data:{
-      phone: event.phone,
-      phoneShown: hidePhoneDigits(event.phone)
-    }
-  })
+  try {
+    const wxContext = cloud.getWXContext()
+    let openid = wxContext.OPENID
+    console.log(event)
+    
+    await db.collection("users").where({
+      openId: openid
+    }).update({
+      data:{
+        phone: event.phoneData.data.phoneNumber,
+        phoneShown: hidePhoneDigits(event.phoneData.data.phoneNumber)
+      }
+    })
 
- 
+    return {
+      'phoneNumber': event.phoneData.data.phoneNumber
+    }
+  } catch (error) {
+    return Promise.reject(error)
+  }
+  
 }

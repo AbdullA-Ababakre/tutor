@@ -15,12 +15,12 @@ export default class ArticleCard extends Component {
         <View className="article-title">{this.props.title}</View>
         <View className="article-desc">{this.props.desc}</View>
         <AtRate className="article-rate" margin={6} size={12} max={5} value={this.props.rating}></AtRate>
-        <View className="btn-share" onClick={(e)=>{
+        {/* <View className="btn-share" onClick={(e)=>{
           // TODO: 分享功能
         }}>
           <Image className="btn-share-img" src={icon_share} />
           分享
-        </View>
+        </View> */}
         </View>
       </View>
     );

@@ -74,7 +74,7 @@ export default class Index extends Component {
     switch (index) {
       case 1:
         Taro.navigateTo({
-          url: `/pages/index/parent/submitInfo/index`,
+          url: `/pages/index/parent/intro/index`,
         });
         break;
       case 2:
@@ -96,19 +96,19 @@ export default class Index extends Component {
     const btnArr = [
       {
         txt: "在线咨询",
-        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_consult.png",
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_consult.png",
       },
       {
         txt: "我是家长",
-        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_parent.png",
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_parent.png",
       },
       {
         txt: "我是机构/企业",
-        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_organization.png",
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_organization.png",
       },
       {
         txt: "我要接单",
-        imgUrl: "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_supply.png",
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_order.png",
       },
     ];
 
@@ -142,7 +142,7 @@ export default class Index extends Component {
         <View className="img-wrapper">
           <Image
             className="img"
-            src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/index_img.png"
+            src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_header.png"
             mode="scaleToFill"
           />
         </View>

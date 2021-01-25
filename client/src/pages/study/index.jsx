@@ -120,15 +120,14 @@ export default class Index extends Component {
   render() {
     const picSrc =
     "https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/study/swiper/parentIntro1.png";
-    const banner1 =
-      "cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/study_img.png";
 
     const banners = [
-      banner1,
-    ];
-    const bannerUrls = [
-      "https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg",
-    ];
+      {
+      'imgUrl': "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/school_header.png",
+      'pageUrl': 'https://mp.weixin.qq.com/s/cEGEi7474OsOxbuzn_7fmg'
+      },
+    ]
+
     // const articles1 = [
     //   // {
     //   //   title: "学生课堂纪律差，怎么",
@@ -178,7 +177,7 @@ export default class Index extends Component {
     let pageswitch_selected = this.state.pageswitch_selected;
     return (
       <View className="index">
-        <TutorSwiper className="study-swiper" onTapItem={(i)=>{this.openArticle(bannerUrls[i])}} banner={banners} />
+        <TutorSwiper className="study-swiper" onTapItem={(src)=>{this.openArticle(src)}} banner={banners} />
         {/* 页面切换器 */}
         <View className="page-switch">
           <View className="page-switch-option-container">

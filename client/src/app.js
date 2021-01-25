@@ -4,6 +4,8 @@ import "./app.scss";
 import UserInfo from "./utils/userinfo"
 
 class App extends Component {
+//  old appid: wxff3b4fd55fd203df
+//  new appid: wxf6015b6b1f740dbc
 
   componentDidMount() {
     if (process.env.TARO_ENV === "weapp") {

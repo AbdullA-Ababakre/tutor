@@ -9,7 +9,7 @@ export default {
     'pages/order/index',
     'pages/order/details/index',
     'pages/order/vip_rule/index',
-		// 'pages/index/parent/intro/index',
+		'pages/index/parent/intro/index',
 		'pages/study/index',
 		'pages/study/articlePage/index',
 		'pages/mine/index',
@@ -36,7 +36,6 @@ export default {
 		list: [
 			{
         pagePath: 'pages/index/index',
-				// pagePath: 'pages/order/vip_rule/index',
 				iconPath: 'images/tabbar/index1.png',
 				selectedIconPath: 'images/tabbar/index2.png',
 				text: '首页'

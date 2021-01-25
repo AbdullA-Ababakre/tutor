@@ -20,9 +20,9 @@ exports.main = async (event, context) => {
     "body" : "大学生荔教-会员",
     "outTradeNo" : getTradeNo(),
     "spbillCreateIp" : "127.0.0.1",
-    "subMchId" : "1900009231",
+    "subMchId" : "1605878403",
     "totalFee" : event.total,
-    "envId": "tutor-ghszz",
+    "envId": "official-9gyl2zmleab20999",
     "functionName": "wxPayBack"
   })
   return res

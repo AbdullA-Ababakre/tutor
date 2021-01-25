@@ -1,20 +1,19 @@
 {
-  "miniprogramRoot": "client/dist/",
-  "cloudfunctionRoot": "cloud/functions/",
-  "projectname": "newTutor",
-  "description": "tutor",
-  "appid": "wxf6015b6b1f740dbc",
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": []
+  },
   "setting": {
     "urlCheck": true,
-    "es6": false,
+    "es6": true,
     "enhance": false,
-    "postcss": false,
+    "postcss": true,
     "preloadBackgroundData": false,
-    "minified": false,
+    "minified": true,
     "newFeature": false,
     "coverView": true,
     "nodeModules": false,
-    "autoAudits": true,
+    "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
     "scopeDataCheck": false,
     "uglifyFileName": false,
@@ -41,9 +40,14 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
-  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "libVersion": "2.14.0",
+  "appid": "wxf6015b6b1f740dbc",
+  "projectname": "%E8%8D%94%E6%95%99",
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "scripts": {},
+  "isGameTourist": false,
   "condition": {
     "search": {
       "list": []
@@ -51,38 +55,17 @@
     "conversation": {
       "list": []
     },
-    "plugin": {
+    "game": {
       "list": []
     },
-    "game": {
+    "plugin": {
       "list": []
     },
     "gamePlugin": {
       "list": []
     },
     "miniprogram": {
-      "list": [
-        {
-          "id": -1,
-          "name": "实习证明",
-          "pathName": "pages/mine/certificate/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "荔学院",
-          "pathName": "pages/study/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "激活会员",
-          "pathName": "pages/mine/activate_vip/index",
-          "scene": null
-        }
-      ]
+      "list": []
     }
   }
 }

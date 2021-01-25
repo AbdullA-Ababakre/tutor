@@ -31,7 +31,7 @@ export default class TutorSwiper extends Component {
         {this.props.banner.map((item, index) => {
           return (
             <SwiperItem key={index}>
-              <Image className="swiper-img" mode="widthFix" onTap={()=>{this.props.onTapItem(index)}} src={item}></Image>
+              <Image className="swiper-img" mode="widthFix" onTap={()=>{this.props.onTapItem(item.pageUrl)}} src={item.imgUrl}></Image>
             </SwiperItem>
           );
         })}

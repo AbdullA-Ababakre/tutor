@@ -15,7 +15,7 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <Image className='big-img' mode="widthFix" src="https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/images/appointment-success.png" />
+        <Image className='big-img' mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/order_success.png" />
         <Button className="btn-make-more-appointments" onClick={Taro.navigateBack({delta: 1})}>继续预约</Button>
       </View>
     )

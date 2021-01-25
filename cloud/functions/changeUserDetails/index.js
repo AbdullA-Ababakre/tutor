@@ -32,6 +32,7 @@ exports.main = async (event, context) => {
     if(result.data.length == 0) {
       newData.openId = OPENID;
       newData.isVip = false;
+      newData.isAdmin = false;
       db.collection('users').add({
         data: newData
       })

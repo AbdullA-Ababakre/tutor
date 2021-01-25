@@ -12,7 +12,7 @@ exports.main = async (event, context) => {
         width: 430
       })
     
-    const name = 'qr/' + new Date().getTime() + '.jpg'
+    const name = 'QrCode/' + new Date().getTime() + '.jpg'
     console.log('====================================');
     console.log(wxacodeResult);
     console.log('====================================');
@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
       cloudPath: name,
       fileContent: wxacodeResult.buffer,
     });
-    let imgUrl = "https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/" + name
+    let imgUrl = "https://6f66-official-9gyl2zmleab20999-1304839186.tcb.qcloud.la/" + name
     return imgUrl
   } catch (err) {
     return err

@@ -15,7 +15,7 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <Image className='big-img' mode="widthFix" src="https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/images/post_job-success.png" />
+        <Image className='big-img' mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/order_success.png" />
         <Button className="btn-post-more-jobs" onClick={Taro.navigateBack({delta: 1})}>继续发布教育岗</Button>
         <Button className="btn-post-more-jobs btn-other-jobs" onClick={Taro.navigateBack({delta: 1})}>继续发布其他岗位</Button>
       </View>

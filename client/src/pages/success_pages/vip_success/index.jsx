@@ -51,7 +51,7 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <Image className='big-img' mode="widthFix" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/vip_activation-sucess.png" />
+        <Image className='big-img' mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/pay_success.png" />
         <View className='info-container'>
           <View className='input-w-label'>
             姓名：<Input onInput={this.changeRealName.bind(this)} className='input-w-label-actual-input'/>

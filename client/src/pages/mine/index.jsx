@@ -151,7 +151,6 @@ export default class Index extends Component {
     if (!res.detail.userInfo) return;
     UserInfo.setUserInfo(res.detail.userInfo); // 自己的 utils，用来处理用户信息相关
     this.setState({ userInfo: res.detail.userInfo, isLoggedIn: true });
-    console.log(res);
     this.getUserDetailsProcess();
     Taro.login({
       success: (res)=>{
@@ -166,10 +165,10 @@ export default class Index extends Component {
       console.log("userDetails:", details);
       if (!details) return;
       try {
-        Taro.setStorageSync("openid", res.result.openId)
-        Taro.setStorageSync("isVip", res.result.isVip)
-        Taro.setStorageSync("isAdmin", res.result.isAdmin)
-        console.log("isAdmin",res.result.isAdmin);
+        Taro.setStorageSync("openid", details.openId)
+        Taro.setStorageSync("isVip", details.isVip)
+        Taro.setStorageSync("isAdmin", details.isAdmin)
+        console.log("isAdmin",details.isAdmin);
       } catch (error) {
         console.log(error);
       }
@@ -185,9 +184,28 @@ export default class Index extends Component {
   getPhoneNumber(e){
     //  需要认证之后使用这一个 获得 手机号码
     //  里面有一个 cloudid 字段 传给云函数 让它保存
-    console.log('====================================');
-    console.log(e);
-    console.log('====================================');
+    if(e.detail.cloudID){
+      Taro.cloud.callFunction({
+        name: 'setPhoneNumber',
+         data: {
+           phoneData: wx.cloud.CloudID(e.detail.cloudID)
+         }
+      }).then((res)=>{
+        this.setState({
+          phone: res.result.phoneNumber
+        })
+        Taro.showToast({
+          title: "获取号码成功",
+          duration: 2000
+        })
+      })
+    }else{
+      Taro.showToast({
+        title: '获取号码失败',
+        duration: 2000
+      });
+    }
+    
   }
 
   render() {
@@ -256,17 +274,20 @@ export default class Index extends Component {
               {/* { hidePhoneDigits(this.state.phone) } */}
               <Text className="userinfo-phone">{hidePhoneDigits(this.state.phone)}</Text>
 
-              <Button
+              {
+                this.state.phone === ''?
+                <Button
                 size="mini"
                 type="default"
-                style="padding: 0px 5px"
-                // openType="getPhoneNumber"
-                // onGetPhoneNumber={this.getPhoneNumber.bind(this)}
-                onClick={this.setPhoneNumber.bind(this)}
+                style="padding: 0px 5px; margin-left: 25px"
+                openType="getPhoneNumber"
+                onGetPhoneNumber={this.getPhoneNumber.bind(this)}
+                // onClick={this.setPhoneNumber.bind(this)}
               >
                 {`${this.state.phone == ""? "获取手机号":"修改手机号"}`}
-              </Button>
-
+              </Button>: ""
+              }
+            
               {getPhone}
             </View>
           </View>
