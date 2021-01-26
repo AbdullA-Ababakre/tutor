@@ -13,20 +13,35 @@ let getDbCout = async ()=>{
   return new Promise(resolve =>{resolve({parentDataCount, organizationDataCount, otherDataCount })})
 }
 
+let searchQuery = (city, searchValue) =>{
+  if(searchValue){
+    if(searchValue.includes(city)){
+      return `.*${searchValue}`
+    }else{
+      return `.*${city.includes("不")?searchValue:city}`
+    }
+  }else{
+    return `.*${city.includes("不")?"":city}`
+  }
+}
+
 let getAllTopData = async (event) =>{
   const _ = db.command
+  console.log("res---", searchQuery(event.city, event.searchValue))
 
-  let parentDataCopy = await db.collection('parentData').where(_.and([{
-    addressSelectorChecked: db.RegExp({
-      regexp: `.*${event.city.includes("不")?"":event.city}`,
-      options: 'i',
-    })},
+  let parentDataCopy = await db.collection('parentData').where(_.and([
+    _.or({
+      addressSelectorChecked: db.RegExp({
+        regexp: searchQuery(event.city, event.searchValue),
+        options: 'i',
+      })
+    },
     {
       exactAddress:  db.RegExp({
         regexp: `.*${event.searchValue}`,
         options: 'i',
       })
-    },
+    }),
     {
       tutorSubject:  db.RegExp({
         regexp: `.*${event.subject.includes("不")?"":event.subject}`,
@@ -64,9 +79,10 @@ let getAllTopData = async (event) =>{
   ).get()
 
    //  get the organizationData in the limit 
-  let organizationDataCopy =  await db.collection('organizationData').where(_.and([{
+  let organizationDataCopy =  await db.collection('organizationData').where(_.and([
+    _.or({
     addressSelectorChecked: db.RegExp({
-      regexp: `.*${event.city.includes("不")?"":event.city}`,
+      regexp: searchQuery(event.city, event.searchValue),
       options: 'i',
     })},
     {
@@ -74,7 +90,7 @@ let getAllTopData = async (event) =>{
         regexp: `.*${event.searchValue}`,
         options: 'i',
       })
-    },
+    }),
     {
       tutorSubject:  db.RegExp({
         regexp: `.*${event.subject.includes("不")?"":event.subject}`,
@@ -106,17 +122,12 @@ let getAllTopData = async (event) =>{
   ).get()
   
    //  get the otherData in the limit 
-  let otherDataCopy =  await db.collection('otherData').where(_.and([{
+  let otherDataCopy =  await db.collection('otherData').where(_.and([
+    {
     positionAddress: db.RegExp({
-      regexp: `.*${event.city.includes("不")?"":event.city}`,
+      regexp: searchQuery(event.city, event.searchValue),
       options: 'i',
     })},
-    {
-      positionAddress:  db.RegExp({
-        regexp: `.*${event.searchValue}`,
-        options: 'i',
-      })
-    },
     {
       requireVip: db.RegExp({
         regexp: `.*${event.selectNonVip?"false":""}`,
@@ -173,17 +184,18 @@ exports.main = async (event, context) => {
   //  取多少次
   while(count!=0){
     count -= 1
-    let parentDataCopy = await db.collection('parentData').where(_.and([{
+    let parentDataCopy = await db.collection('parentData').where(_.and([
+      _.or({
       addressSelectorChecked: db.RegExp({
-        regexp: `.*${event.city.includes("不")?"":event.city}`,
+        regexp: searchQuery(event.city, event.searchValue),
         options: 'i',
-      })},
+      })}, 
       {
         exactAddress:  db.RegExp({
           regexp: `.*${event.searchValue}`,
           options: 'i',
         })
-      },
+      }),
       {
         tutorSubject:  db.RegExp({
           regexp: `.*${event.subject.includes("不")?"":event.subject}`,
@@ -225,9 +237,10 @@ exports.main = async (event, context) => {
     console.log('------ end:  ------\n\n')
 
      //  get the organizationData in the limit 
-    let organizationDataCopy =  await db.collection('organizationData').where(_.and([{
+    let organizationDataCopy =  await db.collection('organizationData').where(_.and([
+      _.or({
       addressSelectorChecked: db.RegExp({
-        regexp: `.*${event.city.includes("不")?"":event.city}`,
+        regexp: searchQuery(event.city, event.searchValue),
         options: 'i',
       })},
       {
@@ -235,7 +248,7 @@ exports.main = async (event, context) => {
           regexp: `.*${event.searchValue}`,
           options: 'i',
         })
-      },
+      }),
       {
         tutorSubject:  db.RegExp({
           regexp: `.*${event.subject.includes("不")?"":event.subject}`,
@@ -270,7 +283,7 @@ exports.main = async (event, context) => {
      //  get the otherData in the limit 
     let otherDataCopy =  await db.collection('otherData').where(_.and([{
       positionAddress: db.RegExp({
-        regexp: `.*${event.city.includes("不")?"":event.city}`,
+        regexp: searchQuery(event.city, event.searchValue),
         options: 'i',
       })},
       {

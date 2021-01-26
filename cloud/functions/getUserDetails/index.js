@@ -61,7 +61,7 @@ exports.main = async (event, context) => {
       //     }).update({
       //       isVip: false
       //     })
-      //   }
+      //   }  
       // }
 
       return new Promise(resolve=>{resolve(result.data[0])});

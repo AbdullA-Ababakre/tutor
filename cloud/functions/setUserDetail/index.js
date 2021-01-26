@@ -23,16 +23,26 @@ exports.main = async (event, context) => {
           commission: _.inc(commission)
         }
       })
-    })
-
-    // 这里是 变成VIP 操作
-    return db.collection("users").where({
-      openId: openid
-    }).limit(1)
-    .update({
-      isVip: true,
-      vipBeginTime: new Date(),
-      vipMonth: event.vipMonth
+      
+      if(res.data.isVip){
+        return db.collection("users").where({
+          openId: openid
+        }).limit(1)
+        .update({
+          isVip: true,
+          vipMonth: _.inc(event.vipMonth)
+        })
+      }else{
+        // 这里是 变成VIP 操作
+        return db.collection("users").where({
+          openId: openid
+        }).limit(1)
+        .update({
+          isVip: true,
+          vipBeginTime: new Date(),
+          vipMonth: event.vipMonth
+        })
+        }
     })
   }
 
