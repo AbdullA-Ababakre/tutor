@@ -30,10 +30,11 @@ export default class Index extends Component {
       grade: '',
       searchValue: ''
     }
+    this.timeId = ''
   }
 
   componentDidShow(){
-    this.onSelect()   
+    this.debouceOnSelect()   
   }
   componentDidMount(){
     this.setShareOpenId()
@@ -52,7 +53,7 @@ export default class Index extends Component {
       this.setState({
         page: this.state.page+1
       })
-      this.onSelect()
+      this.debouceOnSelect()
     }
   }
 
@@ -143,27 +144,34 @@ export default class Index extends Component {
     this.setState({
       city: city
     })
-    this.onSelect()
+    this.debouceOnSelect()
   }
 
   changeCourse(course){
     this.setState({
       course: course
     })
-    this.onSelect()
+    this.debouceOnSelect()
   }
 
   changeGrades(grade){
     this.setState({
       grade: grade
     })
-    this.onSelect()
+    this.debouceOnSelect()
   }
-  
-  onSelect(){
+
+  debouceOnSelect(){ 
     Taro.showLoading({
       title: "加载中"
     })
+    clearTimeout(this.timeId)
+    this.timeId = setTimeout(()=>{ 
+      this.onSelect()
+    }, 1000)
+  }
+  
+  onSelect(){
     Taro.cloud.callFunction({
       name: "getOrderData",
       data:{
@@ -198,21 +206,21 @@ export default class Index extends Component {
     this.setState({
       searchValue: e.detail.value
     })
-    this.onSelect()
+    this.debouceOnSelect()
   }
 
   changeSelectOnline(){
     this.setState({
       selectOnline: !this.state.selectOnline
     })
-    this.onSelect()
+    this.debouceOnSelect()
   }
 
   changeSelectVip(){
     this.setState({
       selectNonVip:!this.state.selectNonVip
     })
-    this.onSelect()
+    this.debouceOnSelect()
   }
 
   render () {
