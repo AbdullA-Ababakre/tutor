@@ -5,6 +5,7 @@ import "./index.scss";
 import {
   AtButton
 } from "taro-ui";
+
 export default class Index extends Component {
 
   componentDidMount(){

@@ -178,7 +178,7 @@ export default class Index extends Component {
         city: this.state.city.split("").slice(0,2).join(""),
         subject: this.state.course,
         grade: this.state.grade,
-        searchValue: this.state.searchValue,
+        searchValue: this.state.searchValue.trim(),
         selectNonVip: this.state.selectNonVip,
         selectOnline: this.state.selectOnline,
         page: this.state.page

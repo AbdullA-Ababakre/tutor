@@ -59,6 +59,7 @@ export default class Index extends React.Component {
   }
 
   async getEditData(){
+    console.log(this.state._id)
     const db = wx.cloud.database()
     let data = await db.collection("organizationData").doc(this.state._id).get()
     let stateName = ['gradeChecked', 'tutorType', 'tutorSubject', 'positionInfo', 'teacherRequireText',

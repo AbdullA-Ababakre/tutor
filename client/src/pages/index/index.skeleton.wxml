@@ -1,0 +1,64 @@
+<!--
+此文件为开发者工具生成，生成时间: 2021/1/26 下午2:39:31
+使用方法：
+在 E:\Taro\tutor\client\dist\pages\index\index.wxml 引入模板
+
+```
+<import src="index.skeleton.wxml"/>
+<template is="skeleton" wx-if="{{loading}}" />
+```
+
+在 E:\Taro\tutor\client\dist\pages\index\index.wxss 中引入样式
+```
+@import "./index.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+-->
+<template name="skeleton">
+  <view class="sk-container">
+    <view class="container" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_29" style="true">
+      <view class="img-wrapper" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_7" style="true">
+        <image class="img sk-image" id="_n_6" mode="scaleToFill" style="true"></image>
+      </view>
+      <view class="btn-wrapper" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_28" style="true">
+        <view class="at-button at-button--normal btn" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_12" style="border: none;">
+          <form id="_n_9" report-submit-timeout="0" style="true">
+            <button app-parameter="true" class="at-button__wxbutton sk-button sk-pseudo sk-pseudo-circle" form-type="true" hover-class="button-hover" hover-start-time="20" hover-stay-time="70" id="_n_8" lang="en" open-type="contact" send-message-img="true"
+              send-message-path="true" send-message-title="true" session-from="true" size="default" style="true" type="true"></button>
+          </form>
+          <view class="at-button__text" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_11" style="true">
+            <image class="btn-image sk-image" id="_n_10" mode="scaleToFill" style="true"></image>
+          </view>
+        </view>
+        <view class="at-button at-button--normal btn" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_17" style="border: none;">
+          <form id="_n_14" report-submit-timeout="0" style="true">
+            <button app-parameter="true" class="at-button__wxbutton sk-button sk-pseudo sk-pseudo-circle" form-type="true" hover-class="button-hover" hover-start-time="20" hover-stay-time="70" id="_n_13" lang="en" open-type="true" send-message-img="true"
+              send-message-path="true" send-message-title="true" session-from="true" size="default" style="true" type="true"></button>
+          </form>
+          <view class="at-button__text" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_16" style="true">
+            <image class="btn-image sk-image" id="_n_15" mode="scaleToFill" style="true"></image>
+          </view>
+        </view>
+        <view class="at-button at-button--normal btn" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_22" style="border: none;">
+          <form id="_n_19" report-submit-timeout="0" style="true">
+            <button app-parameter="true" class="at-button__wxbutton sk-button sk-pseudo sk-pseudo-circle" form-type="true" hover-class="button-hover" hover-start-time="20" hover-stay-time="70" id="_n_18" lang="en" open-type="true" send-message-img="true"
+              send-message-path="true" send-message-title="true" session-from="true" size="default" style="true" type="true"></button>
+          </form>
+          <view class="at-button__text" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_21" style="true">
+            <image class="btn-image sk-image" id="_n_20" mode="scaleToFill" style="true"></image>
+          </view>
+        </view>
+        <view class="at-button at-button--normal btn" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_27" style="border: none;">
+          <form id="_n_24" report-submit-timeout="0" style="true">
+            <button app-parameter="true" class="at-button__wxbutton sk-button sk-pseudo sk-pseudo-circle" form-type="true" hover-class="button-hover" hover-start-time="20" hover-stay-time="70" id="_n_23" lang="en" open-type="true" send-message-img="true"
+              send-message-path="true" send-message-title="true" session-from="true" size="default" style="true" type="true"></button>
+          </form>
+          <view class="at-button__text" hover-class="none" hover-start-time="50" hover-stay-time="400" id="_n_26" style="true">
+            <image class="btn-image sk-image" id="_n_25" mode="scaleToFill" style="true"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
