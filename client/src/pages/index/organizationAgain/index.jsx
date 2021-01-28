@@ -23,7 +23,7 @@ export default class Index extends Component {
         return (
             <View className="container">
                 <View className="img-wrapper">
-                    <Image className="img" src="cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/组 1920@2x.png" mode="widthFix" />
+                    <Image className="img" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/post_success.png" mode="widthFix" />
                 </View>
                 <View>
                     <Button onClick={this.handleClick1.bind(this)} class="btn btn1">继续发布教育岗</Button>

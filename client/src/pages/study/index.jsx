@@ -118,8 +118,8 @@ export default class Index extends Component {
   }
 
   render() {
-    const picSrc =
-    "https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/study/swiper/parentIntro1.png";
+    // const picSrc =
+    // "https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/study/swiper/parentIntro1.png";
 
     const banners = [
       {

@@ -109,7 +109,7 @@ export default class Index extends Component {
         {/* 这里不用TutorButton是故意的，详情import那里 */}
         <Button className={`btn-pay ${this.state.showPay?"btn-bg-grey":"btn-bg-red"}`} onClick={()=>{this.debouncePay()}}>一键支付</Button>
         <View className="text-small">我已阅读并接受
-        <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "eula/index"});}}>《会员协议》</Text></View>
+        <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "/pages/order/vip_rule/index"});}}>《会员协议》</Text></View>
       </View>
     )
   }
