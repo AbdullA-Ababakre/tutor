@@ -6,10 +6,10 @@ export default {
 		'pages/index/other/index',
 		'pages/index/organization/index',
 		'pages/index/parent/submitInfo/index',
+		'pages/index/parent/intro/index',
     'pages/order/index',
     'pages/order/details/index',
     'pages/order/vip_rule/index',
-		'pages/index/parent/intro/index',
 		'pages/study/index',
 		'pages/study/articlePage/index',
 		'pages/mine/index',
@@ -22,7 +22,22 @@ export default {
     'pages/mine/adminCheckCommission/index',
     'pages/mine/adminCheckOrder/index',
     'pages/success_pages/vip_success/index'
-	],
+  ],
+  // "subpackages": [
+  //   {
+  //     "root": "pages/mine/",
+  //     "pages": [
+  //       "activate_vip/eula/index",
+  //       'about_us/index',
+  //       'certificate/index',
+  //       'favorite/index',
+  //       'activate_vip/index',
+  //       'official_acounts/index',
+  //       'adminCheckCommission/index',
+  //       'adminCheckOrder/index',
+  //     ]
+  //   }
+  // ],
 	window: {
 		backgroundTextStyle: 'light',
 		navigationBarBackgroundColor: '#fff',
@@ -59,5 +74,11 @@ export default {
 				text: '我的'
 			}
 		]
-	}
+  },
+  // mini: {
+  //   webpackChain (chain, webpack) {
+  //     chain.plugin('analyzer')
+  //       .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
+  //   }
+  // }
 };

@@ -59,16 +59,23 @@ export default class Index extends React.Component {
   }
 
   async getEditData(){
-    console.log(this.state._id)
-    const db = wx.cloud.database()
-    let data = await db.collection("organizationData").doc(this.state._id).get()
+    let data = {}
     let stateName = ['gradeChecked', 'tutorType', 'tutorSubject', 'positionInfo', 'teacherRequireText',
-                      'salarySelectorChecked', 'tel', 'organizationName', 'recruitNum', 'teachingDay', 
-                      'tutorDuration', 'teachingTime', 'teachingTimeTag', 'addressSelector', 'addressSelectorChecked',
-                      'exactAddress']
-    stateName.forEach(item=>{
-      this.setState({
-        [item]: data.data[item]
+    'salarySelectorChecked', 'tel', 'organizationName', 'recruitNum', 'teachingDay', 
+    'tutorDuration', 'teachingTime', 'teachingTimeTag', 'addressSelector', 'addressSelectorChecked',
+    'exactAddress']
+    Taro.cloud.callFunction({
+      name: 'getEditData',
+      data: {
+        id: getCurrentInstance().router.params['_id'],
+        type: 'organization'
+      }
+    }).then(res=>{
+      data = res.result.data
+      stateName.forEach(item=>{
+        this.setState({
+          [item]: data[item]
+        })
       })
     })
   }

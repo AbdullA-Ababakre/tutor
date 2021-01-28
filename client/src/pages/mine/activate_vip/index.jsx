@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, Button, Text } from '@tarojs/components'
 import './index.scss'
-import vip_yearly from "../../../images/mine/vip_yearly.png";
-import vip_monthly from "../../../images/mine/vip_monthly.png";
+// import vip_yearly from "../../../images/mine/vip_yearly.png";
+// import vip_monthly from "../../../images/mine/vip_monthly.png";
 import vip_recommended from "../../../images/mine/recommended.png";
 //import TutorButton from "../../../components/TutorButton/index";
 // 这里 import TutorButton 的话直接白屏。。奇怪
@@ -91,8 +91,6 @@ export default class Index extends Component {
         }
       })
     })
-
-    
   }
 
   render () {
@@ -103,9 +101,9 @@ export default class Index extends Component {
           
           <View className={`vip-subscription-image ${this.state.selectedPlan==2?"grayscale":""}`} onClick={()=>{this.onSwitchPlan(1)}}>
             <Image className="icon-vip-recommended" src={vip_recommended} />{/* “荐”字 */}
-            <Image className="vip-subscription-image" src={vip_yearly} />
+            <Image className="vip-subscription-image" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/vip_yearly.png" />
           </View>
-          <Image className={`vip-subscription-image ${this.state.selectedPlan==1?"grayscale":""}`} src={vip_monthly} onClick={()=>{this.onSwitchPlan(2)}} />
+          <Image className={`vip-subscription-image ${this.state.selectedPlan==1?"grayscale":""}`} src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/vip_monthly.png" onClick={()=>{this.onSwitchPlan(2)}} />
 
         </View>
         {/* 这里不用TutorButton是故意的，详情import那里 */}

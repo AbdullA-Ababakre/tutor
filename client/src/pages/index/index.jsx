@@ -6,6 +6,11 @@ import {
   AtButton
 } from "taro-ui";
 
+import index_consult  from "../../images/index_consult.png"
+import index_parent from "../../images/index_parent.png"  
+import index_organization from "../../images/index_organization.png"
+import index_supply from "../../images/index_supply.png"
+
 export default class Index extends Component {
 
   componentDidMount(){
@@ -97,19 +102,19 @@ export default class Index extends Component {
     const btnArr = [
       {
         txt: "在线咨询",
-        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_consult.png",
+        imgUrl: index_consult,
       },
       {
         txt: "我是家长",
-        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_parent.png",
+        imgUrl: index_parent,
       },
       {
         txt: "我是机构/企业",
-        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_organization.png",
+        imgUrl: index_organization,
       },
       {
         txt: "我要接单",
-        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_order.png",
+        imgUrl: index_supply,
       },
     ];
 
