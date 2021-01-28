@@ -5,9 +5,9 @@
 
 .details-index {
   min-height: 100vh;
-
   background: #F7F7F7;
   background-size: 100% 146px;
+  transition: all 1s linear 0s;
 }
 
 .bg-red-block {
@@ -34,6 +34,8 @@
   box-sizing: border-box;
   margin-bottom: 30px;
   box-shadow: 3px 0px 8px 1px rgba(0, 0, 0, .2);
+  transition: height 1s;
+  height: auto;
 }
 
 .details-title {
@@ -251,3 +253,15 @@ image + .details-label-grey { // “可协调” 用
   align-items: center;
   line-height: 106px;
 } 
+
+.transition-all-1{
+  transition: height 1s;
+}
+
+.opacity-0{
+  opacity: 0;
+}
+
+.opacity-1{
+  opacity: 1;
+}

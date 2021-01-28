@@ -46,6 +46,7 @@ export default class Index extends Component {
     */
 
     this.state = {
+      showDetail: false,
       isAdmin: false,
       openShare: false,
       path: '',
@@ -125,12 +126,10 @@ export default class Index extends Component {
     // console.log(getCurrentInstance().router.params)
 
     try {
-      this.setState({
-        openid: Taro.getStorageSync("openid"),
-      })
 
       this.setState({
-        userVip: Taro.getStorageSync("isVip")
+        userVip: Taro.getStorageSync("isVip"),
+        openid: Taro.getStorageSync("openid"),
       })
 
       //  这里迷惑性很强 拿不到 数据？？？
@@ -152,8 +151,9 @@ export default class Index extends Component {
     }
     let data = await this.getPath()
     this.setState({
-      path: data.path
-    })
+      path: data.path,
+      showDetail: true
+    },()=>{console.log(this.state.showDetail)})
     this.setShareOpenId()
   }
 
@@ -565,7 +565,7 @@ export default class Index extends Component {
         {this.state.showDiag? <ModalDiag postDiagData={this.getDiagData.bind(this)} />:""}
         
         {/* 看到的details 页面在此 */}
-        <View className='details-index'>
+        <View className={`details-index ${this.state.showDetail?"opacity-1":"opacity-0"}`}>
           {/* 右边的浮按钮 */}
           <OrderDetailRightPanel openSharePic={this.openSharePic.bind(this)}  className="right_panel" />
           
@@ -581,7 +581,7 @@ export default class Index extends Component {
               {(()=>{
                 if(job.jobType === "familyCourse" || job.jobType==="companyCourse") return (
                   <View>
-                    <View style='details-label-container'>
+                    <View className='details-label-container'>
                       <View className='details-label'><View class="details-label-text">{job.tutorType}</View></View>
                     </View>
                     {locationView}

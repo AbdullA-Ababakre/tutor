@@ -26,9 +26,12 @@ export default class Index extends React.Component {
     };
 
     async componentDidMount(){
-      this.setState({
-        _id: getCurrentInstance().router.params['_id'] || ""
-      },()=>{if(!this.state._id){}else{this.getEditData()}})
+      if(getCurrentInstance().router.params['_id']){
+        this.getEditData()
+        this.setState({
+          _id: getCurrentInstance().router.params['_id']
+        })
+      }
     }
 
     async getEditData(){
@@ -331,7 +334,7 @@ export default class Index extends React.Component {
                         onInput={this.handleTel.bind(this)}
                     />
 
-                    <Button className="btn" formType="submit">确认发布</Button>
+                    <Button className="btn" formType="submit">{this.state._id?"确认修改":"确认发布"}</Button>
                 </Form>
             </View>
         );

@@ -20,7 +20,7 @@ export default function Intro() {
   return (
     <View className="intro-wrapper">
       <View className="header">
-        <Image className="header-image" mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_parent_intro.png"/>
+        <Image className="header-image" mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_parent_intro1.png"/>
       </View>
       <View className="body">
         <View className="cityList">{citys}</View>

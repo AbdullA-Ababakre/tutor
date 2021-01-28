@@ -158,7 +158,7 @@ export default class Index extends Component {
     if(this.state.pageswitch_selected == 1) {
       articleList = articles1.map((v,i)=>{
         return (
-          <View className="article-small-wrapper" onClick={()=>{this.openArticle(v.url)}}>
+          <View className="article-small-wrapper animation-fadein" onClick={()=>{this.openArticle(v.url)}}>
             {/* <ArticleSmallCard title={v.title} author={v.author} price={v.price} imgSrc={v.imgSrc} freeForVip={v.freeForVip||""}/> */}
             <ArticleSmallCard title={v.title} author={v.author} imgSrc={v.imgSrc}/>
           </View>
@@ -167,7 +167,7 @@ export default class Index extends Component {
     } else {
       articleList = articles2.map((v,i)=>{
         return (
-          <View className="article-wrapper" onClick={()=>{this.openArticle(v.url)}}>
+          <View className="article-wrapper animation-fadein" onClick={()=>{this.openArticle(v.url)}}>
             <ArticleCard title={v.title} desc={v.desc} rating={v.rating} imgSrc={v.imgSrc} />
           </View>
         )
@@ -177,7 +177,7 @@ export default class Index extends Component {
     let pageswitch_selected = this.state.pageswitch_selected;
     return (
       <View className="index">
-        <TutorSwiper className="study-swiper" onTapItem={(src)=>{this.openArticle(src)}} banner={banners} />
+        <TutorSwiper className="study-swiper animation-fadein" onTapItem={(src)=>{this.openArticle(src)}} banner={banners} />
         {/* 页面切换器 */}
         <View className="page-switch">
           <View className="page-switch-option-container">

@@ -6,11 +6,6 @@ import {
   AtButton
 } from "taro-ui";
 
-import index_consult  from "../../images/index_consult.png"
-import index_parent from "../../images/index_parent.png"  
-import index_organization from "../../images/index_organization.png"
-import index_supply from "../../images/index_supply.png"
-
 export default class Index extends Component {
 
   componentDidMount(){
@@ -102,19 +97,19 @@ export default class Index extends Component {
     const btnArr = [
       {
         txt: "在线咨询",
-        imgUrl: index_consult,
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_consult.png",
       },
       {
         txt: "我是家长",
-        imgUrl: index_parent,
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_parent.png",
       },
       {
         txt: "我是机构/企业",
-        imgUrl: index_organization,
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_organization.png",
       },
       {
         txt: "我要接单",
-        imgUrl: index_supply,
+        imgUrl: "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_order.png",
       },
     ];
 
@@ -124,7 +119,7 @@ export default class Index extends Component {
           <AtButton
             openType="contact"
             bindcontact="handleContact"
-            className={`btn`}
+            className={`btn animation-fadein{`}
           >
             <Image className="btn-image"  src={item.imgUrl}></Image>
           </AtButton>
@@ -132,7 +127,7 @@ export default class Index extends Component {
       } else {
         return (
           <AtButton
-            className={`btn`}
+            className={`btn animation-fadein{`}
             onClick={(e) => {
               this.handleClick(index, e);
             }}
@@ -142,13 +137,12 @@ export default class Index extends Component {
         );
       }
     });
-    let value = "";
     return (
       <View className="container">
         <View className="img-wrapper">
-          <Image
-            className="img"
-            src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_header.png"
+          <image
+            className="img animation-fadein"
+            src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_header1.png"
             mode="scaleToFill"
           />
         </View>
