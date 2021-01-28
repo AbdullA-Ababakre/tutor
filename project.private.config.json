@@ -1,0 +1,44 @@
+{
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": -1,
+          "name": "实习证明",
+          "pathName": "pages/mine/certificate/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "荔学院",
+          "pathName": "pages/study/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "激活会员",
+          "pathName": "pages/mine/activate_vip/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/index",
+          "pathName": "pages/mine/index",
+          "query": "shareOpenId=owUOy4lbBcVzb5WqGfxvAcbM7lZE",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

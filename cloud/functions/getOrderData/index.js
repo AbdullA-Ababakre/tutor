@@ -2,6 +2,7 @@
 const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
+const _ = db.command
 
 let getDbCout = async ()=>{
   let parentDataCount = await db.collection("parentData").count()
@@ -25,20 +26,16 @@ let searchQuery = (city, searchValue) =>{
   }
 }
 
-let getAllTopData = async (event) =>{
-  const _ = db.command
-  console.log("res---", searchQuery(event.city, event.searchValue))
-
-  let parentDataCopy = await db.collection('parentData').where(_.and([
+let parentQuery = (event, isTop) => {
+  return db.collection('parentData').where(_.and([
     _.or({
-      addressSelectorChecked: db.RegExp({
-        regexp: searchQuery(event.city, event.searchValue),
-        options: 'i',
-      })
-    },
+    addressSelectorChecked: db.RegExp({
+      regexp: searchQuery(event.city, event.searchValue),
+      options: 'i',
+    })}, 
     {
       exactAddress:  db.RegExp({
-        regexp: `.*${event.searchValue}`,
+        regexp: `.*${event.searchValue?event.searchValue:event.city}`,
         options: 'i',
       })
     }),
@@ -73,13 +70,14 @@ let getAllTopData = async (event) =>{
       isOnline: true,
     },
     {
-      top: true
+      top: isTop
     }
   ])
-  ).get()
+  )
+}
 
-   //  get the organizationData in the limit 
-  let organizationDataCopy =  await db.collection('organizationData').where(_.and([
+let organizationQuery = (event, isTop) => {
+  return db.collection('organizationData').where(_.and([
     _.or({
     addressSelectorChecked: db.RegExp({
       regexp: searchQuery(event.city, event.searchValue),
@@ -87,7 +85,7 @@ let getAllTopData = async (event) =>{
     })},
     {
       exactAddress:  db.RegExp({
-        regexp: `.*${event.searchValue}`,
+        regexp: `.*${event.searchValue?event.searchValue:event.city}`,
         options: 'i',
       })
     }),
@@ -116,13 +114,14 @@ let getAllTopData = async (event) =>{
       isOnline: true,
     },
     {
-      top: true
+      top: isTop
     }
   ])
-  ).get()
-  
-   //  get the otherData in the limit 
-  let otherDataCopy =  await db.collection('otherData').where(_.and([
+  )
+}
+
+let otherQuery = (event, isTop) => {
+  return db.collection('otherData').where(_.and([
     {
     positionAddress: db.RegExp({
       regexp: searchQuery(event.city, event.searchValue),
@@ -153,12 +152,26 @@ let getAllTopData = async (event) =>{
       isOnline: true,
     },
     {
-      top: true
+      top: isTop
     }
   ])
-  ).get()
-  return new Promise(resolve =>resolve(parentDataCopy.data.concat(organizationDataCopy.data).concat(otherDataCopy.data)))
+  )
 }
+
+let getAllTopData = async (event) =>{
+
+   // get the parentData in the limit
+  let parentDataCopy = await parentQuery(event, true).get()
+
+   //  get the organizationData in the limit 
+  let organizationDataCopy =  await organizationQuery(event, true).get()
+  
+   //  get the otherData in the limit 
+  let otherDataCopy =  await otherQuery(event, true).get()
+
+  return parentDataCopy.data.concat(organizationDataCopy.data).concat(otherDataCopy.data)
+}
+
 
 // 云函数入口函数
 //  这一个云函数主要是获得筛选的数据
@@ -167,177 +180,51 @@ exports.main = async (event, context) => {
   let dataLimit = 3
   let maxGet = 100
   let {parentDataCount, organizationDataCount, otherDataCount } = await getDbCout()
-  const _ = db.command
   let page = event.page
-  let parentData = {data: []}
-  let organizationData ={data: []}
-  let otherData = {data: []}
+  let parentPromise = []
+  let organizationPromise = []
+  let otherPromise = []
+  let parentData = []
+  let organizationData =[]
+  let otherData = []
   let data = []
 
-  //  get the parentData in the limit 
   let count = Math.floor(( page*dataLimit) /100) + 1
 
   // 取出 top data
   let topData = await getAllTopData(event)
   data = data.concat(topData)
-  console.log(topData, data);
-  //  取多少次
+
+  //  取多少次 并且获得 promise 数组
   while(count!=0){
     count -= 1
-    let parentDataCopy = await db.collection('parentData').where(_.and([
-      _.or({
-      addressSelectorChecked: db.RegExp({
-        regexp: searchQuery(event.city, event.searchValue),
-        options: 'i',
-      })}, 
-      {
-        exactAddress:  db.RegExp({
-          regexp: `.*${event.searchValue}`,
-          options: 'i',
-        })
-      }),
-      {
-        tutorSubject:  db.RegExp({
-          regexp: `.*${event.subject.includes("不")?"":event.subject}`,
-          options: 'i',
-        })
-      },
-      {
-        gradeChecked:  db.RegExp({
-          regexp: `.*${event.grade.includes("不")?"":event.grade}`,
-          options: 'i',
-        })
-      },
-      {
-        requireVip: db.RegExp({
-          regexp: `.*${event.selectNonVip?"false":""}`,
-          options: 'i'
-        })
-      },
-      {
-        classForm:db.RegExp({
-          regexp: `.*${event.selectOnline?"线上":""}`,
-          options: 'i'
-        })
-      },
-      {
-        isLoseEfficacy:false
-      },
-      {
-        isOnline: true,
-      },
-      {
-        top: false
-      }
-    ])
-    ).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
-    parentData.data =  parentData.data.concat(parentDataCopy.data)
-    console.log('\n\n------ begin:  ------')
-    console.log(parentData, parentDataCopy,page*dataLimit -(count)*maxGet )
-    console.log('------ end:  ------\n\n')
+    let parentDataCopy = parentQuery(event, false).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
+    parentPromise.push(parentDataCopy)
 
-     //  get the organizationData in the limit 
-    let organizationDataCopy =  await db.collection('organizationData').where(_.and([
-      _.or({
-      addressSelectorChecked: db.RegExp({
-        regexp: searchQuery(event.city, event.searchValue),
-        options: 'i',
-      })},
-      {
-        exactAddress:  db.RegExp({
-          regexp: `.*${event.searchValue}`,
-          options: 'i',
-        })
-      }),
-      {
-        tutorSubject:  db.RegExp({
-          regexp: `.*${event.subject.includes("不")?"":event.subject}`,
-          options: 'i',
-        })
-      },
-      {
-        gradeChecked:  db.RegExp({
-          regexp: `.*${event.grade.includes("不")?"":event.grade}`,
-          options: 'i',
-        })
-      },
-      {
-        requireVip: db.RegExp({
-          regexp: `.*${event.selectNonVip?"false":""}`,
-          options: 'i'
-        })
-      },
-      {
-        isLoseEfficacy:false
-      },
-      {
-        isOnline: true,
-      },
-      {
-        top: false
-      }
-    ])
-    ).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
-    organizationData.data = organizationData.data.concat(organizationDataCopy.data)
+    let organizationDataCopy = organizationQuery(event, false).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
+    organizationPromise.push(organizationDataCopy)
     
-     //  get the otherData in the limit 
-    let otherDataCopy =  await db.collection('otherData').where(_.and([{
-      positionAddress: db.RegExp({
-        regexp: searchQuery(event.city, event.searchValue),
-        options: 'i',
-      })},
-      {
-        positionAddress:  db.RegExp({
-          regexp: `.*${event.searchValue}`,
-          options: 'i',
-        })
-      },
-      {
-        requireVip: db.RegExp({
-          regexp: `.*${event.selectNonVip?"false":""}`,
-          options: 'i'
-        })
-      },
-      {
-        positionName: db.RegExp({
-          regexp: `.*${event.subject.includes("不")?"":event.subject.includes("其")?"":event.subject}`,
-          options: 'i'
-        })
-      },
-      {
-        positionName: db.RegExp({
-          regexp: `.*${event.grade.includes("不")?"":event.grade.includes("其")?"":event.grade}`,
-          options: 'i'
-        })
-      },
-      {
-        isLoseEfficacy:false
-      },
-      {
-        isOnline: true,
-      },
-      {
-        top: false
-      }
-    ])
-    ).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
-    otherData.data = otherData.data.concat(otherDataCopy.data)
-    
-    console.log(data);
+    let otherDataCopy = otherQuery(event, false).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
+    otherPromise.push(otherDataCopy)
   }
+
+
+  parentData = (await Promise.all(parentPromise))[0].data;
+
+  organizationData = (await Promise.all(organizationPromise))[0].data;
+
+  otherData = (await Promise.all(otherPromise))[0].data;
 
   let lenMax = Math.max(parentDataCount, organizationDataCount, otherDataCount)
   for(let i=0;i <lenMax;i+=dataLimit){
-    data = data.concat(parentData.data.slice(i, i+dataLimit)).concat(organizationData.data.slice(i, i+dataLimit)).concat(otherData.data.slice(i, i+dataLimit))
+    data = data.concat(parentData.slice(i, i+dataLimit)).concat(organizationData.slice(i, i+dataLimit)).concat(otherData.slice(i, i+dataLimit))
   }
-
  
   if(event.selectOnline){
     return {
-      data: parentData.data
+      data: parentData
     }
   }
-  // console.log(parentData,organizationData,otherData, event,page<Math.ceil(otherDataCount/dataLimit),otherDataCount  );
 
   return {
     data: data

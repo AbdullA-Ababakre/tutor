@@ -32,7 +32,8 @@ function completeDate(time1 , time2 , m)
 } 
 
 exports.main = async (event, context) => {
-  let OPENID = event.userInfo.openId;
+  const wxContext = cloud.getWXContext()
+  const OPENID = wxContext.OPENID
   return db.collection('users').where({
     openId: OPENID
   })
@@ -52,17 +53,20 @@ exports.main = async (event, context) => {
       })
     } else {
       // 判断是否过期 如果过期的话 就要去 更新状态
-      // if(result.data[0].isVip){
-      //   let vipBeginTime = result.data[0].vipBeginTime
-      //   let now = new Date()
-      //   if(!completeDate(vipBeginTime, now, result.data[0].vipMonth)){
-      //     db.collection("users").where({
-      //       openId: OPENID
-      //     }).update({
-      //       isVip: false
-      //     })
-      //   }  
-      // }
+      if(result.data[0].isVip){
+        let vipBeginTime = result.data[0].vipBeginTime
+        let now = new Date()
+        console.log(completeDate(vipBeginTime, now, result.data[0].vipMonth))
+        if(!completeDate(vipBeginTime, now, result.data[0].vipMonth)){
+          db.collection("users").where({
+            openId: OPENID
+          }).update({
+            data:{
+              isVip: false
+            }
+          })
+        }  
+      }
 
       return new Promise(resolve=>{resolve(result.data[0])});
     }

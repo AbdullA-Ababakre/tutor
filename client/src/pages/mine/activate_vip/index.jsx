@@ -51,7 +51,7 @@ export default class Index extends Component {
     Taro.cloud.callFunction({
       name: 'wxPay',
       data: {
-        total: 1
+        total: total
       }
     })
     .then(res=>{
@@ -60,6 +60,7 @@ export default class Index extends Component {
       console.log(res);
       const payment = res.result.payment
       let vipMonth = total===350?12:1
+
       wx.requestPayment({
         ...payment,
         success (res) {
@@ -71,8 +72,9 @@ export default class Index extends Component {
               vipMonth: vipMonth
             }
           })
-          Taro.switchTab({
-             url: '/pages/order/index'
+
+          Taro.redirectTo({
+             url: '/pages/success_pages/vip_success/index'
           });
           console.log('pay success', res)
         },

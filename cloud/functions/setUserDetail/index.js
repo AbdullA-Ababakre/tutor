@@ -9,51 +9,45 @@ exports.main = async (event, context) => {
   const openid = wxContext.OPENID
   const _ = db.command
   let commission = event.vipMonth===12?40:10
+  console.log(openid)
+  let userQuery =  db.collection("users").where({ openId: openid})
   if(event.setVip){
     // 这里是分销操作
     // 还要看看这里的格式对不对
-    db.collection("users").where({
-      openId: openid
-    }).get().then(res=>{
-      let shareOpenId = res.data.shareOpenId
-      db.collection("users").where({
-        openId: shareOpenId
-      }).update({
+    let userDetail = await userQuery.get()
+    if(userDetail.data[0].shareOpenId){
+      await db.collection('users').where({ openId: userDetail.data[0].shareOpenId})
+        .update({
         data: {
           commission: _.inc(commission)
         }
       })
-      
-      if(res.data.isVip){
-        return db.collection("users").where({
-          openId: openid
-        }).limit(1)
-        .update({
+    }
+
+    if(userDetail.data[0].isVip){
+      return await userQuery.update({
+        data: {
           isVip: true,
           vipMonth: _.inc(event.vipMonth)
-        })
-      }else{
-        // 这里是 变成VIP 操作
-        return db.collection("users").where({
-          openId: openid
-        }).limit(1)
-        .update({
+        }
+      })
+    }else{
+      return await userQuery.update({
+        data: {
           isVip: true,
           vipBeginTime: new Date(),
           vipMonth: event.vipMonth
-        })
         }
-    })
+      })
+    }
   }
 
-  return db.collection('users').where({
-    openId: openid
-  }).limit(1)
-    .update({
-      data: {
-        realName: event.realName,
-        wechatName: event.wechatName
-      }
-    })
+  return await userQuery
+            .update({
+                data: {
+                  realName: event.realName,
+                  wechatName: event.wechatName
+                }
+              })
   
 }

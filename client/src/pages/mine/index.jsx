@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import Taro,{ getCurrentInstance, previewImage } from "@tarojs/taro";
+import Taro, { getCurrentInstance, previewImage } from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
-import {
-  AtModal,
-  AtModalHeader,
-  AtModalAction,
-  AtInput,
-} from "taro-ui";
+import { AtModal, AtModalHeader, AtModalAction, AtInput } from "taro-ui";
 import "./index.scss";
 
 import icon_phone from "../../images/mine/icon_phone.png";
@@ -42,33 +37,36 @@ export default class Index extends Component {
       isVip: false,
       phoneShown: "正在加载个人信息",
       phone: "",
-      isAdmin: false
+      isAdmin: false,
     };
-
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.getUserDetailsProcess();
-    this.setShareOpenId()
+    this.setShareOpenId();
   }
 
   // 绑定 分享者的 openid
-  setShareOpenId(){
+  setShareOpenId() {
     try {
-      let shareOpenId = ""
-      let params = getCurrentInstance().router.params
-      if(Object.keys(params).join("").includes("shareOpenId")){
-        shareOpenId = params['shareOpenId']
-        Taro.cloud.callFunction({
-          name: "setShareOpenId",
-          data:{
-            shareOpenId: shareOpenId
-          }
-        })
-        .then(res=>{
-          console.log(res);
-        })
-        // console.log(shareOpenId);
+      let shareOpenId = "";
+      let params = getCurrentInstance().router.params;
+      if (
+        Object.keys(params)
+          .join("")
+          .includes("shareOpenId")
+      ) {
+        shareOpenId = params["shareOpenId"];
+        Taro.cloud
+          .callFunction({
+            name: "setShareOpenId",
+            data: {
+              shareOpenId: shareOpenId,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+          });
       }
     } catch (error) {
       console.log(error);
@@ -76,75 +74,75 @@ export default class Index extends Component {
   }
 
   // 获取分享的小程序 路径 类 “/pages/index/index?openid=xxxxx”
-  getPath(){
-    return new Promise(resolve=>{
+  getPath() {
+    return new Promise((resolve) => {
       Taro.showLoading({
-        title:"加载中"
-      })
-      Taro.cloud.callFunction({
-        name: "getSharePath",
-        data: {
-          path: getCurrentInstance().router.path,
-          params: getCurrentInstance().router.params
-        }
-      })
-      .then(res=>{
-        Taro.hideLoading()
-        resolve(res.result.data)
-      })
-    })
+        title: "加载中",
+      });
+      Taro.cloud
+        .callFunction({
+          name: "getSharePath",
+          data: {
+            path: getCurrentInstance().router.path,
+            params: getCurrentInstance().router.params,
+          },
+        })
+        .then((res) => {
+          Taro.hideLoading();
+          resolve(res.result.data);
+        });
+    });
   }
 
-  // 分享给别人 携带了分享者的 openid 
+  // 分享给别人 携带了分享者的 openid
   async onShareAppMessage() {
-    let data = await this.getPath()
-    console.log(data);
+    let data = await this.getPath();
     return {
-      path: data.path
-    }
+      path: data.path,
+    };
   }
 
-  // 分享到朋友圈 携带了分享者的 openid 
-  async onShareTimeline () {
-    let data = await this.getPath()
+  // 分享到朋友圈 携带了分享者的 openid
+  async onShareTimeline() {
+    let data = await this.getPath();
     return {
-      query: data.query
-    }  
+      query: data.query,
+    };
   }
 
   //  下面的几个操作都是 为了 获得 手机号码
   setPhoneNumber() {
     this.setState({
-      phoneModal: true
-    })
-  }
-  
-  phoneChange(e){
-    this.setState({
-      phoneInput: e
-    })
-    return e
+      phoneModal: true,
+    });
   }
 
-  confirmPhone(){
+  phoneChange(e) {
+    this.setState({
+      phoneInput: e,
+    });
+    return e;
+  }
+
+  confirmPhone() {
     this.setState({
       phoneModal: false,
       phone: this.state.phoneInput,
-      phoneInput: ''
-    })
+      phoneInput: "",
+    });
     Taro.cloud.callFunction({
-      name: 'setPhoneNumber',
-      data:{
-        phone: this.state.phone
-      }
-    })
+      name: "setPhoneNumber",
+      data: {
+        phone: this.state.phone,
+      },
+    });
   }
 
-  cancelPhone(){
+  cancelPhone() {
     this.setState({
       phoneModal: false,
-      phoneInput: ''
-    })
+      phoneInput: "",
+    });
   }
 
   onUserInfo(res) {
@@ -153,10 +151,10 @@ export default class Index extends Component {
     this.setState({ userInfo: res.detail.userInfo, isLoggedIn: true });
     this.getUserDetailsProcess();
     Taro.login({
-      success: (res)=>{
+      success: (res) => {
         console.log("登录成功！！");
-      }
-    })
+      },
+    });
   }
 
   getUserDetailsProcess() {
@@ -165,10 +163,10 @@ export default class Index extends Component {
       console.log("userDetails:", details);
       if (!details) return;
       try {
-        Taro.setStorageSync("openid", details.openId)
-        Taro.setStorageSync("isVip", details.isVip)
-        Taro.setStorageSync("isAdmin", details.isAdmin)
-        console.log("isAdmin",details.isAdmin);
+        Taro.setStorageSync("openid", details.openId);
+        Taro.setStorageSync("isVip", details.isVip);
+        Taro.setStorageSync("isAdmin", details.isAdmin);
+        console.log("isAdmin", details.isAdmin);
       } catch (error) {
         console.log(error);
       }
@@ -176,36 +174,37 @@ export default class Index extends Component {
         isVip: details.isVip,
         phone: details.phone || "",
         phoneShown: details.phoneShown || "空",
-        isAdmin: details.isAdmin || false
+        isAdmin: details.isAdmin || false,
       });
     });
   }
 
-  getPhoneNumber(e){
+  getPhoneNumber(e) {
     //  需要认证之后使用这一个 获得 手机号码
     //  里面有一个 cloudid 字段 传给云函数 让它保存
-    if(e.detail.cloudID){
-      Taro.cloud.callFunction({
-        name: 'setPhoneNumber',
-         data: {
-           phoneData: wx.cloud.CloudID(e.detail.cloudID)
-         }
-      }).then((res)=>{
-        this.setState({
-          phone: res.result.phoneNumber
+    if (e.detail.cloudID) {
+      Taro.cloud
+        .callFunction({
+          name: "setPhoneNumber",
+          data: {
+            phoneData: wx.cloud.CloudID(e.detail.cloudID),
+          },
         })
-        Taro.showToast({
-          title: "获取号码成功",
-          duration: 2000
-        })
-      })
-    }else{
+        .then((res) => {
+          this.setState({
+            phone: res.result.phoneNumber,
+          });
+          Taro.showToast({
+            title: "获取号码成功",
+            duration: 2000,
+          });
+        });
+    } else {
       Taro.showToast({
-        title: '获取号码失败',
-        duration: 2000
+        title: "获取号码失败",
+        duration: 2000,
       });
     }
-    
   }
 
   render() {
@@ -220,20 +219,21 @@ export default class Index extends Component {
           onChange={this.phoneChange.bind(this)}
         />
         <AtModalAction>
-          <Button onClick={this.cancelPhone.bind(this)} >取消</Button> <Button onClick={this.confirmPhone.bind(this)} >确定</Button>
+          <Button onClick={this.cancelPhone.bind(this)}>取消</Button>{" "}
+          <Button onClick={this.confirmPhone.bind(this)}>确定</Button>
         </AtModalAction>
       </AtModal>
     );
     let pageJump = (page) => {
       return () => {
-      if(!this.state.isVip && page ==="certificate" ){
-        Taro.showToast({
-          title: "请注册会员后使用该功能！",
-          icon: "none",
-          duration: 2000
-        })
-        return;
-      }
+        if (!this.state.isVip && page === "certificate") {
+          Taro.showToast({
+            title: "请注册会员后使用该功能！",
+            icon: "none",
+            duration: 2000,
+          });
+          return;
+        }
         Taro.navigateTo({ url: page + "/index" });
       };
     };
@@ -242,10 +242,11 @@ export default class Index extends Component {
         Taro.switchTab({ url: "/pages/index/index" });
       };
     };
-    let hidePhoneDigits = (phone) => { // 13577778888 -> 135****8888
-      if(phone == "") return "";
-      return phone.substr(0,3) + "****" + phone.substr(phone.length-4,4);
-    }
+    let hidePhoneDigits = (phone) => {
+      // 13577778888 -> 135****8888
+      if (phone == "") return "";
+      return phone.substr(0, 3) + "****" + phone.substr(phone.length - 4, 4);
+    };
     return (
       <View className="index">
         <View
@@ -266,28 +267,33 @@ export default class Index extends Component {
             </Text>
             {/* 用户名下面的VIP图标和手机号 */}
             <View style="display: flex;flex-direction: row;align-items: center;">
-            { this.state.isVip && <Image
-                className={`userinfo-icon-vip`}
-                src={this.state.isVip ? icon_vip : icon_not_vip}
-              />}
+              {this.state.isVip && (
+                <Image
+                  className={`userinfo-icon-vip`}
+                  src={this.state.isVip ? icon_vip : icon_not_vip}
+                />
+              )}
               <Image className="userinfo-icon-phone" src={icon_phone} />
               {/* { hidePhoneDigits(this.state.phone) } */}
-              <Text className="userinfo-phone">{hidePhoneDigits(this.state.phone)}</Text>
+              <Text className="userinfo-phone">
+                {hidePhoneDigits(this.state.phone)}
+              </Text>
 
-              {
-                this.state.phone === ''?
+              {this.state.phone === "" ? (
                 <Button
-                size="mini"
-                type="default"
-                style="padding: 0px 5px; margin-left: 15px"
-                openType="getPhoneNumber"
-                onGetPhoneNumber={this.getPhoneNumber.bind(this)}
-                // onClick={this.setPhoneNumber.bind(this)}
-              >
-                {`${this.state.phone == ""? "获取手机号":"修改手机号"}`}
-              </Button>: ""
-              }
-            
+                  size="mini"
+                  type="default"
+                  style="padding: 0px 5px; margin-left: 15px"
+                  openType="getPhoneNumber"
+                  onGetPhoneNumber={this.getPhoneNumber.bind(this)}
+                  // onClick={this.setPhoneNumber.bind(this)}
+                >
+                  {`${this.state.phone == "" ? "获取手机号" : "修改手机号"}`}
+                </Button>
+              ) : (
+                ""
+              )}
+
               {getPhone}
             </View>
           </View>
@@ -311,14 +317,20 @@ export default class Index extends Component {
         <View className="become-vip-container">
           <image
             className="banner-become-vip"
-            src={!this.state.isVip?banner_become_vip:banner_is_vip}
+            src={!this.state.isVip ? banner_become_vip : banner_is_vip}
             onClick={pageJump("activate_vip")}
           />
           <image
             className="img-subscribe-gzh"
             src={img_subscribe_account}
             mode="widthFix"
-            onClick={()=> Taro.previewImage({urls:['cloud://tutor-ghszz.7475-tutor-ghszz-1303852457/images/微信图片_20201122235218.jpg']})}
+            onClick={() =>
+              Taro.previewImage({
+                urls: [
+                  "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/微信图片_20210128122059.jpg",
+                ],
+              })
+            }
           />
         </View>
 
@@ -339,23 +351,68 @@ export default class Index extends Component {
             <MagicBigButton open-type="contact" img={btn_support}>
               联系客服
             </MagicBigButton>
-            <MagicBigButton open-type="feedback" img={btn_feedback}>
+            <BigButton
+              onClick={() =>
+               { 
+                Taro.showToast({
+                  title: '请扫码填写!',
+                  duration: 2000
+                });
+                Taro.previewImage({
+                  urls: [
+                    "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/微信图片_20210128122112.jpg",
+                  ],
+                })
+              }
+              }
+              img={btn_feedback}
+            >
               意见反馈
-            </MagicBigButton>
+            </BigButton>
             {/* 暂时修改成 certificate */}
             <BigButton img={btn_certificate} onClick={pageJump("certificate")}>
               实习证明
             </BigButton>
           </View>
         </View>
-      
-      {/*  这里是管理员操作 */}
-      { this.state.isAdmin &&  <Button className="admin-button" onClick={pageJump("adminCheckCommission")} >查看用户佣金信息 </Button>}
-      { this.state.isAdmin &&  <Button className="admin-button" onClick={() => Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=online" })} >查看未上架订单信息 </Button>}
-      { this.state.isAdmin &&  <Button className="admin-button" onClick={() =>  Taro.navigateTo({ url: "/pages/mine/adminCheckOrder/index?chooseType=loseEfficacy" })} >查看失效订单信息 </Button>}
-       
-       {/* 这里是关注公众号的浮窗 */}
-      <official-account></official-account>
+
+        {/*  这里是管理员操作 */}
+        {this.state.isAdmin && (
+          <Button
+            className="admin-button"
+            onClick={pageJump("adminCheckCommission")}
+          >
+            查看用户佣金信息{" "}
+          </Button>
+        )}
+        {this.state.isAdmin && (
+          <Button
+            className="admin-button"
+            onClick={() =>
+              Taro.navigateTo({
+                url: "/pages/mine/adminCheckOrder/index?chooseType=online",
+              })
+            }
+          >
+            查看未上架订单信息{" "}
+          </Button>
+        )}
+        {this.state.isAdmin && (
+          <Button
+            className="admin-button"
+            onClick={() =>
+              Taro.navigateTo({
+                url:
+                  "/pages/mine/adminCheckOrder/index?chooseType=loseEfficacy",
+              })
+            }
+          >
+            查看失效订单信息{" "}
+          </Button>
+        )}
+
+        {/* 这里是关注公众号的浮窗 */}
+        <official-account></official-account>
       </View>
     );
   }

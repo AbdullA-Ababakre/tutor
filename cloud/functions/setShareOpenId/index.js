@@ -9,7 +9,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const openid = wxContext.OPENID
 
-  const user = await db.collection('users').where({
+  const user =  db.collection('users').where({
     openId: openid
   })
   const userDetail = await user.get()
@@ -21,9 +21,8 @@ exports.main = async (event, context) => {
       }
     }
   }else if(event.shareOpenId!==openid) {
-  // }else{
     //  在这里更新 分享者的 openid
-    user.update({
+    await user.update({
       data: {
         shareOpenId: event.shareOpenId
       }

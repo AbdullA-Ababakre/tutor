@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
     "outTradeNo" : getTradeNo(),
     "spbillCreateIp" : "127.0.0.1",
     "subMchId" : "1605878403",
-    "totalFee" : event.total,
+    "totalFee" : event.total*100,
     "envId": "official-9gyl2zmleab20999",
     "functionName": "wxPayBack"
   })
