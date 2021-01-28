@@ -13,7 +13,7 @@ export default class Index extends Component {
   render () {
     return (
       <View className='index'>
-        <image className='about-us-img' mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/about_us.png" />
+        <image className='about-us-img' mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/about.png" />
       </View>
     )
   }
