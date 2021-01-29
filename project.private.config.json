@@ -1,4 +1,5 @@
 {
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -36,6 +37,17 @@
           "name": "pages/mine/index",
           "pathName": "pages/mine/index",
           "query": "shareOpenId=owUOy4lbBcVzb5WqGfxvAcbM7lZE",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/official_acounts/index",
+          "pathName": "pages/mine/official_acounts/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/index/organizationAgain/index",
+          "pathName": "pages/index/organizationAgain/index",
           "scene": null
         }
       ]

@@ -150,10 +150,13 @@ export default class Index extends Component {
       case "other": this.getOtherData(); break;
     }
     let data = await this.getPath()
-    this.setState({
-      path: data.path,
-      showDetail: true
-    },()=>{console.log(this.state.showDetail)})
+   
+    setTimeout(()=>{
+      this.setState({
+        path: data.path,
+        showDetail: true
+      })
+    }, 200)
     this.setShareOpenId()
   }
 
@@ -195,6 +198,7 @@ export default class Index extends Component {
         }
       })
       .then(res=>{
+        
         Taro.hideLoading()
         resolve(res.result.data)
       })

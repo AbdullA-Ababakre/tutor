@@ -8,6 +8,10 @@ import {
 
 export default class Index extends Component {
 
+  state = {
+    showImg: false
+  }
+
   componentDidMount(){
     this.setShareOpenId()
   }
@@ -92,6 +96,12 @@ export default class Index extends Component {
     }
   };
 
+  showImg(){
+    this.setState({
+      showImg: true
+    })
+  }
+
   handleChange() {}
   render() {
     const btnArr = [
@@ -119,7 +129,7 @@ export default class Index extends Component {
           <AtButton
             openType="contact"
             bindcontact="handleContact"
-            className={`btn animation-fadein{`}
+            className={`btn ${this.state.showImg?"opacity-1":"opacity-0"}`}
           >
             <Image className="btn-image"  src={item.imgUrl}></Image>
           </AtButton>
@@ -127,7 +137,7 @@ export default class Index extends Component {
       } else {
         return (
           <AtButton
-            className={`btn animation-fadein{`}
+            className={`btn ${this.state.showImg?"opacity-1":"opacity-0"}`}
             onClick={(e) => {
               this.handleClick(index, e);
             }}
@@ -140,10 +150,11 @@ export default class Index extends Component {
     return (
       <View className="container">
         <View className="img-wrapper">
-          <image
-            className="img animation-fadein"
+          <Image
+            className={`img ${this.state.showImg?"opacity-1":"opacity-0"}`}
             src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_header1.png"
             mode="scaleToFill"
+            onLoad={this.showImg.bind(this)}
           />
         </View>
         <View class="btn-wrapper">{btns}</View>
