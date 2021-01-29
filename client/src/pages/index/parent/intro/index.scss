@@ -37,11 +37,12 @@
         text-align: center;
         color: #ffffff;
         box-sizing: border-box;
+        transition: all .5s;
       }
       .city:not(:last-child) {
         margin-right: 19px;
       }
-      .city:nth-child(2){
+      .city-select{
         background: #ffbe1e;
       }
     }

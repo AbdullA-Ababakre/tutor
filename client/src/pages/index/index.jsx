@@ -152,7 +152,7 @@ export default class Index extends Component {
         <View className="img-wrapper">
           <Image
             className={`img ${this.state.showImg?"opacity-1":"opacity-0"}`}
-            src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_header1.png"
+            src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/index_header_real.png"
             mode="scaleToFill"
             onLoad={this.showImg.bind(this)}
           />

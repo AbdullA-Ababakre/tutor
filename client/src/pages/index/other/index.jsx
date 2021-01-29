@@ -334,7 +334,7 @@ export default class Index extends React.Component {
                         onInput={this.handleTel.bind(this)}
                     />
 
-                    <Button className="btn" formType="submit">{this.state._id?"确认修改":"确认发布"}</Button>
+                    <Button className="btn btn-shadow-all" formType="submit">{this.state._id?"确认修改":"确认发布"}</Button>
                 </Form>
             </View>
         );

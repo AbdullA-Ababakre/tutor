@@ -30,8 +30,18 @@ export default class Index extends React.Component {
     positionInfo: '',
     teacherRequireText: '',
 
-    salarySelector: [['50元', '60元', '70元', '80元', '90元'], ['50元', '60元', '70元', '80元', '90元']],
-    salarySelectorChecked: '60元-90元',
+    salarySelector: [
+      ['50元', '60元', '70元', '80元', '90元', 
+      '100元', '110元', '120元', '130元', '140元', '150元','160元', '170元', '180元', '190元', 
+      '200元', '210元', '220元', '230元', '240元', '250元','260元', '270元', '280元', '290元', 
+      '300元', '310元', '120元', '330元', '340元', '350元','360元', '370元', '380元', '390元', '400元'
+      ], 
+      ['60元', '70元', '80元', '90元', 
+      '100元', '110元', '120元', '130元', '140元', '150元','160元', '170元', '180元', '190元', 
+      '200元', '210元', '220元', '230元', '240元', '250元','260元', '270元', '280元', '290元', 
+      '300元', '310元', '120元', '330元', '340元', '350元','360元', '370元', '380元', '390元', '400元'
+      ]],
+    salarySelectorChecked: '50元-400元',
     tel: '',
     organizationName: '',
     recruitNum: '',
@@ -132,7 +142,7 @@ export default class Index extends React.Component {
     let index1 = e.detail.value[1];
     let val0 = this.state.salarySelector[0][index0];
     let val1 = this.state.salarySelector[1][index1];
-    if (val1 <= val0) {
+    if (Number(val1.split("元")[0]) <= Number(val0.split("元")[0])) {
       Taro.showToast({
         title: '上限不能小于下限',
         icon: 'none',
@@ -477,7 +487,7 @@ export default class Index extends React.Component {
     } = this.state;
     return (
       <View className="info-wrapper">
-        <Button className="btn-yellow" onClick={this.turnOtherPage} > 选择发布其他岗位 </Button>
+        <Button className="btn-yellow btn-shadow-all" onClick={this.turnOtherPage} > 选择发布其他岗位 </Button>
         <Form onSubmit={this.formSubmit}>
           <View className="img-wrapper">
             <Image className="img" src={imgOne} />
@@ -679,7 +689,7 @@ export default class Index extends React.Component {
             placeholderClass="placeHolderClass"
             onInput={this.handleExactAddress.bind(this)}
           />
-          <Button className="btn" formType="submit">确认发布</Button>
+          <Button className="btn btn-shadow-all" formType="submit">确认发布</Button>
           <View className="footer">提交成功后老师会通过微信跟您进行报名试课</View>
         </Form>
       </View>

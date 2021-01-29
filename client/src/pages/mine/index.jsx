@@ -208,22 +208,22 @@ export default class Index extends Component {
   }
 
   render() {
-    let getPhone = (
-      <AtModal isOpened={this.state.phoneModal}>
-        <AtModalHeader>请输入手机号码</AtModalHeader>
-        <AtInput
-          title="手机号码"
-          type="phone"
-          placeholder="手机号码"
-          value={this.state.phoneInput}
-          onChange={this.phoneChange.bind(this)}
-        />
-        <AtModalAction>
-          <Button onClick={this.cancelPhone.bind(this)}>取消</Button>{" "}
-          <Button onClick={this.confirmPhone.bind(this)}>确定</Button>
-        </AtModalAction>
-      </AtModal>
-    );
+    // let getPhone = (
+    //   <AtModal isOpened={this.state.phoneModal}>
+    //     <AtModalHeader>请输入手机号码</AtModalHeader>
+    //     <AtInput
+    //       title="手机号码"
+    //       type="phone"
+    //       placeholder="手机号码"
+    //       value={this.state.phoneInput}
+    //       onChange={this.phoneChange.bind(this)}
+    //     />
+    //     <AtModalAction>
+    //       <Button onClick={this.cancelPhone.bind(this)}>取消</Button>{" "}
+    //       <Button onClick={this.confirmPhone.bind(this)}>确定</Button>
+    //     </AtModalAction>
+    //   </AtModal>
+    // );
     let pageJump = (page) => {
       return () => {
         if (!this.state.isVip && page === "certificate") {
@@ -294,7 +294,7 @@ export default class Index extends Component {
                 ""
               )}
 
-              {getPhone}
+              {/* {getPhone} */}
             </View>
           </View>
         </View>

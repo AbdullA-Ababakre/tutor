@@ -24,7 +24,7 @@ export default class Index extends React.Component {
     grade: ['幼儿园', '小学', '初中', '高中'],
     gradeChecked: '小学',
     gender: ['男', '女', '不限'],
-    genderChecked: '男',
+    genderChecked: '不限',
     classForm: '',
     classFormArr: ['上门家教', '线上(网课)'],
     tutorType: '',
@@ -37,12 +37,22 @@ export default class Index extends React.Component {
     studentInfo: '',
     // 老师要求
     teacherGender: ['男', '女', '不限'],
-    teacherGenderChecked: '女',
+    teacherGenderChecked: '不限',
     teacherRequire: '',
     teacherRequireArr: ['学霸/绩点高', '师范专业优先', '有教学经验'],
     teacherRequireText: '',
-    salarySelector: [['50元', '60元', '70元', '80元', '90元'], ['50元', '60元', '70元', '80元', '90元']],
-    salarySelectorChecked: '60元-90元',
+    salarySelector: [
+      ['50元', '60元', '70元', '80元', '90元', 
+      '100元', '110元', '120元', '130元', '140元', '150元','160元', '170元', '180元', '190元', 
+      '200元', '210元', '220元', '230元', '240元', '250元','260元', '270元', '280元', '290元', 
+      '300元', '310元', '120元', '330元', '340元', '350元','360元', '370元', '380元', '390元', '400元'
+      ], 
+      ['60元', '70元', '80元', '90元', 
+      '100元', '110元', '120元', '130元', '140元', '150元','160元', '170元', '180元', '190元', 
+      '200元', '210元', '220元', '230元', '240元', '250元','260元', '270元', '280元', '290元', 
+      '300元', '310元', '120元', '330元', '340元', '350元','360元', '370元', '380元', '390元', '400元'
+      ]],
+    salarySelectorChecked: '50元-400元',
     teacherRequirementTag: [],
     teacherRequirementTagArr: ['接受零经验', '价格可议', '不接受零经验', '价格不可议'],
     tel: '',
@@ -182,7 +192,8 @@ export default class Index extends React.Component {
     let index1 = e.detail.value[1];
     let val0 = this.state.salarySelector[0][index0];
     let val1 = this.state.salarySelector[1][index1];
-    if (val1 <= val0) {
+    console.log(val0, val1);
+    if (Number(val1.split("元")[0]) <= Number(val0.split("元")[0])) {
       Taro.showToast({
         title: '上限不能小于下限',
         icon: 'none',
@@ -764,7 +775,7 @@ export default class Index extends React.Component {
             placeholderClass="placeHolderClass"
             onInput={this.handleExactAddress.bind(this)}
           />
-          <Button className="btn" formType="submit">{`${this.state._id===""?"预约老师":"修改信息"}`}</Button>
+          <Button className="btn btn-shadow-all" formType="submit">{`${this.state._id===""?"预约老师":"修改信息"}`}</Button>
           <View className="footer">提交成功后老师会通过微信跟您进行报名试课</View>
         </Form>
       </View>
