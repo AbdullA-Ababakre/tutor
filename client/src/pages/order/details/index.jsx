@@ -76,7 +76,8 @@ export default class Index extends Component {
         tel: "",
         isLoseEfficacy: false,
         isOnline: false,
-        top: false
+        top: false,
+        ownerNumber: ''
       },
       companyCourse: {
         _openid : '',
@@ -97,7 +98,8 @@ export default class Index extends Component {
         favourList: [],
         isLoseEfficacy: false,
         isOnline: false,
-        top: false
+        top: false,
+        ownerNumber: ''
       },
       other: {
         _openid : '',
@@ -115,7 +117,8 @@ export default class Index extends Component {
         favourList: [],
         isLoseEfficacy: false,
         isOnline: false,
-        top: false
+        top: false,
+        ownerNumber: ''
       }
     };
   }
@@ -185,24 +188,29 @@ export default class Index extends Component {
   
   //  获得分享路径
   getPath(){
-    return new Promise(resolve=>{
-      Taro.showLoading({
-        title:"加载中"
+    try {
+      return new Promise(resolve=>{
+        Taro.showLoading({
+          title:"加载中"
+        })
+        console.log(getCurrentInstance());
+        Taro.cloud.callFunction({
+          name: "getSharePath",
+          data: {
+            path: getCurrentInstance().router.path,
+            params: getCurrentInstance().router.params
+          }
+        })
+        .then(res=>{
+          
+          Taro.hideLoading()
+          resolve(res.result.data)
+        })
       })
-      console.log(getCurrentInstance());
-      Taro.cloud.callFunction({
-        name: "getSharePath",
-        data: {
-          path: getCurrentInstance().router.path,
-          params: getCurrentInstance().router.params
-        }
-      })
-      .then(res=>{
-        
-        Taro.hideLoading()
-        resolve(res.result.data)
-      })
-    })
+    } catch (error) {
+     console.log(error) 
+    }
+    
   }
 
   // 分享给别人 携带了分享者的 openid 
@@ -251,7 +259,7 @@ export default class Index extends Component {
   getParentData(){
     this.getData("parent",  getCurrentInstance().router.params.id)
         .then(res=>{
-          // console.log(res)
+          console.log("parent", res)
           let data = res.result.data.data
           let familyCourse ={
             _openid : data._openid,
@@ -272,7 +280,8 @@ export default class Index extends Component {
             tel: data.tel,
             isLoseEfficacy: data.isLoseEfficacy,
             isOnline: data.isOnline,
-            top: data.top
+            top: data.top,
+            ownerNumber: data.ownerNumber || ''
           }
           this.setState({
             familyCourse: familyCourse,
@@ -286,7 +295,7 @@ export default class Index extends Component {
     this.getData("organization",  getCurrentInstance().router.params.id)
             .then(res=>{
               let data = res.result.data.data
-              console.log(res)
+              console.log("organization", res)
               let companyCourse = {
                 _openid : data._openid,
                 jobType: "companyCourse",
@@ -305,7 +314,8 @@ export default class Index extends Component {
                 tel: data.tel,
                 isLoseEfficacy: data.isLoseEfficacy,
                 isOnline: data.isOnline,
-                top: data.top
+                top: data.top,
+                ownerNumber: data.ownerNumber || ''
               }
               this.setState({
                 companyCourse: companyCourse,
@@ -319,6 +329,7 @@ export default class Index extends Component {
   getOtherData(){
     this.getData("other",  getCurrentInstance().router.params.id)
         .then(res=>{
+          console.log("other",res);
           let data = res.result.data.data
           let other ={
             _openid : data._openid,
@@ -335,7 +346,8 @@ export default class Index extends Component {
             tel: data.tel,
             isLoseEfficacy: data.isLoseEfficacy,
             isOnline: data.isOnline,
-            top: data.top
+            top: data.top,
+            ownerNumber: data.ownerNumber || ''
           }
           this.setState({
             other: other,
@@ -458,10 +470,11 @@ export default class Index extends Component {
   // 打开管理员控制面板
   openAdminBoard(){
     const job = this.state[getCurrentInstance().router.params.jobType];
-    const itemList = [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`]
+    const itemList = [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`, `该单变为我负责的`]
     let that = this
+    let ownerNumber = Taro.getStorageSync("ownerNumber")
     wx.showActionSheet({
-      itemList: [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`],
+      itemList: itemList,
       success (res) {
         let index = res.tapIndex
         console.log(res.tapIndex)
@@ -470,6 +483,7 @@ export default class Index extends Component {
           case 1: job.top = !job.top; break;
           case 2: job.isOnline = !job.isOnline; break;
           case 3: job.requireVip = job.requireVip==="true"?"false":"true"; break;
+          case 4: job.ownerNumber = ownerNumber; break;
         }
         Taro.showLoading({
           title: "加载中"
@@ -482,7 +496,8 @@ export default class Index extends Component {
             isLoseEfficacy: job.isLoseEfficacy,
             top: job.top,
             isOnline: job.isOnline,
-            requireVip: job.requireVip
+            requireVip: job.requireVip,
+            ownerNumber: job.ownerNumber,
           }
         })
         .then(res=>{
@@ -566,7 +581,7 @@ export default class Index extends Component {
         {this.state.openShare && <Wxml2Canvas details={job} path={this.state.path} closeShare={this.closeShare.bind(this)} />}
 
         {/* 应聘联系图 */}
-        {this.state.showDiag? <ModalDiag postDiagData={this.getDiagData.bind(this)} />:""}
+        {this.state.showDiag? <ModalDiag ownerNumber={job.ownerNumber} postDiagData={this.getDiagData.bind(this)} />:""}
         
         {/* 看到的details 页面在此 */}
         <View className={`details-index ${this.state.showDetail?"opacity-1":"opacity-0"}`}>

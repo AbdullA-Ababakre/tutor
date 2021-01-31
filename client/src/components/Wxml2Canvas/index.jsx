@@ -129,7 +129,7 @@ export default class Index extends Component {
           y: 265,
           text:workTime,
           style: {
-            width: 656*0.44,
+            width: 656*0.3,
             color: "#000000",
             fontSize: 13,
             lineWeight: "700",

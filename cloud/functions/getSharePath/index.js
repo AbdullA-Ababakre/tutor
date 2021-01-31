@@ -19,7 +19,7 @@ exports.main = async (event, context) => {
   let obj = event.params
   for(let i in obj)
   {
-    if(i==="shareOpenId") return 
+    if(i==="shareOpenId") continue 
     if(i==="__key_") continue
     arr.push(i, "=", obj[i], "&")
   }

@@ -11,6 +11,7 @@ let getDbCout = async ()=>{
   organizationDataCount = organizationDataCount.total
   let otherDataCount = await db.collection("otherData").count()
   otherDataCount = otherDataCount.total
+
   return new Promise(resolve =>{resolve({parentDataCount, organizationDataCount, otherDataCount })})
 }
 
@@ -161,15 +162,20 @@ let otherQuery = (event, isTop) => {
 let getAllTopData = async (event) =>{
 
    // get the parentData in the limit
-  let parentDataCopy = await parentQuery(event, true).get()
+  let parentDataCopy =  parentQuery(event, true).get()
 
    //  get the organizationData in the limit 
-  let organizationDataCopy =  await organizationQuery(event, true).get()
+  let organizationDataCopy =   organizationQuery(event, true).get()
   
    //  get the otherData in the limit 
-  let otherDataCopy =  await otherQuery(event, true).get()
+  let otherDataCopy =   otherQuery(event, true).get()
+  
+  let promiseData = (await Promise.all([parentDataCopy, organizationDataCopy, otherDataCopy]))
 
-  return parentDataCopy.data.concat(organizationDataCopy.data).concat(otherDataCopy.data)
+  let data = []
+  data = data.concat( promiseData[0].data.concat(promiseData[1].data).concat(promiseData[2].data) )
+
+  return data
 }
 
 
@@ -177,17 +183,18 @@ let getAllTopData = async (event) =>{
 //  这一个云函数主要是获得筛选的数据
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
-  let dataLimit = 3
+  let dataLimit = 5
   let maxGet = 100
-  let {parentDataCount, organizationDataCount, otherDataCount } = await getDbCout()
+  // let {parentDataCount, organizationDataCount, otherDataCount } = await getDbCout()
   let page = event.page
   let parentPromise = []
   let organizationPromise = []
   let otherPromise = []
-  let parentData = []
-  let organizationData =[]
-  let otherData = []
+  // let parentData = []
+  // let organizationData =[]
+  // let otherData = []
   let data = []
+  let promiseArr = []
 
   let count = Math.floor(( page*dataLimit) /100) + 1
 
@@ -208,23 +215,21 @@ exports.main = async (event, context) => {
     otherPromise.push(otherDataCopy)
   }
 
+  promiseArr = promiseArr.concat(parentPromise).concat(organizationPromise).concat(otherPromise)
+  let promiseData = (await Promise.all(promiseArr))
 
-  parentData = (await Promise.all(parentPromise))[0].data;
+  data = data.concat( promiseData[0].data.concat(promiseData[1].data).concat(promiseData[2].data) )
 
-  organizationData = (await Promise.all(organizationPromise))[0].data;
+  // parentData = (await Promise.all(parentPromise))[0].data;
 
-  otherData = (await Promise.all(otherPromise))[0].data;
+  // organizationData = (await Promise.all(organizationPromise))[0].data;
 
-  let lenMax = Math.max(parentDataCount, organizationDataCount, otherDataCount)
-  for(let i=0;i <lenMax;i+=dataLimit){
-    data = data.concat(parentData.slice(i, i+dataLimit)).concat(organizationData.slice(i, i+dataLimit)).concat(otherData.slice(i, i+dataLimit))
-  }
- 
-  if(event.selectOnline){
-    return {
-      data: parentData
-    }
-  }
+  // otherData = (await Promise.all(otherPromise))[0].data;
+
+  // let lenMax = Math.max(parentDataCount, organizationDataCount, otherDataCount)
+  // for(let i=0;i <lenMax;i+=dataLimit){
+  //   data = data.concat(parentData.slice(i, i+dataLimit)).concat(organizationData.slice(i, i+dataLimit)).concat(otherData.slice(i, i+dataLimit))
+  // }
 
   return {
     data: data

@@ -15,9 +15,21 @@ export default class Index extends Component {
     super(props);
     this.state = {
       selectedPlan: 1,
-      showPay: false
+      showPay: false,
+      platform: ''
     }
     this.timeId = ''
+  }
+
+  componentDidMount(){
+    let that = this
+    Taro.getSystemInfo({
+      success: function (res) {
+        that.setState({
+          platform: res.platform
+        })
+      } 
+    });
   }
 
   onSwitchPlan(plan) {
@@ -25,6 +37,18 @@ export default class Index extends Component {
   }
 
   debouncePay(){
+    if(this.state.platform == 'ios'){
+      Taro.showModal({
+        title: '提示',
+        content: '由于小程序限制，ios 用户无法支付成为会员！',
+        showCancel: false,
+        success: function (res) {
+        }
+      });
+      return;
+    }
+    console.log(this.state.platform);
+
     this.setState({
       showPay: true
     })

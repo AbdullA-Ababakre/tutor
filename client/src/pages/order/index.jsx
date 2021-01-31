@@ -34,7 +34,7 @@ export default class Index extends Component {
   }
 
   componentDidShow(){
-    this.debouceOnSelect()   
+    this.onSelect()   
   }
   componentDidMount(){
     this.setShareOpenId()
@@ -53,7 +53,7 @@ export default class Index extends Component {
       this.setState({
         page: this.state.page+1
       })
-      this.debouceOnSelect()
+      this.onSelect()
     }
   }
 
@@ -127,6 +127,7 @@ export default class Index extends Component {
         Taro.setStorageSync("openid", res.result.openId)
         Taro.setStorageSync("isVip", res.result.isVip)
         Taro.setStorageSync("isAdmin", res.result.isAdmin)
+        Taro.setStorageSync("ownerNumber", details.phone);
       } catch (error) {
         console.log(error);
       }      
@@ -165,10 +166,11 @@ export default class Index extends Component {
     Taro.showLoading({
       title: "加载中"
     })
+
     clearTimeout(this.timeId)
     this.timeId = setTimeout(()=>{ 
       this.onSelect()
-    }, 1000)
+    }, 500)
   }
   
   onSelect(){
@@ -185,6 +187,7 @@ export default class Index extends Component {
       }
     })
     .then(res=>{
+      // console.log(res);
       if(this.state.data.length === res.result.data.length){
         this.setState({
           isMax: true

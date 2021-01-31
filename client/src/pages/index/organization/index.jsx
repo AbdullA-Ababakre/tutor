@@ -26,7 +26,7 @@ export default class Index extends React.Component {
     tutorType: '',
     tutorTypeArr: ['学科考试', '小语种', '艺术/体育'],
     tutorSubject: [],
-    tutorSubjectArr: ['语文', '数学', '英语', '物理', '化学', '生物', '地理', '历史', '全科'],
+    tutorSubjectArr: ['语文', '数学', '英语', '物理', '化学', '生物', '地理', '历史', '全科', '政治'],
     positionInfo: '',
     teacherRequireText: '',
 

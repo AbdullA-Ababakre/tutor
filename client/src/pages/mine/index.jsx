@@ -166,6 +166,7 @@ export default class Index extends Component {
         Taro.setStorageSync("openid", details.openId);
         Taro.setStorageSync("isVip", details.isVip);
         Taro.setStorageSync("isAdmin", details.isAdmin);
+        Taro.setStorageSync("ownerNumber", details.phone);
         console.log("isAdmin", details.isAdmin);
       } catch (error) {
         console.log(error);
