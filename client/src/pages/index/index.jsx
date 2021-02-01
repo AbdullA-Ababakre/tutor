@@ -5,6 +5,8 @@ import "./index.scss";
 import {
   AtButton
 } from "taro-ui";
+import Skeleton from 'taro-skeleton'
+import 'taro-skeleton/dist/index.css' // 引入组件样式
 
 export default class Index extends Component {
 
@@ -149,6 +151,19 @@ export default class Index extends Component {
     });
     return (
       <View className="container">
+        {
+          !this.state.showImg && (
+            <View>
+               <Skeleton rowProps={[{width:'100%', height: '300px'}]}   row={1} />
+                <View class="btn-wrapper">
+                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
+                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
+                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
+                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
+                </View>
+            </View>
+          )
+        }
         <View className="img-wrapper">
           <Image
             className={`img ${this.state.showImg?"opacity-1":"opacity-0"}`}

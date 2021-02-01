@@ -75,6 +75,9 @@ export default {
 			}
 		]
   },
+  h5: {
+    esnextModules: ['taro-skeleton']
+  }
   // mini: {
   //   webpackChain (chain, webpack) {
   //     chain.plugin('analyzer')
