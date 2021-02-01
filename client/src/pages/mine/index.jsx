@@ -355,15 +355,16 @@ export default class Index extends Component {
             <BigButton
               onClick={() =>
                { 
-                Taro.showToast({
-                  title: '请扫码填写!',
-                  duration: 2000
-                });
+   
                 Taro.previewImage({
                   urls: [
                     "cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/微信图片_20210128122112.jpg",
                   ],
                 })
+                Taro.showToast({
+                  title: '请扫码填写!',
+                  duration: 2000
+                });
               }
               }
               img={btn_feedback}

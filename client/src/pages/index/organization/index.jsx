@@ -568,13 +568,12 @@ export default class Index extends React.Component {
           </View>
 
           {/* 联系电话 */}
-          <View className="title">您的联系电话</View>
+          <View className="title">您的联系方式(手机号或者微信号)</View>
           <Input
             className="teachingTimeInput"
             name="tel"
             value={this.state.tel}
-            type="number"
-            placeholder="请输入手机号"
+            placeholder="请输入手机号或者微信号"
             placeholderClass="placeHolderClass"
             onInput={this.handleTel.bind(this)}
           />

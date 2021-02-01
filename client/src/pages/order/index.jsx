@@ -19,8 +19,9 @@ export default class Index extends Component {
       backgroundColor: "#FC4442",
     });
     this.state = {
+      loading: false,
       openid: "",
-      isMax: false,
+      searchFinished: false,
       page: 1,
       data: [],
       selectNonVip: false,
@@ -41,6 +42,7 @@ export default class Index extends Component {
     try {
       let openid = Taro.getStorageSync("openid")
       this.setState({
+        loading: true,
         openid: openid
       })
     } catch (error) {
@@ -49,9 +51,10 @@ export default class Index extends Component {
   }
 
   onReachBottom(){
-    if(!this.state.isMax){
+    if(!this.state.searchFinished){
       this.setState({
-        page: this.state.page+1
+        page: this.state.page+1,
+        loading:true
       })
       this.onSelect()
     }
@@ -143,21 +146,24 @@ export default class Index extends Component {
 
   changeCity(city){
     this.setState({
-      city: city
+      city: city,
+      page: 1
     })
     this.debouceOnSelect()
   }
 
   changeCourse(course){
     this.setState({
-      course: course
+      course: course,
+      page: 1
     })
     this.debouceOnSelect()
   }
 
   changeGrades(grade){
     this.setState({
-      grade: grade
+      grade: grade,
+      page: 1
     })
     this.debouceOnSelect()
   }
@@ -188,42 +194,50 @@ export default class Index extends Component {
     })
     .then(res=>{
       // console.log(res);
-      if(this.state.data.length === res.result.data.length){
-        this.setState({
-          isMax: true
-        })
-      }else{
-        this.setState({
-          isMax: false
-        })
-      }
       this.setState({
-        data: JSON.parse(JSON.stringify(res.result.data))
+        data: JSON.parse(JSON.stringify(res.result.data)),
+        searchFinished: res.result.searchFinished
       })
-      console.log(this.state.data);
+      // console.log(this.state.data);
       Taro.hideLoading()
+      this.closeLoading()
     })
   }
   
   inputChange(e){
     this.setState({
-      searchValue: e.detail.value
+      searchValue: e.detail.value,
+      page: 1
     })
     this.debouceOnSelect()
   }
 
   changeSelectOnline(){
     this.setState({
-      selectOnline: !this.state.selectOnline
+      selectOnline: !this.state.selectOnline,
+      page: 1
     })
     this.debouceOnSelect()
   }
 
   changeSelectVip(){
     this.setState({
-      selectNonVip:!this.state.selectNonVip
+      selectNonVip:!this.state.selectNonVip,
+      page: 1
     })
     this.debouceOnSelect()
+  }
+
+  showLoading(){
+    this.setState({
+      loading: true
+    })
+  }
+
+  closeLoading(){
+    this.setState({
+      loading: false
+    })
   }
 
   render () {
@@ -238,13 +252,14 @@ export default class Index extends Component {
               let title = item.gradeChecked + item.tutorSubject.join(" ")
               let address = item.addressSelectorChecked + item.exactAddress
               let showLabel = false
+              // console.log(item);
               try {
                 showLabel = item.classForm.includes("线上")?true:false
               } catch (error) {
                 
               }
               return (
-                <OrderCard  onClick={pageDown.bind(this, item.detailType, item._id)} openid={this.state.openid} top={item.top} showLabel={showLabel} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.requireVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={item.teachingDay.join(" | ")} jobType={item.jobType} top={item.top} />
+                <OrderCard  onClick={pageDown.bind(this, item.detailType, item._id)} openid={this.state.openid} top={item.top} showLabel={showLabel} favourList={item.favourList} title={title} orderId={item.orderNumber} requireVip={item.requireVip} location={address} price={item.salarySelectorChecked+"/小时"}  workTime={`${item.teachingDay.join(" | ")} ${item.teachingTime}`} jobType={item.jobType} top={item.top} />
               )
             }
             else{
@@ -283,9 +298,11 @@ export default class Index extends Component {
           </View>
            {this.state.data.length!=0?detailBox:emptyBox}
         </View>
-         
+
+        
+        {this.state.loading && <View class="loader">Loading...</View> }
          {/* 滑到最底下的提示 */}
-        {this.state.isMax && this.state.data.length!=0 && <View className="order-end-text" > ------已到最低点------ </View>}
+        {this.state.searchFinished && this.state.data.length!=0 && <View className="order-end-text" > ------已到最低点------ </View>}
       </View>
     );
   }

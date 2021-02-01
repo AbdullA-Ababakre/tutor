@@ -642,7 +642,7 @@ export default class Index extends Component {
         <AtModalHeader>请输入手机号码(微信号)</AtModalHeader>
         <AtInput
           title="手机号码"
-          type="phone"
+          // type="phone"
           placeholder="手机号码（微信号）"
           value={this.state.phoneInput}
           onChange={this.phoneChange.bind(this)}

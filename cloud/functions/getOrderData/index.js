@@ -4,12 +4,12 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 const _ = db.command
 
-let getDbCout = async ()=>{
-  let parentDataCount = await db.collection("parentData").count()
+let getUmDbCout = async (event, isTop = false) =>{
+  let parentDataCount = await parentQuery(event,isTop).count()
   parentDataCount = parentDataCount.total
-  let organizationDataCount = await db.collection("organizationData").count()
+  let organizationDataCount = await organizationQuery(event,isTop).count()
   organizationDataCount = organizationDataCount.total
-  let otherDataCount = await db.collection("otherData").count()
+  let otherDataCount = await otherQuery(event,isTop).count()
   otherDataCount = otherDataCount.total
 
   return new Promise(resolve =>{resolve({parentDataCount, organizationDataCount, otherDataCount })})
@@ -36,7 +36,7 @@ let parentQuery = (event, isTop) => {
     })}, 
     {
       exactAddress:  db.RegExp({
-        regexp: `.*${event.searchValue?event.searchValue:event.city}`,
+        regexp: searchQuery(event.city, event.searchValue),
         options: 'i',
       })
     }),
@@ -86,7 +86,7 @@ let organizationQuery = (event, isTop) => {
     })},
     {
       exactAddress:  db.RegExp({
-        regexp: `.*${event.searchValue?event.searchValue:event.city}`,
+        regexp: searchQuery(event.city, event.searchValue),
         options: 'i',
       })
     }),
@@ -183,9 +183,9 @@ let getAllTopData = async (event) =>{
 //  这一个云函数主要是获得筛选的数据
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
-  let dataLimit = 1
+  let dataLimit = 8
   let maxGet = 100
-  let {parentDataCount, organizationDataCount, otherDataCount } = await getDbCout()
+  let {parentDataCount, organizationDataCount, otherDataCount } = await getUmDbCout(event)
   let page = event.page
   let parentPromise = []
   let organizationPromise = []
@@ -201,36 +201,52 @@ exports.main = async (event, context) => {
   let topData = await getAllTopData(event)
   data = data.concat(topData)
 
+  let coutTime = 0
   //  取多少次 并且获得 promise 数组
-  while(count!=0){
-    count -= 1
-    let parentDataCopy = parentQuery(event, false).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
+  while(coutTime !== count){
+    let parentDataCopy = parentQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
     parentPromise.push(parentDataCopy)
 
-    let organizationDataCopy = organizationQuery(event, false).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
+    if(event.selectOnline){coutTime ++; continue}
+
+    let organizationDataCopy = organizationQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
     organizationPromise.push(organizationDataCopy)
     
-    let otherDataCopy = otherQuery(event, false).skip((count)*maxGet).limit(page*dataLimit -(count)*maxGet).get()
+    let otherDataCopy = otherQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
     otherPromise.push(otherDataCopy)
+
+    coutTime ++
   }
 
   promiseArr = promiseArr.concat(parentPromise).concat(organizationPromise).concat(otherPromise)
   let promiseData = (await Promise.all(promiseArr))
 
   // data = data.concat( promiseData[0].data.concat(promiseData[1].data).concat(promiseData[2].data) )
+  // 判断线上逻辑
 
+  if(event.selectOnline){
+    let topParentData = await parentQuery(event, true).get()
+    return {
+      data: promiseData[0].data.concat(topParentData.data),
+      searchFinished:  promiseData[0].data.length == parentDataCount
+    }
+  }
 
   let parentData = promiseData[0].data
   let organizationData = promiseData[1].data
   let otherData = promiseData[2].data
 
+  // console.log( "searchQuery",searchQuery(event.city, event.searchValue), "event", event, 'parentData', parentData, 'organizationData', organizationData, 'otherData', otherData)
   let lenMax = Math.max(parentDataCount, organizationDataCount, otherDataCount)
   for(let i=0;i <lenMax;i+=dataLimit){
     data = data.concat(parentData.slice(i, i+dataLimit)).concat(organizationData.slice(i, i+dataLimit)).concat(otherData.slice(i, i+dataLimit))
   }
-  if(data.length == parentDataCount+ organizationDataCount+otherDataCount){
+  if(data.length == parentDataCount+ organizationDataCount+otherDataCount + topData.length){
     searchFinished = true
   }
+  console.log('event', event)
+  console.log('length', data.length, parentDataCount, organizationDataCount, otherDataCount)
+
 
   return {
     data: data,
