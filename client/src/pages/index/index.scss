@@ -57,6 +57,11 @@ page {
   opacity: 1;
 }
 
+.custom-skeleton-class{
+  .skeleton-row{
+    border-radius: 40px;
+  }
+}
 
 // .btn1 {
 //   background: linear-gradient(#F5DC7C, #FFB500);

@@ -154,12 +154,12 @@ export default class Index extends Component {
         {
           !this.state.showImg && (
             <View>
-               <Skeleton rowProps={[{width:'100%', height: '300px'}]}   row={1} />
+               <Skeleton rowProps={[{width:'100%', height: '320px'}]}   row={1} />
                 <View class="btn-wrapper">
-                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
-                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
-                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
-                  <Skeleton  rowProps={[{width:'120px', height: '100px'}]}   row={1} />
+                  <Skeleton className="custom-skeleton-class" rowProps={[{width:'130px', height: '100px'}]}   row={1} />
+                  <Skeleton  className="custom-skeleton-class"  rowProps={[{width:'130px', height: '100px'}]}   row={1} />
+                  <Skeleton  className="custom-skeleton-class"  rowProps={[{width:'130px', height: '100px'}]}   row={1} />
+                  <Skeleton  className="custom-skeleton-class"  rowProps={[{width:'130px', height: '100px'}]}   row={1} />
                 </View>
             </View>
           )
