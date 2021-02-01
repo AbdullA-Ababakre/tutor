@@ -12,6 +12,19 @@ exports.main = async (event, context) => {
   console.log(openid)
   let userQuery =  db.collection("users").where({ openId: openid})
   if(event.setVip){
+    try {
+      await db.collection('paymentData').add({
+        data: {
+          payTime: new Date(),
+          payOpenId: openid,
+          payMoney: event.vipMonth===12?350:200
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
+
     // 这里是分销操作
     // 还要看看这里的格式对不对
     let userDetail = await userQuery.get()
