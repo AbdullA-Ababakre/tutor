@@ -41,7 +41,7 @@ class Index extends Component {
   onReachBottom(){
     this.setState({
       page: this.state.page + 1
-    }, this.getUnOnlineData())
+    },() => {console.log(this.state.page); this.getUnOnlineData()})
   }
   
 

@@ -183,18 +183,17 @@ let getAllTopData = async (event) =>{
 //  这一个云函数主要是获得筛选的数据
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
-  let dataLimit = 5
+  let dataLimit = 1
   let maxGet = 100
-  // let {parentDataCount, organizationDataCount, otherDataCount } = await getDbCout()
+  let {parentDataCount, organizationDataCount, otherDataCount } = await getDbCout()
   let page = event.page
   let parentPromise = []
   let organizationPromise = []
   let otherPromise = []
-  // let parentData = []
-  // let organizationData =[]
-  // let otherData = []
   let data = []
   let promiseArr = []
+  let searchFinished = false
+
 
   let count = Math.floor(( page*dataLimit) /100) + 1
 
@@ -218,20 +217,23 @@ exports.main = async (event, context) => {
   promiseArr = promiseArr.concat(parentPromise).concat(organizationPromise).concat(otherPromise)
   let promiseData = (await Promise.all(promiseArr))
 
-  data = data.concat( promiseData[0].data.concat(promiseData[1].data).concat(promiseData[2].data) )
+  // data = data.concat( promiseData[0].data.concat(promiseData[1].data).concat(promiseData[2].data) )
 
-  // parentData = (await Promise.all(parentPromise))[0].data;
 
-  // organizationData = (await Promise.all(organizationPromise))[0].data;
+  let parentData = promiseData[0].data
+  let organizationData = promiseData[1].data
+  let otherData = promiseData[2].data
 
-  // otherData = (await Promise.all(otherPromise))[0].data;
-
-  // let lenMax = Math.max(parentDataCount, organizationDataCount, otherDataCount)
-  // for(let i=0;i <lenMax;i+=dataLimit){
-  //   data = data.concat(parentData.slice(i, i+dataLimit)).concat(organizationData.slice(i, i+dataLimit)).concat(otherData.slice(i, i+dataLimit))
-  // }
+  let lenMax = Math.max(parentDataCount, organizationDataCount, otherDataCount)
+  for(let i=0;i <lenMax;i+=dataLimit){
+    data = data.concat(parentData.slice(i, i+dataLimit)).concat(organizationData.slice(i, i+dataLimit)).concat(otherData.slice(i, i+dataLimit))
+  }
+  if(data.length == parentDataCount+ organizationDataCount+otherDataCount){
+    searchFinished = true
+  }
 
   return {
-    data: data
+    data: data,
+    searchFinished: searchFinished
   }
 }

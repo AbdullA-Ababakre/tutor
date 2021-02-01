@@ -10,6 +10,7 @@ import Wxml2Canvas from "../../../components/Wxml2Canvas/index"
 
 import icon_location from "../../../images/order/details_location.png";
 import icon_time from "../../../images/order/details_time.png";
+import { AtModal, AtModalHeader, AtModalAction, AtInput } from "taro-ui";
 
 
 class CourseInfoItem extends Component {
@@ -46,6 +47,8 @@ export default class Index extends Component {
     */
 
     this.state = {
+      phoneModal: false,
+      phoneInput: "",
       showDetail: false,
       isAdmin: false,
       openShare: false,
@@ -129,7 +132,6 @@ export default class Index extends Component {
     // console.log(getCurrentInstance().router.params)
 
     try {
-
       this.setState({
         userVip: Taro.getStorageSync("isVip"),
         openid: Taro.getStorageSync("openid"),
@@ -470,7 +472,7 @@ export default class Index extends Component {
   // 打开管理员控制面板
   openAdminBoard(){
     const job = this.state[getCurrentInstance().router.params.jobType];
-    const itemList = [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`, `该单变为我负责的`]
+    const itemList = [`${!job.isLoseEfficacy?"订单已被领走(删除订单)":"订单未被领走"}`,`${job.top?"不置顶":"置顶"}`, `${!job.isOnline?"订单上线":"订单下线"}`, `${job.requireVip==="true"?"变为非会员订单":"变为会员订单"}`, `设置订单联系人`]
     let that = this
     let ownerNumber = Taro.getStorageSync("ownerNumber")
     wx.showActionSheet({
@@ -483,7 +485,11 @@ export default class Index extends Component {
           case 1: job.top = !job.top; break;
           case 2: job.isOnline = !job.isOnline; break;
           case 3: job.requireVip = job.requireVip==="true"?"false":"true"; break;
-          case 4: job.ownerNumber = ownerNumber; break;
+          case 4: 
+                 that.setState({
+                    phoneModal: true,
+                  })
+                  return
         }
         Taro.showLoading({
           title: "加载中"
@@ -528,6 +534,62 @@ export default class Index extends Component {
       case "other": Taro.redirectTo({url: `/pages/index/other/index?_id=${this.state._id}`}); break;
     }
   }
+
+  // 管理员设置 负责人
+    // 设置订单负责人微信号
+    phoneChange(e) {
+      this.setState({
+        phoneInput: e,
+      });
+      return e;
+    }
+  
+    cancelPhone() {
+      this.setState({
+        phoneModal: false,
+        phoneInput: "",
+      });
+    }
+  
+    confirmPhone() {
+      const job = this.state[getCurrentInstance().router.params.jobType];
+      job.ownerNumber = this.state.phoneInput
+      Taro.showLoading({
+        title: "加载中"
+      })
+  
+      let that = this
+      Taro.cloud.callFunction({
+        name: "adminOrderAction",
+        data: {
+          jobType: job.jobType,
+          _id: that.state._id,
+          ownerNumber: that.state.phoneInput,
+        }
+      })
+      .then(res=>{
+        Taro.hideLoading()
+        Taro.showToast({
+          title: `设置成功!`,
+        })
+        this.setState({
+          phoneModal: false,
+          phoneInput: "",
+          [getCurrentInstance().router.params.jobType]: job
+        });
+      })
+    }
+  
+    confirmMyPhone(){
+      let ownerNumber = Taro.getStorageSync("ownerNumber")
+      let that = this
+      Taro.showLoading({
+        title: "加载中"
+      })
+      this.setState({
+        phoneInput: ownerNumber
+      },()=>{console.log(that.state.phoneInput); that.confirmPhone()} )
+    }
 
   render () {
     //  这里太恶心了啦 有空再整理这里把
@@ -575,8 +637,29 @@ export default class Index extends Component {
       </View>
     )
 
+  let getPhone = (
+      <AtModal isOpened={this.state.phoneModal}>
+        <AtModalHeader>请输入手机号码(微信号)</AtModalHeader>
+        <AtInput
+          title="手机号码"
+          type="phone"
+          placeholder="手机号码（微信号）"
+          value={this.state.phoneInput}
+          onChange={this.phoneChange.bind(this)}
+        />
+        <AtModalAction>
+          <Button onClick={this.cancelPhone.bind(this)}>取消</Button>{" "}
+          <Button onClick={this.confirmPhone.bind(this)}>确定</Button>
+          <Button onClick={this.confirmMyPhone.bind(this)}>设为自己</Button>
+        </AtModalAction>
+      </AtModal>
+    );
+
     return (
       <View className="details-box" >
+        {/* 订单联系人设置 */}
+        { this.state.phoneModal && getPhone}
+
         {/* 分享图 */}
         {this.state.openShare && <Wxml2Canvas details={job} path={this.state.path} closeShare={this.closeShare.bind(this)} />}
 

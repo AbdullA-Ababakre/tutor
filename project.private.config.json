@@ -62,6 +62,17 @@
           "pathName": "pages/order/details/index",
           "query": "id=3b020ca3601659ca01c85f8f61bfcb1a&jobType=companyCourse&shareOpenId=owUOy4lKoiv9pxIyzhtNRUEQtFIc",
           "scene": null
+        },
+        {
+          "name": "pages/mine/adminCheckOrder/index",
+          "pathName": "pages/mine/adminCheckOrder/index",
+          "query": "id=3b020ca3601659ca01c85f8f61bfcb1a&jobType=companyCourse&shareOpenId=owUOy4lKoiv9pxIyzhtNRUEQtFIc",
+          "scene": null
+        },
+        {
+          "name": "pages/order/index",
+          "pathName": "pages/order/index",
+          "scene": null
         }
       ]
     }
