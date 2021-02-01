@@ -72,6 +72,12 @@
         {
           "name": "pages/order/index",
           "pathName": "pages/order/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/certificate/index",
+          "pathName": "pages/mine/certificate/index",
           "scene": null
         }
       ]

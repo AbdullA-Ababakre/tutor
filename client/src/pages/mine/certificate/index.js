@@ -1,7 +1,7 @@
 let nameInput="";
 let ctx=null;
 
-const imgPrefix="https://7475-tutor-ghszz-1303852457.tcb.qcloud.la/images/certificate/";
+const imgPrefix="https://6f66-official-9gyl2zmleab20999-1304839186.tcb.qcloud.la/Certificate/";
 const allImgs = [
   { x: 0, y: 0, w: 640, h: 120, src: "0.png"},
   { x: 57, y: 129, w: 526, h: 50, src: "1.png"},
@@ -55,15 +55,16 @@ Page({
   },
 
   drawImgGroup(canvas,ctx,imgs){
-    for(img of imgs) {
-      const image = canvas.createImage();
-      image.src = imgPrefix + img.src;
-      
-      let i=img;
-      image.onload = () => {
-        ctx.drawImage(image,i.x,i.y,i.w,i.h);
-      };
-    }
+    imgs.forEach(img =>{
+      for(img of imgs) {
+        const image = canvas.createImage();
+        image.src = imgPrefix + img.src;
+        let i=img;
+        image.onload = () => {
+          ctx.drawImage(image,i.x,i.y,i.w,i.h);
+        };
+      }
+    })
   },
 
   drawText(ctx){
