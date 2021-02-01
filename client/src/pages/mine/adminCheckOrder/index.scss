@@ -5,6 +5,12 @@ page{
 .unOnline-card{
   padding: 20px;
   padding-bottom: 380px !important;
+  animation: fadein 1s
+}
+
+@keyframes fadein{
+  from {opacity: 0;}
+  to {opacity: 1}
 }
 
 .center-content{
@@ -16,4 +22,45 @@ page{
   font-weight: 400;
   line-height: 73px;
   color: #888888;
+}
+
+.center-text{
+  text-align: center;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 73px;
+  color: #888888;
+  margin-bottom: 20px;
+}
+
+.searchbar-container {
+  margin: 0 46px;
+  height: 74px;
+  background: #FFFFFF;
+  opacity: 1;
+  border-radius: 37px;
+  position: fixed;
+  top: 2px;
+  left: 0px;
+  z-index: 2;
+}
+
+.search-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: 19px 12px 15px 25px;
+}
+
+.search-input {
+  display: inline-block;
+  width: 550px;
+  vertical-align: super; // don't ask me why, i dont know  ---miigon
+  font-size: 28px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.order-content{
+  margin-top: 80px;
 }

@@ -17,11 +17,14 @@
   padding-right: 15px;
   height: 49px;
   font-size: 35px;
-  font-family: PingFang SC;
   font-weight: bold;
   line-height: 49px;
   color: #333333;
   border-right: 5px solid #ffc63b ;
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .flexBox{
