@@ -5,12 +5,13 @@ const db = cloud.database();
 const _ = db.command
 
 let getUmDbCout = async (event, isTop = false) =>{
-  let parentDataCount = await parentQuery(event,isTop).count()
-  parentDataCount = parentDataCount.total
-  let organizationDataCount = await organizationQuery(event,isTop).count()
-  organizationDataCount = organizationDataCount.total
-  let otherDataCount = await otherQuery(event,isTop).count()
-  otherDataCount = otherDataCount.total
+  let parentDataCount =  parentQuery(event,isTop).count()
+  let organizationDataCount =  organizationQuery(event,isTop).count()
+  let otherDataCount =  otherQuery(event,isTop).count()
+  let umTopCount = await Promise.all([parentDataCount, organizationDataCount, otherDataCount])
+  parentDataCount = umTopCount[0].total
+  organizationDataCount = umTopCount[1].total
+  otherDataCount = umTopCount[2].total
 
   return new Promise(resolve =>{resolve({parentDataCount, organizationDataCount, otherDataCount })})
 }
@@ -159,6 +160,44 @@ let otherQuery = (event, isTop) => {
   )
 }
 
+let otherOnlineQuery = (event, isTop)=>{
+  return db.collection('otherData').where(_.and([
+    {
+    positionAddress: db.RegExp({
+      regexp: `.*${event.searchValue?event.searchValue:"线上"}`,
+      options: 'i',
+    })},
+    {
+      requireVip: db.RegExp({
+        regexp: `.*${event.selectNonVip?"false":""}`,
+        options: 'i'
+      })
+    },
+    {
+      positionName: db.RegExp({
+        regexp: `.*${event.subject.includes("不")?"":event.subject.includes("其")?"":event.subject}`,
+        options: 'i'
+      })
+    },
+    {
+      positionName: db.RegExp({
+        regexp: `.*${event.grade.includes("不")?"":event.grade.includes("其")?"":event.grade}`,
+        options: 'i'
+      })
+    },
+    {
+      isLoseEfficacy:false
+    },
+    {
+      isOnline: true,
+    },
+    {
+      top: isTop
+    }
+  ])
+  )
+}
+
 let getAllTopData = async (event) =>{
 
    // get the parentData in the limit
@@ -183,6 +222,7 @@ let getAllTopData = async (event) =>{
 //  这一个云函数主要是获得筛选的数据
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
+  // event.city = event.selectOnline?"线上":event.city
   let dataLimit = 8
   let maxGet = 100
   let {parentDataCount, organizationDataCount, otherDataCount } = await getUmDbCout(event)
@@ -207,7 +247,11 @@ exports.main = async (event, context) => {
     let parentDataCopy = parentQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
     parentPromise.push(parentDataCopy)
 
-    if(event.selectOnline){coutTime ++; continue}
+    if(event.selectOnline){
+      let otherDataCopy = otherOnlineQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
+      otherPromise.push(otherDataCopy)
+      coutTime ++; continue
+    }
 
     let organizationDataCopy = organizationQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
     organizationPromise.push(organizationDataCopy)
@@ -221,14 +265,17 @@ exports.main = async (event, context) => {
   promiseArr = promiseArr.concat(parentPromise).concat(organizationPromise).concat(otherPromise)
   let promiseData = (await Promise.all(promiseArr))
 
-  // data = data.concat( promiseData[0].data.concat(promiseData[1].data).concat(promiseData[2].data) )
   // 判断线上逻辑
-
   if(event.selectOnline){
-    let topParentData = await parentQuery(event, true).get()
+    let topParentData =  parentQuery(event, true).get()
+    let topOtherOnlineData =  otherOnlineQuery(event, true).get()
+    let otherOnlineData =  otherOnlineQuery(event,false).count()
+    let promiseOnlineData = await Promise.all([topParentData, topOtherOnlineData, otherOnlineData])
+    // let data = promiseData[0].data.concat(topParentData.data)
+    let data = promiseOnlineData[0].data.concat(promiseOnlineData[1].data).concat(promiseData[0].data).concat(promiseData[1].data)
     return {
-      data: promiseData[0].data.concat(topParentData.data),
-      searchFinished:  promiseData[0].data.length == parentDataCount
+      data: data,
+      searchFinished:  promiseData[0].data.length + promiseData[1].data.length == parentDataCount + promiseOnlineData[2].total
     }
   }
 
