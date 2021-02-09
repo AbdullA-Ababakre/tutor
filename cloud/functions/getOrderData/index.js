@@ -76,6 +76,8 @@ let parentQuery = (event, isTop) => {
     }
   ])
   )
+  .orderBy('orderNumber', 'desc')
+
 }
 
 let organizationQuery = (event, isTop) => {
@@ -120,6 +122,8 @@ let organizationQuery = (event, isTop) => {
     }
   ])
   )
+  .orderBy('orderNumber', 'desc')
+
 }
 
 let otherQuery = (event, isTop) => {
@@ -158,6 +162,7 @@ let otherQuery = (event, isTop) => {
     }
   ])
   )
+  .orderBy('orderNumber', 'desc')
 }
 
 let otherOnlineQuery = (event, isTop)=>{
@@ -196,6 +201,8 @@ let otherOnlineQuery = (event, isTop)=>{
     }
   ])
   )
+  .orderBy('orderNumber', 'desc')
+
 }
 
 let getAllTopData = async (event) =>{

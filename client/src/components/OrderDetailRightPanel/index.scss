@@ -4,10 +4,20 @@
   margin-bottom: 40px;
 }
 .panel{
-  position: fixed;
-  z-index: 100;
-  right: -3%;
-  top: 35%;
   display: flex;
   flex-direction: column;
+}
+
+movable-view {
+  width: 150px;  
+}
+
+movable-area {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position:fixed;
+  top: 0%;
+  left: 0%;
+  z-index: 999;
 }
