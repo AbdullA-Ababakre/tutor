@@ -13,11 +13,12 @@ movable-view {
 }
 
 movable-area {
-  height: 100%;
-  width: 100%;
+  width: 300px;
+  height:80%;
   overflow: hidden;
   position:fixed;
-  top: 0%;
-  left: 0%;
-  z-index: 999;
+  z-index: 2;
+  top: 20%;
+  right: 0%;
+  background-color: #0000;
 }

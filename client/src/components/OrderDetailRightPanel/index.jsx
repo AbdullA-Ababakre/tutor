@@ -35,19 +35,19 @@ export default class Index extends Component {
     return (
       <View className="panel" >
          <movable-area>
-          <movable-view  x={Number(2500)} y={Number(250)} direction="vertical">
+          <movable-view  x={Number(2500)} y={Number(150)} direction="vertical">
              <Image className="panel-image" onClick={changePage.bind(this,1)} src={more_order} alt="more_order"/>    
           </movable-view>
 
-          <movable-view  x={Number(3100)} y={Number(300)} direction="vertical">
+          <movable-view  x={Number(3100)} y={Number(200)} direction="vertical">
             <Image  className="panel-image" onClick={changePage.bind(this,2)} src={vip_rule} alt="vip_rule"/>
           </movable-view>
 
-          <movable-view  x={Number(3300)} y={Number(350)} direction="vertical">
+          <movable-view  x={Number(3300)} y={Number(250)} direction="vertical">
             <Image  className="panel-image" onClick={changePage.bind(this,4)} src={share_friends} alt="share_friends"/>
           </movable-view>
 
-          <movable-view  x={Number(3300)} y={Number(400)} direction="vertical">
+          <movable-view  x={Number(3300)} y={Number(300)} direction="vertical">
             <Image  className="panel-image" onClick={changePage.bind(this,3)} src={vip_introduction} alt="vip_introduction"/>
          </movable-view>
          </movable-area>
