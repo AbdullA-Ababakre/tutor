@@ -126,7 +126,8 @@ export default class Index extends Component {
     };
   }
   
-  async componentWillMount(){
+
+  async componentDidShow(){
     //  路由传值到这里来了
     //  传来了两个值 一个是 jobType  一个是 id 其实是_id 为了查记录
     // console.log(getCurrentInstance().router.params)
