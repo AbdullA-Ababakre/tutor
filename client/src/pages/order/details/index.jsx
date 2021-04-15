@@ -251,6 +251,16 @@ export default class Index extends Component {
       .then(res=>{
         Taro.hideLoading()
         Taro.setStorageSync("enable", res.result.data.data.favourList.indexOf(this.state.openid)!==-1)
+        if(res.result.data.data.isLoseEfficacy ) { 
+          
+          Taro.switchTab({
+            url: '/pages/order/index'
+          })
+
+          Taro.showToast({
+            title: "该家教已经过期"
+          })
+        }
         resolve(res)
       })
       .catch(err=>{

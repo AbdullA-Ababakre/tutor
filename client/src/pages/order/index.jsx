@@ -302,7 +302,7 @@ export default class Index extends Component {
         
         {this.state.loading && <View class="loader">Loading...</View> }
          {/* 滑到最底下的提示 */}
-        {this.state.searchFinished && this.state.data.length!=0 && <View className="order-end-text" > ------已到最低点------ </View>}
+        {this.state.searchFinished && this.state.data.length!=0 && !this.state.loading && <View className="order-end-text" > ------已到最低点------ </View>}
       </View>
     );
   }
