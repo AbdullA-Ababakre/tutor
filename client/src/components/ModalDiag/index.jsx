@@ -45,7 +45,7 @@ export default class Index extends Component {
           <View className="modalDlg">
             <Image className="imgShow" mode="widthFix" src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/go_hired.png" />
             <View className="transparentBox" onClick={this.setPasteMsg.bind(this)} />
-            <View className="ownerNumberPaste" > 请添加微信号：{this.state.ownerNumber} </View>
+            <View className="ownerNumberPaste" > 请添加微信号：{this.state.ownerNumber } </View>
           </View>
           <View className="mask" onTouchMove={this.preventTouchMove.bind(this)} ></View>
         </View>

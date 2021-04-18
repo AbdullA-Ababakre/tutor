@@ -25,7 +25,9 @@ class CourseInfoItem extends Component {
           <View className='details-jobinfo-green-dot'/>{this.props.title}
         </View>
         <View className='details-jobinfo-details'>
-          {this.props.children}
+          <Text>
+            {this.props.children}
+          </Text>
         </View>
       </View>
     );
@@ -251,7 +253,7 @@ export default class Index extends Component {
       .then(res=>{
         Taro.hideLoading()
         Taro.setStorageSync("enable", res.result.data.data.favourList.indexOf(this.state.openid)!==-1)
-        if(res.result.data.data.isLoseEfficacy ) { 
+        if(res.result.data.data.isLoseEfficacy && !this.state.isAdmin ) { 
           
           Taro.switchTab({
             url: '/pages/order/index'

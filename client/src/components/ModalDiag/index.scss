@@ -41,6 +41,10 @@
   top: 620px;
   font-size: 35px;
   font-weight: 600;
+  width: 400px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /*弹窗结束  */

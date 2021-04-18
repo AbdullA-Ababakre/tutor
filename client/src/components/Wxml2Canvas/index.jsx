@@ -33,9 +33,10 @@ export default class Index extends Component {
       height: `${height * zoom}px`,
     };
     const self = this 
-    let workTask = this.props.details.jobTask
-    let workPrice = this.props.details.jobPrice
+    let workTask = this.props.details.jobTask.slice(0, 10)
+    let workPrice = this.props.details.jobPrice.slice(0, 12).concat(`${this.props.details.jobPrice.length>12?"  ......":""}`) 
     let workTime = this.props.details.jobType === "other"?this.props.details.workDuration:this.props.details.workTime 
+    workTime = workTime.slice(0, 25).concat(`${workTime.length>25?"  ......":""}`) 
     let codeUrl = await this.getCode(this.props.path)
     console.log(codeUrl, this.props.path)
     this.drawImage = new Wxml2Canvas({
