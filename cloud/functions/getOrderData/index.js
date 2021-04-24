@@ -42,10 +42,16 @@ let parentQuery = (event, isTop) => {
       })
     }),
     {
-      tutorSubject:  db.RegExp({
+      tutorSubject: _.or(
+        db.RegExp({
         regexp: `.*${event.subject.includes("不")?"":event.subject}`,
         options: 'i',
-      })
+      }),
+      db.RegExp({
+        regexp: `.*${event.searchValue}`,
+        options: 'i',
+      }),
+      )
     },
     {
       gradeChecked:  db.RegExp({
@@ -151,7 +157,7 @@ let otherQuery = (event, isTop) => {
         options: 'i'
       })
     },
-    {
+    { 
       isLoseEfficacy:false
     },
     {
@@ -286,6 +292,7 @@ exports.main = async (event, context) => {
     }
   }
 
+
   let parentData = promiseData[0].data
   let organizationData = promiseData[1].data
   let otherData = promiseData[2].data
@@ -301,6 +308,10 @@ exports.main = async (event, context) => {
   console.log('event', event)
   console.log('length', data.length, parentDataCount, organizationDataCount, otherDataCount)
 
+  if(data.length > 40*page){
+    data = data.slice(0, 40*page)
+    searchFinished = false
+  }
 
   return {
     data: data,

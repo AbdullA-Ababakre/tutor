@@ -26,7 +26,8 @@ export default class Index extends Component {
     Taro.getSystemInfo({
       success: function (res) {
         that.setState({
-          platform: res.platform
+          platform: res.platform,
+          showPay: res.platform=='ios' ? true: false
         })
       } 
     });
@@ -47,7 +48,6 @@ export default class Index extends Component {
       });
       return;
     }
-    console.log(this.state.platform);
 
     this.setState({
       showPay: true
@@ -130,10 +130,12 @@ export default class Index extends Component {
           <Image className={`vip-subscription-image ${this.state.selectedPlan==1?"grayscale":""}`} src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/vip_monthly.png" onClick={()=>{this.onSwitchPlan(2)}} />
 
         </View>
-        {/* 这里不用TutorButton是故意的，详情import那里 */}
-        <Button className={`btn-pay ${this.state.showPay?"btn-bg-grey":"btn-bg-red"}`} onClick={()=>{this.debouncePay()}}>一键支付</Button>
-        <View className="text-small">我已阅读并接受
-        <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "/pages/order/vip_rule/index"});}}>《会员协议》</Text></View>
+        <View className={`${this.state.platform=='ios'?"display-none":""}`}>
+          {/* 这里不用TutorButton是故意的，详情import那里 */}
+          <Button className={`btn-pay ${this.state.showPay?"btn-bg-grey":"btn-bg-red"}`} onClick={()=>{this.debouncePay()}}>一键支付</Button>
+          <View className="text-small">我已阅读并接受
+          <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "/pages/order/vip_rule/index"});}}>《会员协议》</Text></View>
+        </View>
       </View>
     )
   }

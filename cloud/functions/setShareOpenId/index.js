@@ -13,25 +13,32 @@ exports.main = async (event, context) => {
     openId: openid
   })
   const userDetail = await user.get()
-  if(userDetail.data[0]['shareOpenId']){
-    //  这里是已经绑定好分享者的openid 了
-    return {
-      data:{
-        errmsg: "Success bind!!"
+  try {
+    if(userDetail.data[0]['shareOpenId']){
+      //  这里是已经绑定好分享者的openid 了
+      return {
+        data:{
+          errmsg: "Success bind!!"
+        }
       }
+    }else if(event.shareOpenId!==openid) {
+      //  在这里更新 分享者的 openid
+      await user.update({
+        data: {
+          shareOpenId: event.shareOpenId
+        }
+      })
+      return {
+        errMsg: "Success update!!",
+        data: await user.get()
+       }
     }
-  }else if(event.shareOpenId!==openid) {
-    //  在这里更新 分享者的 openid
-    await user.update({
-      data: {
-        shareOpenId: event.shareOpenId
-      }
-    })
+  } catch (error) {
     return {
-      errMsg: "Success update!!",
-      data: await user.get()
-     }
+      errMsg: 'Can not get the shareOpenId!'
+    }
   }
+
   return {
    errMsg: "Success connect!!",
    data: await user.get()

@@ -78,6 +78,13 @@
         {
           "name": "pages/mine/certificate/index",
           "pathName": "pages/mine/certificate/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/details/index",
+          "pathName": "pages/order/details/index",
+          "query": "jobType=other&id=b00064a7607be8fe0f4b735f7722a1af&__key_=161873239621220",
           "scene": null
         }
       ]
