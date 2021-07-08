@@ -114,6 +114,25 @@
         {
           "name": "pages/mine/index",
           "pathName": "pages/mine/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/details/index",
+          "pathName": "pages/order/details/index",
+          "query": "jobType=familyCourse&id=28ee4e3e60e59a27288db1171bb0f5b4&__key_=16257693372752",
+          "scene": null
+        },
+        {
+          "name": "pages/order/details/index",
+          "pathName": "pages/order/details/index",
+          "query": "jobType=familyCourse&id=1526e12a60164eca0186d27438ed4eb0&__key_=16257693858312",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/index",
+          "pathName": "pages/mine/index",
+          "query": "",
           "scene": null
         }
       ]

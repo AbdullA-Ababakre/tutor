@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Taro, { getCurrentInstance, previewImage } from "@tarojs/taro";
-import { View, Text, Image, Button } from "@tarojs/components";
+import { View, Text, Image, Button, OpenData } from "@tarojs/components";
 import { AtModal, AtModalHeader, AtModalAction, AtInput } from "taro-ui";
 import "./index.scss";
 
@@ -255,17 +255,18 @@ export default class Index extends Component {
           style={`display: ${this.state.isLoggedIn ? "flex" : "none"};`}
         >
           {/* 头像 */}
-          <Image
+          {/* <Image
             className="userinfo-avatar"
             mode="cover"
             src={this.state.userInfo.avatarUrl}
-          />
+          /> */}
+          <View style="overflow: hidden" className="userinfo-avatar" >
+            <OpenData type="userAvatarUrl" />
+          </View>
           {/* 用户信息 */}
           <View className="userinfo-texts">
             {/* 用户名 */}
-            <Text className="userinfo-nickname">
-              {this.state.userInfo.nickName}
-            </Text>
+            <OpenData className="userinfo-nickname" type="userNickName"/>
             {/* 用户名下面的VIP图标和手机号 */}
             <View style="display: flex;flex-direction: row;align-items: center;">
               {this.state.isVip && (

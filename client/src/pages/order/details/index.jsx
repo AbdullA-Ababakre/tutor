@@ -253,7 +253,7 @@ export default class Index extends Component {
       .then(res=>{
         Taro.hideLoading()
         Taro.setStorageSync("enable", res.result.data.data.favourList.indexOf(this.state.openid)!==-1)
-        if(res.result.data.data.isLoseEfficacy && !this.state.isAdmin ) { 
+        if( (res.result.data.data.isLoseEfficacy || !res.result.data.data.isOnline )  && !this.state.isAdmin ) { 
     
           Taro.showToast({
             title: "该家教已经过期",

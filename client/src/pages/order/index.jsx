@@ -282,7 +282,7 @@ export default class Index extends Component {
         {/*  搜索数据框 */}
         <View className='searchbar-container'>
           <Image className='search-icon' src={icon_search} mode="widthFix"/>
-          <Input className='search-input' onInput={this.inputChange.bind(this)} type="text" placeholder="请输入地址搜索" placeholderStyle='color:#B2B2B2'/>
+          <Input className='search-input' onInput={this.inputChange.bind(this)} type="text" placeholder="请输入关键词搜索" placeholderStyle='color:#B2B2B2'/>
         </View>
         
         {/* 筛选和展示主体 */}
