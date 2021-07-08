@@ -16,46 +16,90 @@ let getUmDbCout = async (event, isTop = false) =>{
   return new Promise(resolve =>{resolve({parentDataCount, organizationDataCount, otherDataCount })})
 }
 
-let searchQuery = (city, searchValue) =>{
+let addressQuery = (city, searchValue) =>{
+  // let 
+  const addressArray = [
+    '深圳', '广州', '佛山', '东莞', '珠海', '上海',
+    '福田区', '罗湖区', '南山区', '宝安区', '龙岗区', '盐田区', '坪山区', '龙华区', '光明新区',
+    '越秀区', '海珠区', '荔湾区', '天河区', '白云区', '黄埔区', '花都区', '番禺区', '南沙区', '从化区', '增城区',
+    '禅城区', '顺德区', '南海区', '三水区', '高明区','莞城街道','东城街道','南城街道','万江街道','石龙镇','石排镇',
+    '茶山镇','企石镇','桥头镇','东坑镇','横沥镇','常平镇','虎门镇','长安镇','沙田镇','厚街镇','寮步镇','大岭山镇',
+    '大朗镇','黄江镇','樟木头镇','谢岗镇','塘厦镇','清溪镇','凤岗镇','麻涌镇','中堂镇','高埗镇','石碣镇','望牛墩镇',
+    '洪梅镇','道滘镇',
+    '香洲区', '斗门区', '金湾区', '横琴新区',
+    '辖黄浦区','徐汇区','长宁区','静安区','普陀区','虹口区','杨浦区','闵行区','宝山区','嘉定区','金山区','松江区',
+    '青浦区','奉贤区','崇明区','浦东新区',
+  ]
+
+  let value = city
   if(searchValue){
-    if(searchValue.includes(city)){
-      return `.*${searchValue}`
-    }else{
-      return `.*${city.includes("不")?searchValue:city}`
-    }
-  }else{
-    return `.*${city.includes("不")?"":city}`
+    // 这里是为了得到 地址
+    addressArray.forEach(address => {
+      if(searchValue.includes(address)) {
+        value = address
+      }
+    })
   }
+  
+  return `.*${value.includes("不")?"":value}`
+}
+
+let gradeQuery = (grade, searchValue) => {
+  let value = grade
+  if(searchValue){
+    // 这里是为了得到 年级
+    let gradeArray = ['幼儿园', '小学', '初', '高']
+
+    gradeArray.forEach(grade => {
+      if(searchValue.includes(grade)) {
+        value = grade
+      }
+    })
+  }
+  
+  return `.*${value.includes("不")?"":value}`
+}
+
+let tutorQuery = (tutor, searchValue) => {
+  let value = tutor
+  if(searchValue){
+    // 这里是为了得到 科目
+    let tutorArray = ['语', '数', '英', '物', '化', '生', '地理', '历史', '全科', '政治']
+
+    tutorArray.forEach(tutor => {
+      if(searchValue.includes(tutor)) {
+        value = tutor
+      }
+    })
+  }
+  return `.*${(value.includes("不") || value.includes("全"))?"":value}`
+  
 }
 
 let parentQuery = (event, isTop) => {
   return db.collection('parentData').where(_.and([
     _.or({
     addressSelectorChecked: db.RegExp({
-      regexp: searchQuery(event.city, event.searchValue),
+      regexp: addressQuery(event.city, event.searchValue),
       options: 'i',
     })}, 
     {
       exactAddress:  db.RegExp({
-        regexp: searchQuery(event.city, event.searchValue),
+        regexp: addressQuery(event.city, event.searchValue),
         options: 'i',
       })
     }),
     {
       tutorSubject: _.or(
         db.RegExp({
-        regexp: `.*${event.subject.includes("不")?"":event.subject}`,
+        regexp: tutorQuery(event.subject, event.searchValue),
         options: 'i',
-      }),
-      db.RegExp({
-        regexp: `.*${event.searchValue}`,
-        options: 'i',
-      }),
+        }),
       )
     },
     {
       gradeChecked:  db.RegExp({
-        regexp: `.*${event.grade.includes("不")?"":event.grade}`,
+        regexp: gradeQuery(event.grade, event.searchValue),
         options: 'i',
       })
     },
@@ -90,24 +134,26 @@ let organizationQuery = (event, isTop) => {
   return db.collection('organizationData').where(_.and([
     _.or({
     addressSelectorChecked: db.RegExp({
-      regexp: searchQuery(event.city, event.searchValue),
+      regexp: addressQuery(event.city, event.searchValue),
       options: 'i',
     })},
     {
       exactAddress:  db.RegExp({
-        regexp: searchQuery(event.city, event.searchValue),
+        regexp: addressQuery(event.city, event.searchValue),
         options: 'i',
       })
     }),
     {
-      tutorSubject:  db.RegExp({
-        regexp: `.*${event.subject.includes("不")?"":event.subject}`,
+      tutorSubject: _.or(
+        db.RegExp({
+        regexp: tutorQuery(event.subject, event.searchValue),
         options: 'i',
-      })
+        }),
+      )
     },
     {
       gradeChecked:  db.RegExp({
-        regexp: `.*${event.grade.includes("不")?"":event.grade}`,
+        regexp: gradeQuery(event.grade, event.searchValue),
         options: 'i',
       })
     },
@@ -136,7 +182,7 @@ let otherQuery = (event, isTop) => {
   return db.collection('otherData').where(_.and([
     {
     positionAddress: db.RegExp({
-      regexp: searchQuery(event.city, event.searchValue),
+      regexp: addressQuery(event.city, event.searchValue),
       options: 'i',
     })},
     {
@@ -147,13 +193,7 @@ let otherQuery = (event, isTop) => {
     },
     {
       positionName: db.RegExp({
-        regexp: `.*${event.subject.includes("不")?"":event.subject.includes("其")?"":event.subject}`,
-        options: 'i'
-      })
-    },
-    {
-      positionName: db.RegExp({
-        regexp: `.*${event.grade.includes("不")?"":event.grade.includes("其")?"":event.grade}`,
+        regexp: `.*${(event.subject.includes("不") || event.grade.includes("不") || event.subject.includes("其") || event.grade.includes("其"))?"":event.searchValue}`,
         options: 'i'
       })
     },
@@ -186,13 +226,7 @@ let otherOnlineQuery = (event, isTop)=>{
     },
     {
       positionName: db.RegExp({
-        regexp: `.*${event.subject.includes("不")?"":event.subject.includes("其")?"":event.subject}`,
-        options: 'i'
-      })
-    },
-    {
-      positionName: db.RegExp({
-        regexp: `.*${event.grade.includes("不")?"":event.grade.includes("其")?"":event.grade}`,
+        regexp: `.*${(event.subject.includes("不") || event.grade.includes("不") || event.subject.includes("其") || event.grade.includes("其"))?"":event.searchValue}`,
         options: 'i'
       })
     },
@@ -250,6 +284,9 @@ exports.main = async (event, context) => {
 
   let count = Math.floor(( page*dataLimit) /100) + 1
 
+  console.log('addressQuery(event.city, event.searchValue)', addressQuery(event.city, event.searchValue))
+  console.log('tutorQuery(event.subject, event.searchValue)', tutorQuery(event.subject, event.searchValue))
+  console.log('gradeQuery(event.grade, event.searchValue)', gradeQuery(event.grade, event.searchValue))
   // 取出 top data
   let topData = await getAllTopData(event)
   data = data.concat(topData)

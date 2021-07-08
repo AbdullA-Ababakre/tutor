@@ -130,11 +130,14 @@ export default class Index extends Component {
           <Image className={`vip-subscription-image ${this.state.selectedPlan==1?"grayscale":""}`} src="cloud://official-9gyl2zmleab20999.6f66-official-9gyl2zmleab20999-1304839186/Image/vip_monthly.png" onClick={()=>{this.onSwitchPlan(2)}} />
 
         </View>
-        <View className={`${this.state.platform=='ios'?"display-none":""}`}>
+
           {/* 这里不用TutorButton是故意的，详情import那里 */}
-          <Button className={`btn-pay ${this.state.showPay?"btn-bg-grey":"btn-bg-red"}`} onClick={()=>{this.debouncePay()}}>一键支付</Button>
-          <View className="text-small">我已阅读并接受
-          <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "/pages/order/vip_rule/index"});}}>《会员协议》</Text></View>
+        <Button className={`btn-pay ${this.state.showPay?"btn-bg-grey":"btn-bg-red"}`} onClick={()=>{this.debouncePay()}}>
+          {this.state.platform!=='ios'?"一键支付":"IOS 暂不支持支付"}
+        </Button>
+        <View className="text-small">
+          我已阅读并接受
+          <Text className="href-eula" onClick={()=>{Taro.navigateTo({url: "/pages/order/vip_rule/index"});}}>《会员协议》</Text>
         </View>
       </View>
     )

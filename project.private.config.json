@@ -86,6 +86,35 @@
           "pathName": "pages/order/details/index",
           "query": "jobType=other&id=b00064a7607be8fe0f4b735f7722a1af&__key_=161873239621220",
           "scene": null
+        },
+        {
+          "name": "pages/mine/activate_vip/index",
+          "pathName": "pages/mine/activate_vip/index",
+          "query": "jobType=other&id=b00064a7607be8fe0f4b735f7722a1af&__key_=161873239621220",
+          "scene": null
+        },
+        {
+          "name": "pages/order/details/index",
+          "pathName": "pages/order/details/index",
+          "query": "jobType=other&id=b00064a7607be8fe0f4b735f7722a1af&__key_=161873239621220",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/adminCheckOrder/index",
+          "pathName": "pages/mine/adminCheckOrder/index",
+          "query": "jobType=other&id=b00064a7607be8fe0f4b735f7722a1af&__key_=161873239621220",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/adminCheckOrder/index",
+          "pathName": "pages/mine/adminCheckOrder/index",
+          "query": "jobType=other&id=b00064a7607be8fe0f4b735f7722a1af&__key_=161873239621220",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/index",
+          "pathName": "pages/mine/index",
+          "scene": null
         }
       ]
     }

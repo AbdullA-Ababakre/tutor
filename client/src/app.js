@@ -17,6 +17,7 @@ class App extends Component {
         if(res.authSetting["scope.userInfo"]){
           Taro.getUserInfo({
             success(res){
+              console.log(res)
               UserInfo.setUserInfo(res.userInfo)
             }
           })
