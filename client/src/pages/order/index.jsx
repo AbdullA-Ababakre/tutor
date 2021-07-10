@@ -296,7 +296,7 @@ export default class Index extends Component {
             <View className={`order-label ${this.state.selectNonVip?null:"order-label-grey"}`} onClick={this.changeSelectVip.bind(this)} > 非会员 </View>
             <View className={`order-label ${this.state.selectOnline?null:"order-label-grey"}`} onClick={this.changeSelectOnline.bind(this)} > 可线上 </View>
           </View>
-           {this.state.data.length!=0?detailBox:emptyBox}
+           {this.state.data.length!=0?detailBox:this.state.loading?'':emptyBox}
         </View>
 
         
