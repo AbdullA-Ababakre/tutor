@@ -18,6 +18,25 @@ let getUmDbCout = async (event, isTop = false) =>{
   return new Promise(resolve =>{resolve({parentDataCount, organizationDataCount, otherDataCount })})
 }
 
+
+let isRealNum = (val) => {
+  // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除，
+  
+　　if(val === "" || val ==null){
+      return false;
+　　}
+ if(!isNaN(+val)){　　　　
+//对于空数组和只有一个数值成员的数组或全是数字组成的字符串，
+//isNaN返回false，例如：'123'、[]、[2]、['123'],isNaN返回false,
+ //所以如果不需要val包含这些特殊情况，则这个判断改写为if(!isNaN(val) && typeof val === 'number' )
+　　　 return true; 
+　　}
+
+　else{ 
+　　　　return false; 
+　　} 
+}
+
 let addressQuery = (city, searchValue, exact = false) =>{
   // let 
   const addressArray = [
@@ -82,7 +101,7 @@ let tutorQuery = (tutor, searchValue) => {
 }
 
 let parentQuery = (event, isTop) => {
-  return db.collection('parentData')
+  let query =  db.collection('parentData')
   .aggregate()
   .project({
     // 过滤的条件有 地址 年级 家教类型 老师要求类型 
@@ -127,6 +146,12 @@ let parentQuery = (event, isTop) => {
       })
     },
     {
+      addressSelectorChecked: db.RegExp({
+        regexp: `.*${event.city}`,
+        options: 'i',
+      })
+    },  
+    {
       tutorSubject: _.or(
         db.RegExp({
         regexp: tutorQuery(event.subject, event.searchValue),
@@ -153,6 +178,12 @@ let parentQuery = (event, isTop) => {
       })
     },
     {
+      exactAddress:db.RegExp({
+        regexp: `.*${event.selectOnline?"线上":""}`,
+        options: 'i'
+      })
+    },
+    {
       isLoseEfficacy:false
     },
     {
@@ -166,10 +197,16 @@ let parentQuery = (event, isTop) => {
   .sort({"orderNumber": -1})
   // .orderBy('orderNumber', 'desc')
 
+  if(event.searchId) 
+    query =  query.match({
+      orderNumber: _.eq(event.searchId)
+    })
+
+  return query
 }
 
 let organizationQuery = (event, isTop) => {
-  return db.collection('organizationData')  
+  let query =  db.collection('organizationData')  
   .aggregate()
   .project({
     // 过滤的条件有 地址 年级 家教类型 老师要求类型 
@@ -211,12 +248,22 @@ let organizationQuery = (event, isTop) => {
       })
     },
     {
-      tutorSubject: _.or(
-        db.RegExp({
+      exactAddress:db.RegExp({
+        regexp: `.*${event.selectOnline?"线上":""}`,
+        options: 'i'
+      })
+    },
+    {
+      addressSelectorChecked:  db.RegExp({
+        regexp: `.*${event.city}`,
+        options: 'i'
+      })
+    },
+    {
+      tutorSubject: db.RegExp({
         regexp: tutorQuery(event.subject, event.searchValue),
         options: 'i',
         }),
-      )
     },
     {
       gradeChecked:  db.RegExp({
@@ -242,14 +289,21 @@ let organizationQuery = (event, isTop) => {
   ])
   )
   .sort({'orderNumber': -1})
+
+  if(event.searchId) 
+    query = query.match({
+      orderNumber: _.eq( event.searchId)
+    })
+  // console.log('query', query) 
+  return query
 }
 
 let otherQuery = (event, isTop) => {
-  return db.collection('otherData')
+  let query = db.collection('otherData')
   .aggregate()
   .project({
     searchData: $.concat([
-      '$positionAddress', '$positionName'
+      '$positionAddress', '$positionName', '$positionInfo'
     ]),
     _openid:1 ,
     organizationName:1,
@@ -272,15 +326,41 @@ let otherQuery = (event, isTop) => {
   .match(_.and([
     {
       searchData: db.RegExp({
-      regexp: `.*${event.searchValue ? event.searchValue : event.grade + event.subject}`,
+      regexp: `.*${event.searchValue}`,
       options: 'i',
     })},
+    _.or([
+      {
+        positionName: db.RegExp({
+          regexp: `.*${event.grade}.*?${event.subject}`,
+          options: 'i',
+        })
+      },
+      {
+        positionInfo: db.RegExp({
+          regexp: `.*${event.grade}.*?${event.subject}`,
+          options: 'i',
+        })
+      }
+    ]),
+    {
+      positionAddress: db.RegExp({
+        regexp: `.*${event.city}`,
+        options: 'i'
+      })
+    },
+    {
+      positionAddress:db.RegExp({
+        regexp: `.*${event.selectOnline?"线上":""}`,
+        options: 'i'
+      })
+    },
     {
       requireVip: db.RegExp({
         regexp: `.*${event.selectNonVip?"false":""}`,
         options: 'i'
       })
-    },
+    },  
     { 
       isLoseEfficacy:false
     },
@@ -293,15 +373,28 @@ let otherQuery = (event, isTop) => {
   ])
   )
   .sort({'orderNumber': -1})
+
+  if(event.searchId)
+    query =  query.match({
+      orderNumber: _.eq( event.searchId)
+    })
+  return query
 }
 
 let otherOnlineQuery = (event, isTop)=>{
   return db.collection('otherData').where(_.and([
     {
     positionAddress: db.RegExp({
-      regexp: `.*${event.searchValue?event.searchValue:"线上"}`,
+      regexp: `.*${event.searchValue}`,
       options: 'i',
-    })},
+    })
+    },
+    {
+      positionAddress:db.RegExp({
+        regexp: `.*${event.selectOnline?"线上":""}`,
+        options: 'i'
+      })
+    },
     {
       requireVip: db.RegExp({
         regexp: `.*${event.selectNonVip?"false":""}`,
@@ -367,7 +460,12 @@ exports.main = async (event, context) => {
 
   event.grade = ( event.grade.includes('不') || event.grade.includes('其') ) ? '' : event.grade
   event.subject = ( event.subject.includes('不') || event.subject.includes('其') ) ? '':event.subject
-
+  event.searchId = NaN
+  if(isRealNum(event.searchValue)) {
+    event.searchId = +event.searchValue
+    event.searchValue = ''
+  } else {
+  }
 
   let count = Math.floor(( page*dataLimit) /100) + 1
 
@@ -384,11 +482,11 @@ exports.main = async (event, context) => {
     let parentDataCopy = parentQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).end()
     parentPromise.push(parentDataCopy)
 
-    if(event.selectOnline){
-      let otherDataCopy = otherOnlineQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
-      otherPromise.push(otherDataCopy)
-      coutTime ++; continue
-    }
+    // if(event.selectOnline){
+    //   let otherDataCopy = otherOnlineQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).get()
+    //   otherPromise.push(otherDataCopy)
+    //   coutTime ++; continue
+    // }
 
     let organizationDataCopy = organizationQuery(event, false).skip((coutTime)*maxGet).limit(page*dataLimit -(coutTime)*maxGet).end()
     organizationPromise.push(organizationDataCopy)
@@ -403,19 +501,20 @@ exports.main = async (event, context) => {
   let promiseData = (await Promise.all(promiseArr))
 
   // 判断线上逻辑
-  if(event.selectOnline){
-    let topParentData =  parentQuery(event, true).end()
-    let topOtherOnlineData =  otherOnlineQuery(event, true).get()
-    let otherOnlineData =  otherOnlineQuery(event,false).count()
-    let promiseOnlineData = await Promise.all([topParentData, topOtherOnlineData, otherOnlineData])
-    // let data = promiseData[0].data.concat(topParentData.data)
-    let data = promiseOnlineData[0].list.concat(promiseOnlineData[1].data).concat(promiseData[0].data).concat(promiseData[1].data)
-    return {
-      data: data,
-      searchFinished:  promiseData[0].list.length + promiseData[1].data.length == parentDataCount + promiseOnlineData[2].total
-    }
-  }
+  // if(event.selectOnline){
+  //   let topParentData =  parentQuery(event, true).end()
+  //   let topOtherOnlineData =  otherOnlineQuery(event, true).get()
+  //   let otherOnlineData =  otherOnlineQuery(event,false).count()
+  //   let promiseOnlineData = await Promise.all([topParentData, topOtherOnlineData, otherOnlineData])
+  //   // let data = promiseData[0].data.concat(topParentData.data)
+  //   let data = promiseOnlineData[0].list.concat(promiseOnlineData[1].data).concat(promiseData[0].data).concat(promiseData[1].data)
+  //   return {
+  //     data: data,
+  //     searchFinished:  promiseData[0].list.length + promiseData[1].data.length == parentDataCount + promiseOnlineData[2].total
+  //   }
+  // }
 
+  console.log('promiseData', promiseData)
 
   let parentData = promiseData[0].list
   let organizationData = promiseData[1].list
