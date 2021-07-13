@@ -65,7 +65,7 @@ let addressQuery = (city, searchValue, exact = false) =>{
   }
   if(flag && exact) 
     value = searchValue
-  return `.*${value.includes("不")?"":value}`
+  return `.*${value}`
 }
 
 let gradeQuery = (grade, searchValue) => {
@@ -97,7 +97,30 @@ let tutorQuery = (tutor, searchValue) => {
     })
   }
   return `.*${value}`
+}
+
+let searchQuery = (searchValue) => {
+  let value = searchValue
+  const searchArray = [
+    '语', '数', '英', '物', '化', '生', '地理', '历史', '全科', '政治',
+  ]
+
+  let flag = 0
+  searchArray.forEach(item => {
+    if(searchValue.includes(item)) {
+      value = item
+      flag = 1
+    }
+  })
   
+  if(flag) {
+    // 如果存在有在数组中的数据，那么设为空
+    value = ''
+  } else {
+    value = searchValue
+  }
+
+  return value
 }
 
 let parentQuery = (event, isTop) => {
@@ -141,7 +164,7 @@ let parentQuery = (event, isTop) => {
   .match(_.and([
     {
       searchData: db.RegExp({
-        regexp: `.*${event.searchValue}`,
+        regexp: `.*${searchQuery(event.searchValue)}`,
         options: 'i',
       })
     },
@@ -152,12 +175,10 @@ let parentQuery = (event, isTop) => {
       })
     },  
     {
-      tutorSubject: _.or(
-        db.RegExp({
+      tutorSubject: db.RegExp({
         regexp: tutorQuery(event.subject, event.searchValue),
         options: 'i',
         }),
-      )
     },
     {
       gradeChecked:  db.RegExp({
@@ -188,14 +209,13 @@ let parentQuery = (event, isTop) => {
     },
     {
       isOnline: true,
-    },
-    {
-      top: isTop
     }
   ])
   ) 
-  .sort({"orderNumber": -1})
-  // .orderBy('orderNumber', 'desc')
+  .sort({
+    'top': -1,
+    'orderNumber': -1
+  })
 
   if(event.searchId) 
     query =  query.match({
@@ -243,7 +263,7 @@ let organizationQuery = (event, isTop) => {
   .match(_.and([
     {
       searchData: db.RegExp({
-        regexp: `.*${event.searchValue}`,
+        regexp: `.*${searchQuery(event.searchValue)}`,
         options: 'i'
       })
     },
@@ -282,14 +302,13 @@ let organizationQuery = (event, isTop) => {
     },
     {
       isOnline: true,
-    },
-    {
-      top: isTop
     }
   ])
   )
-  .sort({'orderNumber': -1})
-
+  .sort({
+    'top': -1,
+    'orderNumber': -1
+  })
   if(event.searchId) 
     query = query.match({
       orderNumber: _.eq( event.searchId)
@@ -366,13 +385,13 @@ let otherQuery = (event, isTop) => {
     },
     {
       isOnline: true,
-    },
-    {
-      top: isTop
     }
   ])
   )
-  .sort({'orderNumber': -1})
+  .sort({
+    'top': -1,
+    'orderNumber': -1
+  })
 
   if(event.searchId)
     query =  query.match({
@@ -418,7 +437,10 @@ let otherOnlineQuery = (event, isTop)=>{
     }
   ])
   )
-  .orderBy('orderNumber', 'desc')
+  .sort({
+    'top': -1,
+    'orderNumber': -1
+  })
 
 }
 
@@ -435,10 +457,26 @@ let getAllTopData = async (event) =>{
   
   let promiseData = (await Promise.all([parentDataCopy, organizationDataCopy, otherDataCopy]))
 
-  console.log('data', promiseData)
+  // console.log('promiseData', promiseData)
   let data = []
   data = data.concat( promiseData[0].list.concat(promiseData[1].list).concat(promiseData[2].list) )
   return data
+}
+
+let flat = (arr) => {
+  let arrCopy = []
+  if(Object.prototype.toString.call(arr) == '[object Array]') {
+    arr.forEach(item => {
+      if(Object.prototype.toString.call(item) == '[object Array]') {
+        arrCopy = arrCopy.concat(flat(item))
+      } else {
+        arrCopy.push(item)
+      }
+    })
+    return arrCopy   
+  } else {
+    return []
+  }
 }
 
 
@@ -447,9 +485,8 @@ let getAllTopData = async (event) =>{
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext();
   // event.city = event.selectOnline?"线上":event.city
-  let dataLimit = 8
+  let dataLimit = 15
   let maxGet = 100
-  let {parentDataCount, organizationDataCount, otherDataCount } = await getUmDbCout(event)
   let page = event.page
   let parentPromise = []
   let organizationPromise = []
@@ -460,6 +497,9 @@ exports.main = async (event, context) => {
 
   event.grade = ( event.grade.includes('不') || event.grade.includes('其') ) ? '' : event.grade
   event.subject = ( event.subject.includes('不') || event.subject.includes('其') ) ? '':event.subject
+  event.city = ( event.city.includes('不') || event.city.includes('其') ) ? '':event.city
+
+
   event.searchId = NaN
   if(isRealNum(event.searchValue)) {
     event.searchId = +event.searchValue
@@ -467,14 +507,16 @@ exports.main = async (event, context) => {
   } else {
   }
 
-  let count = Math.floor(( page*dataLimit) /100) + 1
+  let {parentDataCount, organizationDataCount, otherDataCount } = await getUmDbCout(event)
+
+  let count = Math.floor(( page*dataLimit) /maxGet) + 1
 
   console.log('addressQuery(event.city, event.searchValue)', addressQuery(event.city, event.searchValue))
   console.log('tutorQuery(event.subject, event.searchValue)', tutorQuery(event.subject, event.searchValue))
   console.log('gradeQuery(event.grade, event.searchValue)', gradeQuery(event.grade, event.searchValue))
   // 取出 top data
-  let topData = await getAllTopData(event)
-  data = data.concat(topData)
+  // let topData = await getAllTopData(event)
+  // data = data.concat(topData)
 
   let coutTime = 0
   //  取多少次 并且获得 promise 数组
@@ -497,7 +539,8 @@ exports.main = async (event, context) => {
     coutTime ++
   }
 
-  promiseArr = promiseArr.concat(parentPromise).concat(organizationPromise).concat(otherPromise)
+  promiseArr = promiseArr.concat(flat(parentPromise)).concat(flat(organizationPromise)).concat(flat(otherPromise))
+  console.log('promiseArr', promiseArr, "count", count)
   let promiseData = (await Promise.all(promiseArr))
 
   // 判断线上逻辑
@@ -516,26 +559,35 @@ exports.main = async (event, context) => {
 
   console.log('promiseData', promiseData)
 
-  let parentData = promiseData[0].list
-  let organizationData = promiseData[1].list
-  let otherData = promiseData[2].list
+  
+  let parentData = []
+  let organizationData = []
+  let otherData = []
+
+  for(let i = 0; i<count; i++) {
+    parentData = parentData.concat(promiseData[ 3*i].list)
+    organizationData = organizationData.concat(promiseData[ 1+ 3*i].list)
+    otherData = otherData.concat(promiseData[2+ 3*i].list)
+  }
 
   // console.log( "searchQuery",searchQuery(event.city, event.searchValue), "event", event, 'parentData', parentData, 'organizationData', organizationData, 'otherData', otherData)
   let lenMax = Math.max(parentDataCount, organizationDataCount, otherDataCount)
   for(let i=0;i <lenMax;i+=dataLimit){
-    data = data.concat(parentData.slice(i, i+dataLimit)).concat(organizationData.slice(i, i+dataLimit)).concat(otherData.slice(i, i+dataLimit))
+    data = data.concat(otherData.slice(i, i+dataLimit).concat(organizationData.slice(i, i+dataLimit)).concat(parentData.slice(i, i+dataLimit)))
   }
-  if(data.length == parentDataCount+ organizationDataCount+otherDataCount + topData.length){
+  // data = data.concat(parentData).concat(otherData).concat(organizationData)
+  if(data.length >= parentDataCount + organizationDataCount + otherDataCount - 5){
     searchFinished = true
   }
   console.log('event', event)
   // console.log('topData', topData)
   console.log('length', data.length, parentDataCount, organizationDataCount, otherDataCount)
+ 
+  // if(data.length > 40*page){
+  //   data = data.slice(0, 40*page)
+  //   searchFinished = false
+  // } 
 
-  if(data.length > 40*page){
-    data = data.slice(0, 40*page)
-    searchFinished = false
-  } 
 
   return {
     data: data,
